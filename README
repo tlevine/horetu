@@ -1,0 +1,17 @@
+Produce a command-line interface from a Python function.
+
+Consider the following Python program, called ``do_something.py``.
+
+::
+    
+    #!/usr/bin/env python
+    def main(input_file:partial(open, mode = 'rb'),
+             output_file:partial(open, mode = 'wb'),
+             n_cores = 3):
+        '''
+        Do something to a file with several cores.
+        '''
+        # Pretend that something happens here.
+    horetu(main)
+
+Run it with the help flag; this is the result.
