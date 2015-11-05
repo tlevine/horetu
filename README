@@ -15,3 +15,9 @@ Consider the following Python program, called ``do_something.py``.
     horetu(main)
 
 Run it with the help flag; this is the result.
+
+    $ do_something.py --help
+    usage: do_something.py [-h] [--n-cores N-CORES]
+                           input-file output-file
+
+    Do something with several cores
