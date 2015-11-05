@@ -20,4 +20,4 @@ Run it with the help flag; this is the result.
     usage: do_something.py [-h] [--n-cores N-CORES]
                            input-file output-file
 
-    Do something with several cores
+    Do something to a file with several cores.
