@@ -3,24 +3,27 @@ import inspect
 
 from . import options
 
-def horetu(f, parser = None):
+def horetu(f):
     '''
-    :param function f: The function to produce the argument parser too.
+    :type f: Callable or dict
+    :param f: The callable to produce the argument parser too,
+        or a dict from str to callable to make subparsers.
     '''
-    params = inspect.signature(f).parameters.values()
-    helps = dict(docs(f))
-
-    if parser:
-        p = parser
-    else:
-        p = argparse.ArgumentParser(f.__name__, description = util.description(f),
+    if hasattr(f, '__call__'):
+        p = argparse.ArgumentParser(f.__name__, description = options.description(f),
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+        return _horetu_one(p, f)
+
+def _horetu_one(parser, f):
+    params = inspect.signature(f).parameters.values()
+    helps = dict(options.docs(f))
+
     for param in params:
         if param.kind == param.VAR_KEYWORD:
             raise ValueError('Variable keyword args (**kwargs) are not allowed.')
-        p.add_argument(name_or_flags(param), nargs = nargs(param), type = argtype(param),
-                       choices = argchoices(param),
-                       help = helps.get(param.name, ''), default = default(param))
+        p.add_argument(options.name_or_flags(param), nargs = options.nargs(param),
+                       type = options.argtype(param), choices = options.argchoices(param),
+                       help = helps.get(param.name, ''), default = options.default(param))
 
     positional_arguments = [param.name for param in params if param.kind != param.VAR_KEYWORD]
     keyword_arguments = [param.name for param in params if param.kind == param.VAR_KEYWORD]
