@@ -15,7 +15,8 @@ def horetu(f, parser = None):
     :param function f: The function to produce the argument parser too.
     '''
     params = inspect.signature(f).parameters.values()
-    helps = dict(docs(f))
+    types = {k:v[0] for k,v in docs(f)}
+    helps = {k:v[1] for k,v in docs(f)}
 
     if parser:
         p = parser
@@ -26,6 +27,7 @@ def horetu(f, parser = None):
         if param.kind == param.VAR_KEYWORD:
             raise ValueError('Variable keyword args (**kwargs) are not allowed.')
         p.add_argument(name_or_flags(param), nargs = nargs(param), choices = choices(param),
+                       type = types.get(param.name, str),
                        help = helps.get(param.name, ''), default = default(param))
 
     positional_arguments = [param.name for param in params if param.kind != param.VAR_KEYWORD]
