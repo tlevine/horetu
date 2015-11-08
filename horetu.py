@@ -62,8 +62,6 @@ def aoeuaoeuaoeu_docs(f):
 def nargs(param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
-    else:
-        return 1
 
 def argtype(param):
     if param.annotation == param.empty:
