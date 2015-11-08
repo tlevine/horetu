@@ -10,34 +10,42 @@ def description(f):
     except StopIteration:
         return ''
 
-def horetu(f):
+def horetu(f, parser = None):
     '''
     :param function f: The function to produce the argument parser too.
     '''
     params = inspect.signature(f).parameters.values()
     helps = dict(docs(f))
 
-    p = argparse.ArgumentParser(f.__name__, description = description(f),
-        formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+    if parser:
+        p = parser
+    else:
+        p = argparse.ArgumentParser(f.__name__, description = description(f),
+            formatter_class = argparse.ArgumentDefaultsHelpFormatter)
     for param in params:
         if param.kind == param.VAR_KEYWORD:
             raise ValueError('Variable keyword args (**kwargs) are not allowed.')
-        p.add_argument(name_or_flags(param), nargs = nargs(param), type = argtype(param),
+        p.add_argument(name_or_flags(param), nargs = nargs(param), choices = choices(param),
                        help = helps.get(param.name, ''), default = default(param))
 
     positional_arguments = [param.name for param in params if param.kind != param.VAR_KEYWORD]
     keyword_arguments = [param.name for param in params if param.kind == param.VAR_KEYWORD]
 
-    parsed_args = p.parse_args()
-    args = [getattr(parsed_args, attr) for attr in positional_arguments]
-    kwargs = {attr:getattr(parsed_args, attr) for attr in keyword_arguments}
-    return f(*args, **kwargs)
+    def g(parsed_args):
+        args = [getattr(parsed_args, attr) for attr in positional_arguments]
+        kwargs = {attr:getattr(parsed_args, attr) for attr in keyword_arguments}
+        return f(*args, **kwargs)
+    if parser:
+        return g
+    else:
+        return g(p.parse_args())
 
 def docs(f):
     for line in prepare_docstring(f.__doc__):
-        m = re.match(r'^:param[^:]* ([^:]+): (.+)$', line)
+        m = re.match(r'^:param ([^:]+ )?([^:]+): (.+)$', line)
         if m:
-            yield m.groups()
+            k, *v = m.groups()
+            yield k, v
 
 def aoeuaoeuaoeu_docs(f):
     '''
@@ -63,9 +71,9 @@ def nargs(param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
 
-def argtype(param):
+def choices(param):
     if param.annotation == param.empty:
-        return str
+        return None
     else:
         return param.annotation
 
