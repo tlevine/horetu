@@ -32,17 +32,17 @@ def horetu(f, name = None, description = None, _args = None):
         args = p.parse_args(_args)
 
         key = key + '.0'
+        value = getattr(args, key, fallback)
         while True:
-            value = getattr(args, key, fallback)
+            print(key, value, g)
             if hasattr(value, '__call__'):
                 return value(args)
             else:
-                print(key, value, g)
-                print(args)
-                newkey = g[value]
-                g = g[key][g[key][value]]
+                newkey = g[key][value]
+                g = g[key]
                 key = newkey
-                print('----')
+                value = getattr(args, key, fallback)
+            print('----')
 
 def _horetu_many(dest, parser, fs):
     subparsers = parser.add_subparsers(dest = dest)
