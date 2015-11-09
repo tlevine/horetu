@@ -4,7 +4,7 @@ import sys
 
 from . import options
 
-def horetu(f, name = None, description = None):
+def horetu(f, name = None, description = None, _args = None):
     '''
     :type f: Callable or dict
     :param f: The callable to produce the argument parser too,
@@ -17,7 +17,7 @@ def horetu(f, name = None, description = None):
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        return _horetu_one(p, f)(p.parse_args())
+        return _horetu_one(p, f)(p.parse_args(_args))
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
@@ -27,7 +27,7 @@ def horetu(f, name = None, description = None):
             import sys
             p.print_usage()
             sys.exit(2)
-        args = p.parse_args()
+        args = p.parse_args(_args)
         f = None
         while not hasattr(f, '__call__'):
             f = g.get(args.command, fallback)
