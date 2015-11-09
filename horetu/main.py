@@ -4,13 +4,14 @@ import sys
 
 from . import options
 
-def horetu(f, name = None, description = None, _args = None):
+def horetu(*fs, name = None, description = None, _args = None):
     '''
-    :type f: Callable or dict
+    :type fs: Callables or lists
     :param f: The callable to produce the argument parser too,
         or a dict from str to callable to make subparsers.
     '''
-    if hasattr(f, '__call__'):
+    if len(fs) == 1:
+        f = fs[0]
         if name == None:
             name = f.__name__
         if description == None:
@@ -21,32 +22,30 @@ def horetu(f, name = None, description = None, _args = None):
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        g = _horetu_many('', p, f)
+        g = _horetu_many('', p, fs)
             
         def fallback(_):
             import sys
             p.print_usage()
             sys.exit(2)
         args = p.parse_args(_args)
-        f = None
-        while not hasattr(f, '__call__'):
-            f = g.get(args.command, fallback)
-        return f(args)
+        return g.get(args.command, fallback)(args)
 
-def _horetu_many(dest_prefix, parser, f):
+def _horetu_many(dest_prefix, parser, fs):
     subparsers = parser.add_subparsers(dest = dest_prefix)
-    if hasattr(f, '__call__'):
+    if hasattr(fs, '__call__'):
+        f = fs
         sp = subparsers.add_parser(f.__name__, description = options.description(f))
         return _horetu_one(sp, f)
     else:
         g = {}
-        for k, v in f.items():
+        for f in fs:
             if dest_prefix:
-                dest = dest_prefix + '_' + k
+                dest = dest_prefix + '_' + f.__name__
             else:
-                dest = k
+                dest = f.__name__
             sp = subparsers.add_parser(dest)
-            g[k] = _horetu_many(dest, sp, v)
+            g[dest] = _horetu_many(dest, sp, f)
         return g
 
 def _horetu_one(parser, f):
