@@ -39,4 +39,3 @@ def test_triple_nested(args, expected):
     commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
     observed = horetu(commands, _args = args, name = 'do-something')
     assert observed == expected
-

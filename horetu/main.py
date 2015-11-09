@@ -30,12 +30,15 @@ def horetu(f, name = None, description = None, _args = None):
             p.print_usage()
             sys.exit(2)
         args = p.parse_args(_args)
+
+        key = key + '.0'
         while True:
-            x = g.get(getattr(args, key, None), fallback)
-            if isinstance(x, str):
-                key = x
+            maybe_function = g.get(getattr(args, key, None), fallback)
+            print([[[key, getattr(args, key, None), maybe_function, g]]])
+            if hasattr(maybe_function, '__call__'):
+                return maybe_function(args)
             else:
-                return x(args)
+                g = g[key]
 
 def _horetu_many(dest, parser, fs):
     subparsers = parser.add_subparsers(dest = dest)
@@ -44,9 +47,11 @@ def _horetu_many(dest, parser, fs):
         sp = subparsers.add_parser(k)
         if hasattr(f, '__call__'):
             g[f.__name__] = _horetu_one(sp, f)
+            g[k] = f.__name__
         else:
             subdest = '%s.%d' % (dest, i)
             g[subdest] = _horetu_many(subdest, sp, f)
+            g[k] = subdest
     return g
 
 def _horetu_one(parser, f):
