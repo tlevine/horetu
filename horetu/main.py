@@ -28,7 +28,7 @@ def horetu(f, name = None, description = None, _args = None):
             p.print_usage()
             sys.exit(2)
         args = p.parse_args(_args)
-        key = 'command1'
+        key = '_command1'
         while True:
             x = g.get(getattr(args, key, None), fallback)
             if isinstance(x, str):
@@ -37,7 +37,7 @@ def horetu(f, name = None, description = None, _args = None):
                 return x(args)
 
 def _horetu_many(i, parser, fs):
-    dest = 'command%d' % i
+    dest = '_command%d' % i
     subparsers = parser.add_subparsers(dest = dest)
     g = {}
     for k, f in fs.items():
@@ -46,7 +46,6 @@ def _horetu_many(i, parser, fs):
             g[f.__name__] = _horetu_one(sp, f)
         else:
             g[dest] = _horetu_many(i + 1, sp, f)
-        print(g)
     return g
 
 def _horetu_one(parser, f):
