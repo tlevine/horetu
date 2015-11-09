@@ -8,7 +8,8 @@ def test_flat():
     assert horetu(f, name = None, description = None, _args = []) == 8
 
 nest = [
-    (['command1', '8', '2', '9'], 1),
+#   (['command1', '8', '2', '9'], 1),
+    (['command1', '-h'], None),
 ]
 
 @pytest.mark.parametrize('args, expected', nest)

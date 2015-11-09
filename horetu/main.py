@@ -22,7 +22,7 @@ def horetu(*fs, name = None, description = None, _args = None):
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        g = _horetu_many('', p, fs)
+        g = _horetu_many('subcommand', p, fs)
             
         def fallback(_):
             import sys
@@ -32,19 +32,15 @@ def horetu(*fs, name = None, description = None, _args = None):
         return g.get(args.command, fallback)(args)
 
 def _horetu_many(dest_prefix, parser, fs):
-    subparsers = parser.add_subparsers(dest = dest_prefix)
     if hasattr(fs, '__call__'):
         f = fs
-        sp = subparsers.add_parser(f.__name__, description = options.description(f))
-        return _horetu_one(sp, f)
+        return _horetu_one(parser, f)
     else:
+        subparsers = parser.add_subparsers(dest = dest_prefix)
         g = {}
         for f in fs:
-            if dest_prefix:
-                dest = dest_prefix + '_' + f.__name__
-            else:
-                dest = f.__name__
-            sp = subparsers.add_parser(dest)
+            dest = dest_prefix + '_' + f.__name__
+            sp = subparsers.add_parser(f.__name__, description = options.description(f))
             g[dest] = _horetu_many(dest, sp, f)
         return g
 
