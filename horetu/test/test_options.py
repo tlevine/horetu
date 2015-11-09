@@ -1,4 +1,4 @@
 from .. import options
 
 def test_docs():
-    assert list(options.docs(None)) == []
+    assert list(options.docs(lambda:8)) == []

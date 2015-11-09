@@ -3,12 +3,16 @@ import re
 from sphinx.util.docstrings import prepare_docstring
 
 def description(f):
+    if f.__doc__ == None:
+        return ''
     try:
         return next(iter(prepare_docstring(f.__doc__)))
     except StopIteration:
         return ''
 
 def docs(f):
+    if f.__doc__ == None:
+        raise StopIteration
     for line in prepare_docstring(f.__doc__):
         m = re.match(r'^:param ([^:]+ )?([^:]+): (.+)$', line)
         if m:
