@@ -28,7 +28,6 @@ triple_nest = [
     (['aa', 'bb', '10', '3'], 30),
     (['aa', 'cc', 'BB'], 2),
 ]
-@pytest.mark.xfail
 @pytest.mark.parametrize('args, expected', triple_nest)
 def test_triple_nested(args, expected):
     def command1(a:int, b:int, c:int):

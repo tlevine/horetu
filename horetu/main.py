@@ -21,14 +21,15 @@ def horetu(f, name = None, description = None, _args = None):
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        g = _horetu_many(1, p, f)
+
+        key = '_command'
+        g = _horetu_many(key, p, f)
             
         def fallback(_):
             import sys
             p.print_usage()
             sys.exit(2)
         args = p.parse_args(_args)
-        key = '_command1'
         while True:
             x = g.get(getattr(args, key, None), fallback)
             if isinstance(x, str):
@@ -36,16 +37,16 @@ def horetu(f, name = None, description = None, _args = None):
             else:
                 return x(args)
 
-def _horetu_many(i, parser, fs):
-    dest = '_command%d' % i
+def _horetu_many(dest, parser, fs):
     subparsers = parser.add_subparsers(dest = dest)
     g = {}
-    for k, f in fs.items():
+    for i, (k, f) in enumerate(fs.items()):
         sp = subparsers.add_parser(k)
         if hasattr(f, '__call__'):
             g[f.__name__] = _horetu_one(sp, f)
         else:
-            g[dest] = _horetu_many(i + 1, sp, f)
+            subdest = '%s.%d' % (dest, i)
+            g[subdest] = _horetu_many(subdest, sp, f)
     return g
 
 def _horetu_one(parser, f):
