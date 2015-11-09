@@ -13,9 +13,9 @@ nest = [
 
 @pytest.mark.parametrize('args, expected', nest)
 def test_nested(args, expected):
-    def command1(a, b, c):
+    def command1(a:int, b:int, c:int):
         return a + b - c
-    def command2(a, b):
+    def command2(a:int, b:int):
         return a * b
     def command3():
         return 2
