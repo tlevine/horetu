@@ -6,12 +6,20 @@
 Welcome to horetu's documentation!
 ==================================
 
+horetu turns a Python function into a command-line program;
+it assembles a command-line argument parser and passes the parsed
+arguments to the function.
+
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-
+    simple
+    options
+    docstring
+    annotations
+    subcommands
 
 Indices and tables
 ==================
@@ -19,4 +27,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
