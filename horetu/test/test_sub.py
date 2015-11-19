@@ -42,6 +42,10 @@ def test_nest():
     args = parser.parse_args(['x', 'command1', '1', '2', '8'])
     assert g['x']['command1'](args) == -5
 
+    g = nest(subparsers, subcommands = {'x': command1})
+    args = parser.parse_args(['x', 'command1', '1', '2', '8'])
+    assert g['x']['command1'](args) == -5
+
 #   commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
 #   observed = horetu(commands, _args = args, name = 'do-something')
 #   assert observed == expected

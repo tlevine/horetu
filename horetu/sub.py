@@ -8,6 +8,11 @@ def sub(subparsers, fs):
     return g
 
 def nest(subparsers, commands = [], subcommands = {}):
+    if not isinstance(commands, list):
+        raise TypeError('commands must be a list.')
+    if not isinstance(subcommands, dict):
+        raise TypeError('subcommands must be a dict.')
+
     output = sub(subparsers, commands)
 
     for dest, subcommand in subcommands.items():
