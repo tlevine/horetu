@@ -7,15 +7,12 @@ def sub(subparsers, fs):
         g[f.__name__] = one(sp, f)
     return g
 
-def nest(subparsers, x):
-    if isinstance(x, dict):
-        output = {}
-        for dest, y in x.items():
-            subparser = subparsers.add_parser(dest)
-            subsubparsers = subparser.add_subparsers(dest = dest)
-            output[dest] = nest(subsubparsers, y)
-    elif isinstance(x, list):
-        return sub(subparsers, x)
-    else:
-        raise TypeError
+def nest(subparsers, commands = [], subcommands = {}):
+    output = sub(subparsers, commands)
+
+    for dest, subcommand in subcommands.items():
+        subparser = subparsers.add_parser(dest)
+        subsubparsers = subparser.add_subparsers(dest = dest)
+        output[dest] = nest(subsubparsers, subcommand)
+
     return output
