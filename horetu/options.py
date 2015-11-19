@@ -34,10 +34,13 @@ def argtype(param):
         return param.annotation
 
 def name_or_flags(param):
+    name = param.name.replace('_', '-')
     if param.default == param.empty:
-        return param.name.replace('_', '-')
+        return name
+    elif len(name) == 1:
+        return '-' + name
     else:
-        return '--' + param.name
+        return '--' + name
 
 def default(param):
     if param.default != param.empty:
