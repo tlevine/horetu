@@ -40,9 +40,21 @@ Parameter-specific settings are set in all kinds of different places.
 
 Help
 ^^^^^^^^^^
+Help is taken from parameter annotations in the docstring; in the following
+function,
+
+::
+
+    def main(n_cores:int = 8):
+        '''
+        :param int n_cores: Number of cores to use for processing
+        '''
+
+"Number of cores to use for processing" is used as the help text for
+the parameter ``n_cores``.
 
 Argument names
-------------------
+^^^^^^^^^^^^^^^^^^
 Positional arguments keep the same names in the command-line interface,
 except that underscores are replaced with hyphens.
 
@@ -72,7 +84,9 @@ as clashing), :py:module:`argparse` will raise an exception.
 
 Default arguments
 ^^^^^^^^^^^^^^^^^^^
-
+Positional arguments produce required shell arguments, and keyword arguments
+produce optional shell arguments. If the keyword argument is not specified in
+the shell, the function uses the default that is set in the function definition.
 
 Number of arguments
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -121,8 +135,36 @@ It would be neat if arguments that take multiple values would be named with
 singular grammatical forms when appropriate in the command-line help. But they
 don't. Oh well.
 
+Choices
 ^^^^^^^^^^
-^^^^^^^^^^
+Annotate a parameter with a tuple to limit choices for that particular
+parameter.
+
+::
+
+    def scrape(output_format:('web', 'level'), destination):
+        '''
+        :param output_format: Output to the web server or directly to leveldb?
+        :param destination: Domain name (web output) or database path (leveldb)
+        '''
+        return {
+            'web': scraper.web,
+            'level': scraper.level,
+        }[output_format](destination)
+    horetu(scrape, _args = ['level', '/blah']) # success
+    horetu(scrape, _args = ['not-a-choice', '/blah']) # error
+
+Argument type
+^^^^^^^^^^^^^^^^
+If you annotate a parameter with something other than the special values
+referenced above, horetu (really :py:mod:`argparse`) will call that something
+on the string that is passed in the shell arguments and print a reasonable
+error message if the parse fails.
+
+::
+    def main(n:int):
+        pass
+    horetu(main, _args = ['not-a-number'])
 
 Final note
 ------------
