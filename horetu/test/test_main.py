@@ -25,9 +25,9 @@ def test_nested(args, expected):
     assert observed == expected
 
 triple_nest = [
-    (['aa', 'bb', '10', '3'], 30),
+ #  (['aa', 'bb', '10', '3'], 30),
     (['aa', 'cc', 'BB'], 2),
-    (['zz'], 2),
+ #  (['zz'], 8),
 ]
 @pytest.mark.parametrize('args, expected', triple_nest)
 def test_triple_nested(args, expected):

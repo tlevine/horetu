@@ -1,5 +1,6 @@
 import argparse
 import sys
+from functools import partial
 
 from . import options
 from .sub import nest
@@ -29,11 +30,20 @@ def horetu(f, name = None, description = None, _args = None):
             routes = nest(sp, subcommands = f)
         else:
             raise TypeError
-        def main(args):
+
+        def _main(routes, args):
+            print(routes)
             while len(routes) > 0:
                 for k in list(routes):
-                    print(k, getattr(args, k, None), routes[k])
-                break
+                    if hasattr(args, k):
+                        routes = routes[k]
+                        print(k, args, routes)
+                        break
+                    elif hasattr(routes[k], '__call__'):
+                        return routes[k](args)
+                else:
+                    break
+        main = partial(_main, routes)
 
     print(_args)
     return main(p.parse_args(_args))
