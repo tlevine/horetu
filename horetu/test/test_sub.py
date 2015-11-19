@@ -2,7 +2,7 @@ import argparse
 
 from ..sub import sub
 
-def test_triple_nested():
+def test_sub():
     def command1(a:int, b:int, c:int):
         return a + b - c
     def command2(a:int, b:int):

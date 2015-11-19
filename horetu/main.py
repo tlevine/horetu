@@ -2,6 +2,8 @@ import argparse
 import sys
 
 from . import options
+from .sub import nest
+from .one import one
 
 def horetu(f, name = None, description = None, _args = None):
     '''
@@ -16,7 +18,7 @@ def horetu(f, name = None, description = None, _args = None):
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        return _horetu_one(p, f)(p.parse_args(_args))
+        return one(p, f)(p.parse_args(_args))
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
