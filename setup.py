@@ -12,6 +12,6 @@ setup(name='horetu',
       tests_require = [
           'pytest>=2.6.4',
       ],
-      version='0.0.1',
+      version='0.0.2',
       license='AGPL',
 )
