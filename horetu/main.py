@@ -42,17 +42,3 @@ def horetu(f, name = None, description = None, _args = None):
                 key = newkey
                 value = getattr(args, key, fallback)
             print('----')
-
-def _horetu_many(dest, parser, fs):
-    subparsers = parser.add_subparsers(dest = dest)
-    g = {}
-    for i, (k, f) in enumerate(fs.items()):
-        sp = subparsers.add_parser(k)
-        if hasattr(f, '__call__'):
-            g[f.__name__] = _horetu_one(sp, f)
-            g[k] = f.__name__
-        else:
-            subdest = '%s.%d' % (dest, i)
-            g[subdest] = _horetu_many(subdest, sp, f)
-            g[k] = subdest
-    return g
