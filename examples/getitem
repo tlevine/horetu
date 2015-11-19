@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+import horetu
+
+def tuple_item(n):
+    a = (None, None, None)
+    for i in range(n):
+        a[0]
+
+def dict_item():
+    a = {0:None, 1:None, 2:None}
+    for i in range(n):
+        a[0]
+
+def main(f:('tuple', 'dict'), n = int(1e8)):
+    {
+        'tuple': tuple_item,
+        'dict': dict_item,
+    }[f](n)
+
+horetu.horetu(main)
