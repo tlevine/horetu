@@ -1,2 +1,4 @@
 Options
 ==========
+
+.. autofunction:: horetu.horetu
