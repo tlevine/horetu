@@ -6,12 +6,15 @@ def tuple_item(n):
     for i in range(n):
         a[0]
 
-def dict_item():
+def dict_item(n):
     a = {0:None, 1:None, 2:None}
     for i in range(n):
         a[0]
 
 def main(f:('tuple', 'dict'), n = int(1e8)):
+    '''
+    Run with "time" to see that dict lookups are slightly faster in this case.
+    '''
     {
         'tuple': tuple_item,
         'dict': dict_item,
