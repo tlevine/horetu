@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
 import horetu
 
-def main(f:('tuple', 'dict'), n = int(1e8), length = 2):
+def main(f:('tuple', 'dict', 'obj'), n = int(1e8), length = 2):
     '''
     Run with "time" to see that dict lookups are slightly faster in this case.
     '''
-    if f == 'tuple':
-        xs = tuple(range(length))
-    elif f == 'dict':
-        xs = dict({i:None for i in range(length)})
+    if f == 'obj':
+        x = None
+        for i in range(n):
+            x
+    else:
+        if f == 'tuple':
+            xs = tuple(range(length))
+        elif f == 'dict':
+            xs = dict({i:None for i in range(length)})
+        for i in range(n):
+            xs[0]
 
-    for i in range(n):
-        xs[0]
 
 horetu.horetu(main)
 
