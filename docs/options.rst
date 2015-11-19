@@ -33,3 +33,14 @@ The description is determined thusly.
 2. If a function, rather than a dictionary, is passed as ``f``, and the
    function has a docstring, use the first line of the function's docstring.
 3. Otherwise, don't include a description.
+
+Parameter-specific settings
+----------------------------
+Parameter-specific settings are set in all kinds of different places.
+
+Final note
+------------
+You should think of horetu as a means of converting your Python function to a
+shell interface rather than a means of creating a particular shell interface in
+Python. Express your function cleanly and clearly in Python, and horetu will
+make you a nice shell interface.
