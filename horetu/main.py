@@ -42,5 +42,4 @@ def horetu(f, name = None, description = None,
             return g(args)
         main = partial(_main, routes)
 
-    print(_args)
     return main(p.parse_args(_args))
