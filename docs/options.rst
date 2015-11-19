@@ -38,6 +38,54 @@ Parameter-specific settings
 ----------------------------
 Parameter-specific settings are set in all kinds of different places.
 
+Help
+^^^^^^^^^^
+
+Number of arguments
+^^^^^^^^^^^^^^^^^^^^^^
+In most cases, horetu will produce an interface that expects one shell argument
+to be passed for each Python argument. For example, the following interface
+requires one "X", one "Y", and optionally, one "Z".
+
+::
+
+    def f(x, y, z = 'elephant'):
+        pass
+    horetu(f)
+
+One exception is arbitrary argument lists, which take zero or more values;
+the following interface takes exactly one "A" and zero or more "B".
+
+::
+
+    def f(a, *b):
+        pass
+    horetu(f)
+
+The other exception is keyword arguments annotated with type :py:class:`list`.
+
+::
+    def f(colors:list = None):
+        pass
+    horetu(f)
+
+This last interface takes as many "COLORS" as you want and iterprets them as a
+list. If you pass no colors, the value ``None`` is passed to ``colors``.
+
+Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
+if the default argument is a list, it is extended, rather than replaced,
+with the new arguments.
+
+::
+    def f(colors:list = ['pink']):
+        return colors
+    >>> horetu(f, _args = ['--colors', 'green'])
+    ['pink', 'green']
+
+
+^^^^^^^^^^
+^^^^^^^^^^
+
 Final note
 ------------
 You should think of horetu as a means of converting your Python function to a
