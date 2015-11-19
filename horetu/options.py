@@ -35,7 +35,7 @@ def argtype(param):
 
 def name_or_flags(param):
     if param.default == param.empty:
-        return param.name
+        return param.name.replace('_', '-')
     else:
         return '--' + param.name
 
