@@ -35,7 +35,7 @@ def horetu(f, name = None, description = None, _args = None):
                     if hasattr(args, k):
                         g = routes[k][getattr(args, k)]
                         routes = routes[k]
-                        print(k, g, routes)
+                        print(args, k, g, routes)
                         break
                 else:
                     break
