@@ -34,8 +34,8 @@ def test_nest():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest = 'sub')
 
-    g = nest(subparsers, [command1, command2, command3])
-    args = parser.parse_args(['command1', '1', '2', '8'])
+    g = nest(subparsers, {'x': [command1, command2, command3]})
+    args = parser.parse_args(['x', 'command1', '1', '2', '8'])
     assert g['command1'](args) == -5
 
 
