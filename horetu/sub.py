@@ -19,7 +19,12 @@ def nest(subparsers, commands = [], subcommands = {}):
         subparser = subparsers.add_parser(dest)
         if isinstance(subcommand, (list, dict)):
             subsubparsers = subparser.add_subparsers(dest = dest)
-            output[dest] = nest(subsubparsers, commands = subcommand)
+            if isinstance(subcommand, list):
+                output[dest] = nest(subsubparsers, commands = subcommand)
+            elif isinstance(subcommand, dict):
+                output[dest] = nest(subsubparsers, subcommands = subcommand)
+            else:
+                raise TypeError
         else:
             output[dest] = one(subparser, subcommand)
 
