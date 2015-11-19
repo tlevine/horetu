@@ -17,15 +17,12 @@ def nest(subparsers, commands = [], subcommands = {}):
 
     for dest, subcommand in subcommands.items():
         subparser = subparsers.add_parser(dest)
-        if isinstance(subcommand, (list, dict)):
+        if isinstance(subcommand, dict):
             subsubparsers = subparser.add_subparsers(dest = dest)
-            if isinstance(subcommand, list):
-                output[dest] = nest(subsubparsers, commands = subcommand)
-            elif isinstance(subcommand, dict):
-                output[dest] = nest(subsubparsers, subcommands = subcommand)
-            else:
-                raise TypeError
-        else:
+            output[dest] = nest(subsubparsers, subcommands = subcommand)
+        elif hasattr(subcommand, '__call__'):
             output[dest] = one(subparser, subcommand)
+        else:
+            raise TypeError
 
     return output
