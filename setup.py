@@ -7,7 +7,10 @@ setup(name='horetu',
       url='http://dada.pink/horetu/',
       py_modules=['horetu'],
       install_requires = [
-          'sphinx',
+          'Sphinx>=1.3.1',
+      ],
+      tests_require = [
+          'pytest>=2.6.4',
       ],
       version='0.0.1',
       license='AGPL',
