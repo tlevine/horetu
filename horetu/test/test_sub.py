@@ -13,10 +13,11 @@ def test_triple_nested():
     parser = argparse.ArgumentParser()
     g = sub(parser, 'sub', [command1, command2, command3])
     
-    args = parser.parse_args(['command1', '1', '2', '3'])
+    args = parser.parse_args(['command1', '1', '2', '8'])
     assert args.sub == 'command1'
     assert args.a == 1
     assert args.b == 2
-    assert args.c == 3
+    assert args.c == 8
 
     assert set(g) == {'command1', 'command2', 'command3'}
+    assert g['command1'](args) == -5
