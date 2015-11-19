@@ -27,6 +27,7 @@ def test_nested(args, expected):
 triple_nest = [
     (['aa', 'bb', '10', '3'], 30),
     (['aa', 'cc', 'BB'], 2),
+    (['zz'], 2),
 ]
 @pytest.mark.parametrize('args, expected', triple_nest)
 def test_triple_nested(args, expected):
@@ -36,6 +37,6 @@ def test_triple_nested(args, expected):
         return a * b
     def command3():
         return 2
-    commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
+    commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}, 'zz': lambda: 8}
     observed = horetu(commands, _args = args, name = 'do-something')
     assert observed == expected

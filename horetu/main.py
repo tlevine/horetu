@@ -5,7 +5,7 @@ from . import options
 from .sub import nest
 from .one import one
 
-def horetu(f, name = None, description = None):
+def horetu(f, name = None, description = None, _args = None):
     '''
     :type f: Callable or dict
     :param f: The callable to produce the argument parser too,
@@ -18,8 +18,7 @@ def horetu(f, name = None, description = None):
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        def main(argv = None):
-            return one(p, f)(p.parse_args(argv))
+        main = one(p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
@@ -30,11 +29,11 @@ def horetu(f, name = None, description = None):
             routes = nest(sp, subcommands = f)
         else:
             raise TypeError
-        def main(argv = None):
-            args = p.parse_args(argv)
-            xs = argv if argv else []
-            for k, v in routes.items():
-                print(k, getattr(args, k, None), v)
+        def main(args):
+            while len(routes) > 0:
+                for k in list(routes):
+                    print(k, getattr(args, k, None), routes[k])
+                break
 
     print(_args)
     return main(p.parse_args(_args))
