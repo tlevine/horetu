@@ -41,6 +41,39 @@ Parameter-specific settings are set in all kinds of different places.
 Help
 ^^^^^^^^^^
 
+Argument names
+------------------
+Positional arguments keep the same names in the command-line interface,
+except that underscores are replaced with hyphens.
+
+Keyword arguments with single-character names are turned into one-hyphen flags,
+and keyword arguments with longer names are turned into two-hyphen flags.
+Also, underscores are replaced with hyphens.
+
+::
+
+    def main(some_file, some_password = None, n = 8):
+        pass
+    horetu(some_file, _args = ['--some-password', 'abc', '-n' '2'])
+
+(XXX Next thing isn't implemented.)
+horetu tries to turn long keyword arguments are also turned into
+one-hyphen flags too, using the first letter as the flag.
+It does this only when all keyword arguments have different first letters.
+
+::
+
+    def main(some_file, some_password = None, n = 8):
+        pass
+    horetu(some_file, _args = ['-s', 'abc', '-n' '2'])
+
+If you specify clashing argument names (and the above situation doesn't count
+as clashing), :py:module:`argparse` will raise an exception.
+
+Default arguments
+^^^^^^^^^^^^^^^^^^^
+
+
 Number of arguments
 ^^^^^^^^^^^^^^^^^^^^^^
 In most cases, horetu will produce an interface that expects one shell argument
@@ -63,6 +96,7 @@ the following interface takes exactly one "A" and zero or more "B".
     horetu(f)
 
 The other exception is keyword arguments annotated with type :py:class:`list`.
+(XXX This is not implemented.)
 
 ::
     def f(colors:list = None):
@@ -82,6 +116,10 @@ with the new arguments.
     >>> horetu(f, _args = ['--colors', 'green'])
     ['pink', 'green']
 
+
+It would be neat if arguments that take multiple values would be named with
+singular grammatical forms when appropriate in the command-line help. But they
+don't. Oh well.
 
 ^^^^^^^^^^
 ^^^^^^^^^^
