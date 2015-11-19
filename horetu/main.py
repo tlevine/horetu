@@ -22,4 +22,10 @@ def horetu(f, name = None, description = None, _args = None):
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
-        return nest(p.add_subparsers(), f)
+        sp = p.add_subparsers()
+        if isinstance(f, list):
+            return nest(sp, commands = f)
+        elif isinstance(f, dict):
+            return nest(sp, subcommands = f)
+        else:
+            raise TypeError
