@@ -38,6 +38,9 @@ def horetu(f, name = None, description = None,
             while isinstance(routes, dict):
                 for k in list(routes):
                     if hasattr(args, k):
+                        if getattr(args, k) == None:
+                            p.print_usage()
+                            sys.exit(2)
                         g = routes[k][getattr(args, k)]
                         routes = routes[k]
                         break
