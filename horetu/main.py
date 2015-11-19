@@ -24,25 +24,25 @@ def horetu(f, name = None, description = None, _args = None):
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
         sp = p.add_subparsers()
-        if isinstance(f, list):
-            routes = nest(sp, commands = f)
-        elif isinstance(f, dict):
+        if isinstance(f, dict):
             routes = nest(sp, subcommands = f)
         else:
             raise TypeError
 
         def _main(routes, args):
-            print(routes)
-            while len(routes) > 0:
+            while isinstance(routes, dict):
                 for k in list(routes):
                     if hasattr(args, k):
+                        g = routes[k][getattr(args, k)]
                         routes = routes[k]
-                        print(k, args, routes)
+                        print(k, g, routes)
                         break
-                    elif hasattr(routes[k], '__call__'):
-                        return routes[k](args)
                 else:
                     break
+            try:
+                return g(args)
+            except NameError:
+                print(f)
         main = partial(_main, routes)
 
     print(_args)
