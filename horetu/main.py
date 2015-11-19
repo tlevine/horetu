@@ -33,17 +33,13 @@ def horetu(f, name = None, description = None,
         def _main(routes, args):
             while isinstance(routes, dict):
                 for k in list(routes):
-                    print(args, k, routes)
                     if hasattr(args, k):
                         g = routes[k][getattr(args, k)]
                         routes = routes[k]
                         break
                 else:
                     break
-            try:
-                return g(args)
-            except NameError:
-                print(f)
+            return g(args)
         main = partial(_main, routes)
 
     print(_args)
