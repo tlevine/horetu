@@ -11,7 +11,8 @@ def test_sub():
         return 2
 
     parser = argparse.ArgumentParser()
-    g = sub(parser, 'sub', [command1, command2, command3])
+    subparsers = parser.add_subparsers(dest = 'sub')
+    g = sub(subparsers, [command1, command2, command3])
     
     args = parser.parse_args(['command1', '1', '2', '8'])
     assert args.sub == 'command1'
