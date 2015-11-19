@@ -7,11 +7,15 @@ from .sub import nest
 from .one import one
 
 def horetu(f, name = None, description = None,
-           subcommand_dest = 'subcommand', _args = None):
+           subcommand_dest = '_subcommand', _args = None):
     '''
     :type f: Callable or dict
     :param f: The callable to produce the argument parser too,
-        or a dict from str to callable to make subparsers.
+        or a dict of (dicts of...) str to callable to make subparsers.
+    :param str name: Name of the program (``$0``)
+    :param str description: Short description of what the program does
+    :param str subcommand_dest: Attribute to save the base subcommand under
+    :param list _args: Pass argv here for testing; use the actual argv by default.
     '''
     if hasattr(f, '__call__'):
         if name == None:
