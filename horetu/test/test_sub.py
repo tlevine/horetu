@@ -1,6 +1,6 @@
 import argparse
 
-from ..sub import sub
+from ..sub import sub, nest
 
 def test_sub():
     def command1(a:int, b:int, c:int):
@@ -22,3 +22,23 @@ def test_sub():
 
     assert set(g) == {'command1', 'command2', 'command3'}
     assert g['command1'](args) == -5
+
+
+def test_nest():
+    def command1(a:int, b:int, c:int):
+        return a + b - c
+    def command2(a:int, b:int):
+        return a * b
+    def command3():
+        return 2
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest = 'sub')
+
+    g = nest(subparsers, [command1, command2, command3])
+    args = parser.parse_args(['command1', '1', '2', '8'])
+    assert g['command1'](args) == -5
+
+
+#   commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
+#   observed = horetu(commands, _args = args, name = 'do-something')
+#   assert observed == expected
