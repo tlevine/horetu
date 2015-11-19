@@ -16,10 +16,10 @@ Contents:
    :maxdepth: 3
 
     simple
+    subcommands
     options
     docstring
     annotations
-    subcommands
 
 Indices and tables
 ==================
