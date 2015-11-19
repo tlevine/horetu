@@ -8,13 +8,14 @@ def sub(subparsers, fs):
     return g
 
 def nest(subparsers, x):
-    output = {}
-    for dest, y in x.items():
-        if isinstance(y, dict):
-            subsubparsers = subparsers.add_parser(dest = dest)
+    if isinstance(x, dict):
+        output = {}
+        for dest, y in x.items():
+            subparser = subparsers.add_parser(dest)
+            subsubparsers = subparser.add_subparsers(dest = dest)
             output[dest] = nest(subsubparsers, y)
-        elif isinstance(y, list):
-            output[dest] = sub(subparsers, y)
-        else:
-            raise TypeError
+    elif isinstance(x, list):
+        return sub(subparsers, x)
+    else:
+        raise TypeError
     return output

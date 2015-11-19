@@ -36,7 +36,7 @@ def test_nest():
 
     g = nest(subparsers, {'x': [command1, command2, command3]})
     args = parser.parse_args(['x', 'command1', '1', '2', '8'])
-    assert g['command1'](args) == -5
+    assert g['x']['command1'](args) == -5
 
 
 #   commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
