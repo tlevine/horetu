@@ -40,3 +40,8 @@ def test_triple_nested(args, expected):
     commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}, 'zz': lambda: 8}
     observed = horetu(commands, _args = args, name = 'do-something')
     assert observed == expected
+
+def test_version():
+    def main(version = 'blah'):
+        pass
+    horetu(main, _args = ['--version'])
