@@ -63,3 +63,8 @@ def test_choices():
         assert e.args[0] == 2
     else:
         raise AssertionError('This should fail.')
+
+def test_annotate_list():
+    def f(colors: list = ['pink']):
+        assert colors == ['pink', 'green']
+    horetu(f, _args = ['--colors', 'green'])
