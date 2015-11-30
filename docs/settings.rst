@@ -27,14 +27,14 @@ Each of these can be set in the call to horetu.
 
 .. autofunction:: horetu.horetu
 
-The name is determined thusly.
+These are the steps for determining the name.
 
 1. Use the name keyword argument passed to horetu (``name``) if it is available.
 2. If a function, rather than a dictionary, is passed as ``f``, use the function's
    name (``f.__name__``).
 3. Otherwise, use the first argv (``sys.argv[0]``).
 
-The description is determined thusly.
+And these are the steps for determining the description.
 
 1. Use the description keyword argument passed to horetu (``description``) if
    it is available.
