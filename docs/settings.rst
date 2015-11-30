@@ -113,6 +113,7 @@ The other exception is keyword arguments annotated with type :py:class:`list`.
 (XXX This is not implemented.)
 
 ::
+
     def f(colors:list = None):
         pass
     horetu(f)
@@ -125,6 +126,7 @@ if the default argument is a list, it is extended, rather than replaced,
 with the new arguments.
 
 ::
+
     def f(colors:list = ['pink']):
         return colors
     >>> horetu(f, _args = ['--colors', 'green'])
