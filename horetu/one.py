@@ -37,7 +37,6 @@ def one(parser, f):
         parser.add_argument(*name_or_flags, **kwargs)
 
     def g(parsed_args):
-        print(parsed_args)
         args = [getattr(parsed_args, attr) for attr in _get_args(False, params)]
         kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, params)}
         return f(*args, **kwargs)
