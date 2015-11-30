@@ -29,3 +29,6 @@ suggests the following libraries.
 * `docopt <http://docopt.org/>`_
 * `plac <https://pypi.python.org/pypi/plac>`_
 * `cliff <http://docs.openstack.org/developer/cliff/>`_
+
+It turns out that plac is especially similar to horetu.
+Unfortunately, I discovered this only after writing horetu.
