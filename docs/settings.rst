@@ -14,6 +14,8 @@ name
     Displayed in the command-line help
 description
     Displayed in the command-line help
+version
+    Add a ``--version`` flag that displays the version and exits.
 
 Each of these can be set in the call to horetu.
 
