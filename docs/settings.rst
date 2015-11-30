@@ -44,7 +44,7 @@ And these are the steps for determining the description.
 
 Parameter-specific settings
 ----------------------------
-Parameter-specific settings are set in all kinds of different places.
+Parameter-specific settings are set all over the place.
 
 Help
 ^^^^^^^^^^
