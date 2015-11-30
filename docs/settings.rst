@@ -84,7 +84,7 @@ Positional arguments produce required shell arguments, and keyword arguments
 produce optional shell arguments. If the keyword argument is not specified in
 the shell, the function uses the default that is set in the function definition.
 
-Number of arguments
+List-type arguments
 ^^^^^^^^^^^^^^^^^^^^^^
 In most cases, horetu will produce an interface that expects one shell argument
 to be passed for each Python argument. For example, the following interface
@@ -96,7 +96,8 @@ requires one "X", one "Y", and optionally, one "Z".
         pass
     horetu(f)
 
-One exception is arbitrary argument lists, which take zero or more values;
+In some cases horetu accepts several shell arguments and turns them into a list.
+One such situation is arbitrary argument lists, which take zero or more values;
 the following interface takes exactly one "A" and zero or more "B".
 
 ::
@@ -105,8 +106,7 @@ the following interface takes exactly one "A" and zero or more "B".
         pass
     horetu(f)
 
-The other exception is keyword arguments annotated with type :py:class:`list`.
-(XXX This is not implemented.)
+The other situation is keyword arguments annotated with type :py:class:`list`.
 
 ::
 
