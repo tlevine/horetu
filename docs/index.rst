@@ -13,13 +13,11 @@ arguments to the function.
 Contents:
 
 .. toctree::
-   :maxdepth: 3
+    :maxdepth: 3
 
     simple
     subcommands
     options
-    docstring
-    annotations
 
 Indices and tables
 ==================
