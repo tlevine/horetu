@@ -8,8 +8,12 @@ from ..one import one
 def f(a, b, c = 'xxx'):
     return a + b + c
 
+def g(host = 'blah', port = 'blah'):
+    pass
+
 cases = [
     (f, ['1', '2'], '12xxx'),
+    (g, ['-p', '8888'], None),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
