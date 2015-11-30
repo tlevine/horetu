@@ -59,7 +59,7 @@ def default(param):
         return param.default
 
 def action(param):
-    if param.default in BOOL_ACTIONS:
+    if isinstance(param.default, bool) and param.default in BOOL_ACTIONS:
         return BOOL_ACTIONS[param.default]
     return {
         COUNT: 'count',
