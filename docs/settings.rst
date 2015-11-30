@@ -110,7 +110,7 @@ the following interface takes exactly one "A" and zero or more "B".
 
 .. testcode::
 
-    def f(a, \*b):
+    def f(a, *b): # **
         pass
     horetu.horetu(f)
 
