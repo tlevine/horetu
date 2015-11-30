@@ -165,7 +165,7 @@ error message if the parse fails.
 
 ::
 
-    def main(n:int):
+    def main(n: int, infile: argparse.FileType('rb')):
         pass
     horetu(main, _args = ['not-a-number'])
 
