@@ -1,6 +1,6 @@
 .. testsetup::
 
-    from horetu import horetu
+    import horetu
 
 Settings
 ==========
@@ -49,7 +49,7 @@ Help
 Help is taken from parameter annotations in the docstring; in the following
 function,
 
-::
+.. testcode::
 
     def main(n_cores: int = 8):
         '''
@@ -68,21 +68,21 @@ Keyword arguments with single-character names are turned into one-hyphen flags,
 and keyword arguments with longer names are turned into two-hyphen flags.
 Also, underscores are replaced with hyphens.
 
-::
+.. testcode::
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu(some_file, _args = ['--some-password', 'abc', '-n' '2'])
+    horetu.horetu(some_file, _args = ['--some-password', 'abc', '-n' '2'])
 
 horetu tries to turn long keyword arguments are also turned into
 one-hyphen flags too, using the first letter as the flag.
 It does this only when all keyword arguments have different first letters.
 
-::
+.. testcode::
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu(some_file, _args = ['-s', 'abc', '-n' '2'])
+    horetu.horetu(some_file, _args = ['-s', 'abc', '-n' '2'])
 
 Default arguments
 ^^^^^^^^^^^^^^^^^^^
@@ -96,29 +96,29 @@ In most cases, horetu will produce an interface that expects one shell argument
 to be passed for each Python argument. For example, the following interface
 requires one "X", one "Y", and optionally, one "Z".
 
-::
+.. testcode::
 
     def f(x, y, z = 'elephant'):
         pass
-    horetu(f)
+    horetu.horetu(f)
 
 In some cases horetu accepts several shell arguments and turns them into a list.
 One such situation is var-positional arguments, which take zero or more values;
 the following interface takes exactly one "A" and zero or more "B".
 
-::
+.. testcode::
 
     def f(a, *b):
         pass
-    horetu(f)
+    horetu.horetu(f)
 
 The other situation is keyword arguments annotated with type :py:class:`list`.
 
-::
+.. testcode::
 
     def f(colors: list = None):
         pass
-    horetu(f)
+    horetu.horetu(f)
 
 This last interface takes as many "COLORS" as you want and iterprets them as a
 list. If you pass no colors, the value ``None`` is passed as ``colors``.
@@ -127,7 +127,7 @@ Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
 if the default argument is a list, it is extended, rather than replaced,
 with the new arguments.
 
-::
+.. testcode::
 
     def f(colors: list = ['pink']):
         return colors
@@ -144,7 +144,7 @@ Choices
 Annotate a parameter with a tuple to limit choices for that particular
 parameter.
 
-::
+.. testcode::
 
     def scrape(output_format: ('web', 'level'), destination):
         '''
@@ -155,8 +155,8 @@ parameter.
             'web': scraper.web,
             'level': scraper.level,
         }[output_format](destination)
-    horetu(scrape, _args = ['level', '/blah']) # success
-    horetu(scrape, _args = ['not-a-choice', '/blah']) # error
+    horetu.horetu(scrape, _args = ['level', '/blah']) # success
+    horetu.horetu(scrape, _args = ['not-a-choice', '/blah']) # error
 
 Argument type
 ^^^^^^^^^^^^^^^^
@@ -165,11 +165,11 @@ referenced above, horetu (really :py:mod:`argparse`) will call that something
 on the string that is passed in the shell arguments and print a reasonable
 error message if the parse fails.
 
-::
+.. testcode::
 
     def main(n: int, infile: argparse.FileType('rb')):
         pass
-    horetu(main, _args = ['not-a-number'])
+    horetu.horetu(main, _args = ['not-a-number'])
 
 Boolean flags
 ^^^^^^^^^^^^^^^^
@@ -181,19 +181,19 @@ be opposite the default.
 
     def main(force = False):
         pass
-    horetu(main, _args = ['--force'])
+    horetu.horetu(main, _args = ['--force'])
 
 Counting
 ^^^^^^^^^^^^^
 Annotate a parameter with :py:data:`horetu.COUNT` to count the number of times
 the argument appears. The number of flags is added to the default value.
 
-::
+.. testcode::
 
     def main(verbose: horetu.COUNT = 1):
         pass
-    horetu(main, _args = []) # verbose = 1
-    horetu(main, _args = ['-v', '-v']) # verbose = 3
+    horetu.horetu(main, _args = []) # verbose = 1
+    horetu.horetu(main, _args = ['-v', '-v']) # verbose = 3
 
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^
@@ -201,7 +201,7 @@ Annotate a positional argument with :py:data:`horetu.OPTIONAL` to make it
 optional; if that argument isn't passed in the command line we will use
 ``None`` as its value.
 
-::
+.. testcode::
 
     def main(infile: horetu.OPTIONAL, *outfiles):
         pass
