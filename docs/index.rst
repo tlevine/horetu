@@ -1,9 +1,4 @@
-.. horetu documentation master file, created by
-   sphinx-quickstart on Thu Nov 19 10:29:13 2015.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Welcome to horetu's documentation!
+horetu
 ==================================
 
 horetu turns a Python function into a command-line program;
@@ -19,7 +14,6 @@ Contents:
     settings
 
 Indices and tables
-==================
 
 * :ref:`genindex`
 * :ref:`modindex`

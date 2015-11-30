@@ -31,7 +31,7 @@ Subcommands
 ^^^^^^^^^^^^^^^
 
 Instead of calling :py:func:`horetu.horetu` on a callable, you can call it on a
-:py:class:`dict` of :py:class:`str` to callable. This turns each element into a
+dictionary of strings to callables. This turns each element into a
 sub-command, and it uses the key, rather than the callable's name, as the
 command name. For example, this Python code
 
