@@ -50,9 +50,4 @@ def _get_args(keyword, params):
         comparator = operator.eq
     else:
         comparator = operator.ne
-    def _name(param):
-        if param.default == param.empty:
-            return options._name(param.name)
-        else:
-            return param.name
-    return [_name(param) for param in params if comparator(param.kind, param.VAR_KEYWORD)]
+    return [param.name for param in params if comparator(param.kind, param.VAR_KEYWORD)]

@@ -44,9 +44,9 @@ def argtype(param):
         return param.annotation
 
 def _name_or_flags(param):
-    name = _name(param.name)
+    name = param.name.replace('_', '-')
     if param.default == param.empty:
-        return name
+        return param.name
     elif len(name) == 1:
         return '-' + name
     else:
@@ -61,10 +61,7 @@ def name_or_flags(param):
     return _name_or_flags(param)
 
 def dest(param):
-    return _name(param.name)
-
-def _name(x):
-    return x.replace('_', '-')
+    return param.name
 
 def default(param):
     if param.default != param.empty and not isinstance(param.default, bool):
