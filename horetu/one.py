@@ -29,7 +29,7 @@ def one(parser, f):
                       choices = options.argchoices(param),
                       help = helps.get(param.name, ''),
                       default = options.default(param))
-        if kwargs['action'] in {'store_true', 'store_false'}:
+        if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
             del(kwargs['nargs'])
