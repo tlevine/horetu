@@ -54,16 +54,12 @@ def test_version():
 def test_choices():
     def main(output_format: ('groff', 'RUNOFF')):
         assert output_format == 'RUNOFF'
-    try:
-        horetu(main, _args = ['RUNOFF'])
-    except SystemExit as e:
-        assert e.args[0] == 0
-    else:
-        raise AssertionError('This should succeed.')
+
+    horetu(main, _args = ['RUNOFF'])
 
     try:
         horetu(main, _args = ['troff'])
     except SystemExit as e:
-        assert e.args[0] == 1
+        assert e.args[0] == 2
     else:
         raise AssertionError('This should fail.')
