@@ -50,4 +50,7 @@ def default(param):
         return param.default
 
 def action(param):
-    return 'store'
+    return {
+        COUNT: 'count',
+        list: 'append',
+    }.get(param.annotation, 'store')
