@@ -102,7 +102,7 @@ requires one "X", one "Y", and optionally, one "Z".
 
     def f(x, y, z = 'elephant'):
         pass
-    horetu.horetu(f)
+    horetu.horetu(f, _args = ['one', 'two', '-z', 'three'])
 
 In some cases horetu accepts several shell arguments and turns them into a list.
 One such situation is var-positional arguments, which take zero or more values;
@@ -112,15 +112,17 @@ the following interface takes exactly one "A" and zero or more "B".
 
     def f(a, *b): # **
         pass
-    horetu.horetu(f)
+    horetu.horetu(f, _args = ['one'])
+    horetu.horetu(f, _args = ['one', 'two', 'three'])
 
 The other situation is keyword arguments annotated with type :py:class:`list`.
 
 .. testcode::
 
-    def f(colors: list = None):
+    def f(color: list = None):
         pass
-    horetu.horetu(f)
+    horetu.horetu(f, _args = [])
+    horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
 
 This last interface takes as many "COLORS" as you want and iterprets them as a
 list. If you pass no colors, the value ``None`` is passed as ``colors``.
