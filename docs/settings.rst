@@ -1,3 +1,7 @@
+.. testsetup::
+
+    from horetu import horetu
+
 Settings
 ==========
 As much as possible, horetu tries come up with an interface based on things
@@ -173,7 +177,7 @@ Keyword arguments with default values of ``True`` or ``False`` turn into flags
 that do not take additional arguments. Passing the flag switches the value to
 be opposite the default.
 
-::
+.. testcode::
 
     def main(force = False):
         pass
