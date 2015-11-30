@@ -2,6 +2,7 @@ import re
 from collections import Counter
 from functools import partial
 import inspect
+import operator
 
 from . import options
 
@@ -35,11 +36,16 @@ def one(parser, f):
             del(kwargs['nargs'])
         parser.add_argument(*name_or_flags, **kwargs)
 
-    positional_arguments = [param.name for param in params if param.kind != param.VAR_KEYWORD]
-    keyword_arguments = [param.name for param in params if param.kind == param.VAR_KEYWORD]
-
     def g(parsed_args):
-        args = [getattr(parsed_args, options._name(attr)) for attr in positional_arguments]
-        kwargs = {attr:getattr(parsed_args, options._name(attr)) for attr in keyword_arguments}
+        print(parsed_args)
+        args = [getattr(parsed_args, attr) for attr in _get_args(False, params)]
+        kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, params)}
         return f(*args, **kwargs)
     return g
+
+def _get_args(keyword, params):
+    if keyword:
+        comparator = operator.eq
+    else:
+        comparator = operator.ne
+    return [options._name(param.name) for param in params if comparator(param.kind, param.VAR_KEYWORD)]
