@@ -119,7 +119,7 @@ The other exception is keyword arguments annotated with type :py:class:`list`.
     horetu(f)
 
 This last interface takes as many "COLORS" as you want and iterprets them as a
-list. If you pass no colors, the value ``None`` is passed to ``colors``.
+list. If you pass no colors, the value ``None`` is passed as ``colors``.
 
 Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
 if the default argument is a list, it is extended, rather than replaced,
