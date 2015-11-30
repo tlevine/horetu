@@ -193,6 +193,17 @@ the argument appears. The number of flags is added to the default value.
     horetu(main, _args = []) # verbose = 1
     horetu(main, _args = ['-v', '-v']) # verbose = 3
 
+Optional arguments
+^^^^^^^^^^^^^^^^^^^^^^
+Annotate a positional argument with :py:data:`horetu.OPTIONAL` to make it
+optional; if that argument isn't passed in the command line we will use
+``None`` as its value.
+
+::
+
+    def main(infile: horetu.OPTIONAL, *outfiles):
+        pass
+
 Final note on settings
 -----------------------
 You should think of horetu as a means of converting your Python function to a
