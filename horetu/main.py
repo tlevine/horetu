@@ -7,6 +7,7 @@ from .sub import nest
 from .one import one
 
 def horetu(f, name = None, description = None,
+           version = None,
            subcommand_dest = '_subcommand', _args = None):
     '''
     :type f: Callable or dict
@@ -24,10 +25,14 @@ def horetu(f, name = None, description = None,
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+        if version:
+            p.add_argument('--version', action = 'version', version = version)
         main = one(p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+        if version:
+            p.add_argument('--version', action = 'version', version = version)
         sp = p.add_subparsers(dest = subcommand_dest)
         if isinstance(f, dict):
             routes = {subcommand_dest: nest(sp, subcommands = f)}

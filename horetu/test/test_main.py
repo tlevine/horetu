@@ -42,6 +42,11 @@ def test_triple_nested(args, expected):
     assert observed == expected
 
 def test_version():
-    def main(version = 'blah'):
+    def main():
         pass
-    horetu(main, _args = ['--version'])
+    try:
+        horetu(main, _args = ['--version'], version = 'blah')
+    except SystemExit as e:
+        assert e.args[0] == 0
+    else:
+        raise AssertionError('Version should be printed.')
