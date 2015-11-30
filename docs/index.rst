@@ -1,4 +1,4 @@
-horetu
+Introduction
 ==================================
 
 .. py:module:: horetu
@@ -12,3 +12,4 @@ arguments to the function.
 
     usage
     settings
+    more
