@@ -1,1 +1,7 @@
 Produce a command-line interface from a Python function.
+
+Install ::
+
+    pip install horetu
+
+Read documentation at http://big.dada.pink/horetu/.
