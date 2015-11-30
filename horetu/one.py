@@ -24,6 +24,7 @@ def one(parser, f):
         else:
             name_or_flags = name_or_flag,
         parser.add_argument(*name_or_flags, nargs = options.nargs(param),
+                            action = options.action(param),
                             type = options.argtype(param), choices = options.argchoices(param),
                             help = helps.get(param.name, ''), default = options.default(param))
 

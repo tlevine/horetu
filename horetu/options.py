@@ -45,3 +45,6 @@ def name_or_flags(param):
 def default(param):
     if param.default != param.empty:
         return param.default
+
+def action(param):
+    return 'store'
