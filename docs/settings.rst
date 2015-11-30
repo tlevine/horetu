@@ -167,8 +167,8 @@ error message if the parse fails.
         pass
     horetu(main, _args = ['not-a-number'])
 
-Final note
-------------
+Final note on settings
+-----------------------
 You should think of horetu as a means of converting your Python function to a
 shell interface rather than a means of creating a particular shell interface in
 Python. Express your function cleanly and clearly in Python, and horetu will
