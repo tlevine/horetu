@@ -45,7 +45,7 @@ function,
 
 ::
 
-    def main(n_cores:int = 8):
+    def main(n_cores: int = 8):
         '''
         :param int n_cores: Number of cores to use for processing
         '''
@@ -114,7 +114,7 @@ The other exception is keyword arguments annotated with type :py:class:`list`.
 
 ::
 
-    def f(colors:list = None):
+    def f(colors: list = None):
         pass
     horetu(f)
 
@@ -127,7 +127,7 @@ with the new arguments.
 
 ::
 
-    def f(colors:list = ['pink']):
+    def f(colors: list = ['pink']):
         return colors
     >>> horetu(f, _args = ['--colors', 'green'])
     ['pink', 'green']
@@ -144,7 +144,7 @@ parameter.
 
 ::
 
-    def scrape(output_format:('web', 'level'), destination):
+    def scrape(output_format: ('web', 'level'), destination):
         '''
         :param output_format: Output to the web server or directly to leveldb?
         :param destination: Domain name (web output) or database path (leveldb)
