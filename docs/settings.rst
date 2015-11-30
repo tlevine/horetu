@@ -169,6 +169,20 @@ error message if the parse fails.
         pass
     horetu(main, _args = ['not-a-number'])
 
+Boolean flags
+^^^^^^^^^^^^^^^^
+Keyword arguments with default values of ``True`` or ``False`` turn into flags
+that do not take additional arguments. Passing the flag switches the value to
+be opposite the default.
+
+::
+
+    def main(force = False):
+        pass
+    horetu(main, _args = ['--force'])
+
+XXX
+
 Final note on settings
 -----------------------
 You should think of horetu as a means of converting your Python function to a
