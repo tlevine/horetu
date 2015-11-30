@@ -53,12 +53,12 @@ def name_or_flags(param):
     else:
         return '--' + name
 
-BOOL_ACTIONS = {True: 'store_false', False: 'store_true'}
 def default(param):
-    if param.default != param.empty and param.default not in BOOL_ACTIONS:
+    if param.default != param.empty and not isinstance(param.default, bool):
         return param.default
 
 def action(param):
+    BOOL_ACTIONS = {True: 'store_false', False: 'store_true'}
     if isinstance(param.default, bool) and param.default in BOOL_ACTIONS:
         return BOOL_ACTIONS[param.default]
     return {
