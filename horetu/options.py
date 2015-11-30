@@ -5,6 +5,9 @@ from sphinx.util.docstrings import prepare_docstring
 class COUNT(object):
     pass
 
+class OPTIONAL(object):
+    pass
+
 def description(f):
     if f.__doc__ == None:
         return ''
@@ -25,6 +28,8 @@ def docs(f):
 def nargs(param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
+    elif param.annotation == OPTIONAL:
+        return '?'
 
 def argchoices(param):
     if isinstance(param.annotation, tuple):
