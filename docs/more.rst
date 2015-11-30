@@ -21,7 +21,6 @@ parsers.
 Other modules
 ^^^^^^^^^^^^^^^
 There are also several third-party command-line argument parsers.
-suggests the following libraries.
 
 * `aaargh <https://pypi.python.org/pypi/aaargh>`_
 * `plac <https://pypi.python.org/pypi/plac>`_
