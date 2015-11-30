@@ -21,14 +21,23 @@ parsers.
 Other modules
 ^^^^^^^^^^^^^^^
 There are also several third-party command-line argument parsers.
-The `The Hitchhiker's Guide to Python <http://docs.python-guide.org/en/latest/scenarios/cli/>`_
 suggests the following libraries.
 
+* `aaargh <https://pypi.python.org/pypi/aaargh>`_
+* `plac <https://pypi.python.org/pypi/plac>`_
+* `opster <http://opster.readthedocs.org/en/latest/>`_
 * `clint <http://docs.python-guide.org/en/latest/>`_
 * `click <http://click.pocoo.org/>`_
 * `docopt <http://docopt.org/>`_
-* `plac <https://pypi.python.org/pypi/plac>`_
 * `cliff <http://docs.openstack.org/developer/cliff/>`_
+* `clap <https://pypi.python.org/pypi/Clap/>`_ 
+* `cement <https://pypi.python.org/pypi/cement>`_
 
-It turns out that plac is especially similar to horetu.
+It turns out that plac and aaargh are very especially similar to horetu.
 Unfortunately, I discovered this only after writing horetu.
+
+References
+
+* `The Hitchhiker's Guide to Python <http://docs.python-guide.org/en/latest/scenarios/cli/>`_
+* `aaargh readme <https://pypi.python.org/pypi/aaargh>`_
+* `plac documentation <http://plac.googlecode.com/hg/doc/plac.html#trivia-the-story-behind-the-name>`_
