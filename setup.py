@@ -8,10 +8,11 @@ setup(name='horetu',
       py_modules=['horetu'],
       install_requires = [
           'Sphinx>=1.3.1',
+          'inflection>=0.3.1',
       ],
       tests_require = [
           'pytest>=2.6.4',
       ],
-      version='0.0.2',
+      version='0.0.3',
       license='AGPL',
 )
