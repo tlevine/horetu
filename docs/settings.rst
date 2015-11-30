@@ -179,8 +179,6 @@ be opposite the default.
         pass
     horetu(main, _args = ['--force'])
 
-XXX
-
 Counting
 ^^^^^^^^^^^^^
 Annotate a parameter with :py:data:`horetu.COUNT` to count the number of times

@@ -50,11 +50,14 @@ def name_or_flags(param):
     else:
         return '--' + name
 
+BOOL_ACTIONS = {True: 'store_false', False: 'store_true'}
 def default(param):
-    if param.default != param.empty:
+    if param.default != param.empty and param.default not in BOOL_ACTIONS:
         return param.default
 
 def action(param):
+    if param.default in BOOL_ACTIONS:
+        return BOOL_ACTIONS[param.default]
     return {
         COUNT: 'count',
         list: 'append',
