@@ -7,25 +7,33 @@ Simple usage
 ^^^^^^^^^^^^^^
 Consider the following Python program, called ``do_something.py``.
 
-::
+.. testcode::
     
     #!/usr/bin/env python
-    def main(input_file, output_file, n_cores: int = 3):
+    from horetu import horetu
+    def something(input_file, output_file, n_cores: int = 3):
         '''
         Do something to a file with several cores.
         '''
         # Pretend that something happens here.
-    horetu(main)
+    horetu(something)
 
 Run it with the help flag; this is the result.
 
 ::
 
     $ do_something.py --help
-    usage: do_something.py [-h] [--n-cores N-CORES]
-                           input-file output-file
+    usage: something [-h] [--n-cores N_CORES] input_file output_file
 
     Do something to a file with several cores.
+
+    positional arguments:
+      input_file
+      output_file
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      --n-cores N_CORES, -n N_CORES
 
 Subcommands
 ^^^^^^^^^^^^^^^
