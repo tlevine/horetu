@@ -36,7 +36,8 @@ def argchoices(param):
         return param.annotation
 
 def argtype(param):
-    if param.annotation == param.empty or isinstance(param.annotation, tuple):
+    if param.annotation == param.empty or isinstance(param.annotation, tuple) \
+        or (isinstance(param.default, list) and issubclass(param.annotation, list)):
         return str
     else:
         return param.annotation
