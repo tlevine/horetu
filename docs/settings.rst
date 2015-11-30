@@ -124,8 +124,18 @@ The other situation is keyword arguments annotated with type :py:class:`list`.
     horetu.horetu(f, _args = [])
     horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
 
-This last interface takes as many colors as you want and iterprets them as a
+This interface takes as many colors as you want and iterprets them as a
 list. If you pass no colors, the value ``None`` is passed as ``colors``.
+
+When keyword arguments are annotated with :py:class:`list` and are plural
+English words, the resulting flags are named with the singular equivalent.
+So we can switch the argument name from ``color`` to ``colors``.
+
+.. testcode::
+
+    def f(colors: list = None):
+        pass
+    horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
 
 Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
 if the default argument is a list, it is extended, rather than replaced,
@@ -135,16 +145,11 @@ with the new arguments.
 
     def f(colors: list = ['pink']):
         print(colors)
-    horetu.horetu(f, _args = ['--colors', 'green'])
+    horetu.horetu(f, _args = ['--color', 'green'])
 
 .. testoutput::
 
     ['pink', 'green']
-
-
-It would be neat if arguments that take multiple values would be named with
-singular grammatical forms when appropriate in the command-line help. But they
-don't. Oh well.
 
 Choices
 ^^^^^^^^^^
