@@ -28,3 +28,11 @@ def test_action():
     assert options.action(params['x']) == 'store'
     assert options.action(params['y']) == 'append'
     assert options.action(params['z']) == 'count'
+
+def test_nargs():
+    def f(x, y: options.OPTIONAL, *z):
+        pass
+    params = signature(f).parameters
+    assert options.nargs(params['x']) == None
+    assert options.nargs(params['y']) == '?'
+    assert options.nargs(params['z']) == '*'
