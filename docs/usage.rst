@@ -1,6 +1,6 @@
 Usage
 ===============
-Horetu figures out a good command-line interface based on standard Python
+horetu figures out a good command-line interface based on standard Python
 function annotations and properties.
 
 Simple usage
