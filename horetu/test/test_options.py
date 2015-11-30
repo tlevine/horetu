@@ -11,7 +11,7 @@ def test_description():
 def test_name_or_flags():
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
-    assert options.name_or_flags(param) == 'input-file'
+    assert options.name_or_flags(param) == 'input_file'
 
     param = Parameter('n_cores', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)

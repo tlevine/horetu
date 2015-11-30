@@ -41,7 +41,7 @@ flag_cases = [
     (f, {'a', 'b', '-c'}),
     (g, {'--verbose', '-v'}),
     (h, {'--blah', '--blub', '--turtle', '-t', 'thing'}),
-    (i, {'some-file', '--some-password', '-s', '-n'}),
+    (i, {'some_file', '--some-password', '-s', '-n'}),
     (plural_thing, {'--thing', '-t'}),
 ]
 
