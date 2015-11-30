@@ -36,3 +36,14 @@ def test_nargs():
     assert options.nargs(params['x']) == None
     assert options.nargs(params['y']) == '?'
     assert options.nargs(params['z']) == '*'
+
+def test_bool():
+    def f(force = False, waaa = True):
+        pass
+    params = signature(f).parameters
+    force = params['force']
+    waaa = params['waaa']
+    assert options.default(force) == None
+    assert options.action(force) == 'store_true'
+    assert options.default(waaa) == None
+    assert options.action(waaa) == 'store_false'
