@@ -68,3 +68,8 @@ def test_annotate_list():
     def f(colors: list = ['pink']):
         assert colors == ['pink', 'green']
     horetu(f, _args = ['--colors', 'green'])
+
+def test_hyphen():
+    def main(some_file, some_password = None, n = 8):
+        pass
+    horetu(main, _args = ['toilets.csv', '-s', 'abc', '-n' '2'])
