@@ -67,7 +67,7 @@ def test_choices():
 def test_annotate_list():
     def f(colors: list = ['pink']):
         assert colors == ['pink', 'green']
-    horetu(f, _args = ['--colors', 'green'])
+    horetu(f, _args = ['--color', 'green'])
 
 def test_hyphen():
     def main(some_file, some_password = None, n = 8):

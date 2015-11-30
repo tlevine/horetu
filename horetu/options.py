@@ -53,10 +53,12 @@ def _name_or_flags(param):
         return '--' + name
 
 def name_or_flags(param):
-    if issubclass(param.annotation, (list, COUNT)):
-        return singularize(_name_or_flags(param))
-    else:
-        return _name_or_flags(param)
+    try:
+        if issubclass(param.annotation, (list, COUNT)):
+            return singularize(_name_or_flags(param))
+    except TypeError:
+        pass
+    return _name_or_flags(param)
 
 def dest(param):
     return _name(param.name)
