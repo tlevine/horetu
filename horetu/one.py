@@ -26,6 +26,7 @@ def one(parser, f):
             name_or_flags = name_or_flag,
         kwargs = dict(nargs = options.nargs(param),
                       action = options.action(param),
+                      dest = options.dest(param),
                       type = options.argtype(param),
                       choices = options.argchoices(param),
                       help = helps.get(param.name, ''),
@@ -34,6 +35,8 @@ def one(parser, f):
             del(kwargs['choices'])
             del(kwargs['type'])
             del(kwargs['nargs'])
+        if not name_or_flag.startswith('-'):
+            del(kwargs['dest'])
         parser.add_argument(*name_or_flags, **kwargs)
 
     def g(parsed_args):

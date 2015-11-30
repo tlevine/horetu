@@ -1,6 +1,7 @@
 import re
 
 from sphinx.util.docstrings import prepare_docstring
+from inflection import singularize
 
 class COUNT(object):
     pass
@@ -42,10 +43,7 @@ def argtype(param):
     else:
         return param.annotation
 
-def _name(x):
-    return x.replace('_', '-')
-
-def name_or_flags(param):
+def _name_or_flags(param):
     name = _name(param.name)
     if param.default == param.empty:
         return name
@@ -53,6 +51,18 @@ def name_or_flags(param):
         return '-' + name
     else:
         return '--' + name
+
+def name_or_flags(param):
+    if issubclass(param.annotation, (list, COUNT)):
+        return singularize(_name_or_flags(param))
+    else:
+        return _name_or_flags(param)
+
+def dest(param):
+    return _name(param.name)
+
+def _name(x):
+    return x.replace('_', '-')
 
 def default(param):
     if param.default != param.empty and not isinstance(param.default, bool):
