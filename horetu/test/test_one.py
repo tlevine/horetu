@@ -28,9 +28,13 @@ class FakeParser(object):
 def g(verbose = False):
     pass
 
+def h(thing, blah = 8, blub = 9, turtle = 10):
+    pass
+
 flag_cases = [
-    (f, {'-a', '-b', '-c'}),
+    (f, {'a', 'b', '-c'}),
     (g, {'--verbose', '-v'}),
+    (h, {'--blah', '--blub', '--turtle', '-t', 'thing'}),
 ]
 
 @pytest.mark.parametrize('function, names_or_flags', flag_cases)
