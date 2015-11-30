@@ -1,5 +1,34 @@
-Subcommands
+Usage
 ===============
+Horetu figures out a good command-line interface based on standard Python
+function annotations and properties.
+
+Simple usage
+^^^^^^^^^^^^^^
+Consider the following Python program, called ``do_something.py``.
+
+::
+    
+    #!/usr/bin/env python
+    def main(input_file, output_file, n_cores:int = 3):
+        '''
+        Do something to a file with several cores.
+        '''
+        # Pretend that something happens here.
+    horetu(main)
+
+Run it with the help flag; this is the result.
+
+::
+
+    $ do_something.py --help
+    usage: do_something.py [-h] [--n-cores N-CORES]
+                           input-file output-file
+
+    Do something to a file with several cores.
+
+Subcommands
+^^^^^^^^^^^^^^^
 
 Instead of calling :py:func:`horetu.horetu` on a callable, you can call it on a
 :py:class:`dict` of :py:class:`str` to callable. This turns each element into a

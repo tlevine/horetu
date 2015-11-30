@@ -15,9 +15,8 @@ Contents:
 .. toctree::
     :maxdepth: 3
 
-    simple
-    subcommands
-    options
+    usage
+    settings
 
 Indices and tables
 ==================

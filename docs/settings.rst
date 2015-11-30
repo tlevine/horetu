@@ -162,6 +162,7 @@ on the string that is passed in the shell arguments and print a reasonable
 error message if the parse fails.
 
 ::
+
     def main(n:int):
         pass
     horetu(main, _args = ['not-a-number'])
