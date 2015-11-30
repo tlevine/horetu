@@ -1,4 +1,4 @@
-from inspect import Parameter
+from inspect import Parameter, signature
 
 from .. import options
 
@@ -20,3 +20,9 @@ def test_name_or_flags():
     param = Parameter('n', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)
     assert options.name_or_flags(param) == '-n'
+
+def test_action():
+    def f(x, y: list = None):
+        pass
+    params = signature(f).parameters
+    assert options.action(params['y']) == 'append'
