@@ -39,7 +39,7 @@ def one(parser, f):
     keyword_arguments = [param.name for param in params if param.kind == param.VAR_KEYWORD]
 
     def g(parsed_args):
-        args = [getattr(parsed_args, attr) for attr in positional_arguments]
-        kwargs = {attr:getattr(parsed_args, attr) for attr in keyword_arguments}
+        args = [getattr(parsed_args, options._name(attr)) for attr in positional_arguments]
+        kwargs = {attr:getattr(parsed_args, options._name(attr)) for attr in keyword_arguments}
         return f(*args, **kwargs)
     return g
