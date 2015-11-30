@@ -74,7 +74,7 @@ Also, underscores are replaced with hyphens.
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu.horetu(some_file, _args = ['--some-password', 'abc', '-n' '2'])
+    horetu.horetu(main, _args = ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
 
 horetu tries to turn long keyword arguments are also turned into
 one-hyphen flags too, using the first letter as the flag.
@@ -84,7 +84,7 @@ It does this only when all keyword arguments have different first letters.
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu.horetu(some_file, _args = ['-s', 'abc', '-n' '2'])
+    horetu.horetu(main, _args = ['toilets.csv', '-s', 'abc', '-n' '2'])
 
 Default arguments
 ^^^^^^^^^^^^^^^^^^^
