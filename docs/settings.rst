@@ -99,7 +99,7 @@ requires one "X", one "Y", and optionally, one "Z".
     horetu(f)
 
 In some cases horetu accepts several shell arguments and turns them into a list.
-One such situation is arbitrary argument lists, which take zero or more values;
+One such situation is var-positional arguments, which take zero or more values;
 the following interface takes exactly one "A" and zero or more "B".
 
 ::
