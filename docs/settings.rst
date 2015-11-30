@@ -124,7 +124,7 @@ The other situation is keyword arguments annotated with type :py:class:`list`.
     horetu.horetu(f, _args = [])
     horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
 
-This last interface takes as many "COLORS" as you want and iterprets them as a
+This last interface takes as many colors as you want and iterprets them as a
 list. If you pass no colors, the value ``None`` is passed as ``colors``.
 
 Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
