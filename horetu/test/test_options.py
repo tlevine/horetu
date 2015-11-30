@@ -22,7 +22,9 @@ def test_name_or_flags():
     assert options.name_or_flags(param) == '-n'
 
 def test_action():
-    def f(x, y: list = None):
+    def f(x, y: list = None, z: options.COUNT = 2):
         pass
     params = signature(f).parameters
+    assert options.action(params['x']) == 'store'
     assert options.action(params['y']) == 'append'
+    assert options.action(params['z']) == 'count'

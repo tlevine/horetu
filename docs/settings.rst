@@ -179,6 +179,18 @@ be opposite the default.
 
 XXX
 
+Counting
+^^^^^^^^^^^^^
+Annotate a parameter with :py:data:`horetu.COUNT` to count the number of times
+the argument appears. The number of flags is added to the default value.
+
+::
+
+    def main(verbose: horetu.COUNT = 1):
+        pass
+    horetu(main, _args = []) # verbose = 1
+    horetu(main, _args = ['-v', '-v']) # verbose = 3
+
 Final note on settings
 -----------------------
 You should think of horetu as a means of converting your Python function to a
