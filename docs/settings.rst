@@ -132,8 +132,11 @@ with the new arguments.
 .. testcode::
 
     def f(colors: list = ['pink']):
-        return colors
-    >>> horetu(f, _args = ['--colors', 'green'])
+        print(colors)
+    horetu.horetu(f, _args = ['--colors', 'green'])
+
+.. testoutput::
+
     ['pink', 'green']
 
 
@@ -148,14 +151,19 @@ parameter. For example, this succeeds,
 
 .. testcode::
 
+    def web(dest):
+        pass
+    def level(dest):
+        pass
+
     def scrape(output_format: ('web', 'level'), destination):
         '''
         :param output_format: Output to the web server or directly to leveldb?
         :param destination: Domain name (web output) or database path (leveldb)
         '''
         return {
-            'web': scraper.web,
-            'level': scraper.level,
+            'web': web,
+            'level': level,
         }[output_format](destination)
     horetu.horetu(scrape, _args = ['level', '/blah'])
 
