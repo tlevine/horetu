@@ -14,6 +14,7 @@ def one(parser, f):
 
     matches = map(partial(re.match, FLAG), map(options.name_or_flags, params))
     single_character_flags = Counter(m.group(1) for m in matches if m)
+    single_character_flags['-h'] += 1
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:
