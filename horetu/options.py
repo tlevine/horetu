@@ -2,6 +2,9 @@ import re
 
 from sphinx.util.docstrings import prepare_docstring
 
+class COUNT(object):
+    pass
+
 def description(f):
     if f.__doc__ == None:
         return ''
