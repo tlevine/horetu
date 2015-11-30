@@ -34,11 +34,15 @@ def h(thing, blah = 8, blub = 9, turtle = 10):
 def i(some_file, some_password = None, n = 8):
     pass
 
+def plural_thing(things:list = None):
+    pass
+
 flag_cases = [
     (f, {'a', 'b', '-c'}),
     (g, {'--verbose', '-v'}),
     (h, {'--blah', '--blub', '--turtle', '-t', 'thing'}),
     (i, {'some-file', '--some-password', '-s', '-n'}),
+    (plural_thing, {'--thing', '-t'}),
 ]
 
 @pytest.mark.parametrize('function, optional_names_or_flags', flag_cases)
