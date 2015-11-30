@@ -1,5 +1,7 @@
 .. testsetup::
 
+    import argparse
+
     import horetu
 
 Settings
@@ -108,7 +110,7 @@ the following interface takes exactly one "A" and zero or more "B".
 
 .. testcode::
 
-    def f(a, *b):
+    def f(a, \*b):
         pass
     horetu.horetu(f)
 
@@ -142,7 +144,7 @@ don't. Oh well.
 Choices
 ^^^^^^^^^^
 Annotate a parameter with a tuple to limit choices for that particular
-parameter.
+parameter. For example, this succeeds,
 
 .. testcode::
 
@@ -155,8 +157,13 @@ parameter.
             'web': scraper.web,
             'level': scraper.level,
         }[output_format](destination)
-    horetu.horetu(scrape, _args = ['level', '/blah']) # success
-    horetu.horetu(scrape, _args = ['not-a-choice', '/blah']) # error
+    horetu.horetu(scrape, _args = ['level', '/blah'])
+
+and this fails.
+
+::
+
+    horetu.horetu(scrape, _args = ['not-a-choice', '/blah'])
 
 Argument type
 ^^^^^^^^^^^^^^^^
@@ -165,7 +172,7 @@ referenced above, horetu (really :py:mod:`argparse`) will call that something
 on the string that is passed in the shell arguments and print a reasonable
 error message if the parse fails.
 
-.. testcode::
+::
 
     def main(n: int, infile: argparse.FileType('rb')):
         pass
