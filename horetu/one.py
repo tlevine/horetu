@@ -42,6 +42,9 @@ def one(parser, f):
 
     def g(parsed_args):
         args = [getattr(parsed_args, attr) for attr in _get_args(False, params)]
+        for param in params:
+            if param.kind == param.VAR_POSITIONAL:
+                args.extend(getattr(parsed_args, param.name))
         kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, params)}
         return f(*args, **kwargs)
     return g
@@ -51,4 +54,4 @@ def _get_args(keyword, params):
         comparator = operator.eq
     else:
         comparator = operator.ne
-    return [param.name for param in params if comparator(param.kind, param.VAR_KEYWORD)]
+    return [param.name for param in params if comparator(param.kind, param.VAR_KEYWORD) and param.kind != param.VAR_POSITIONAL]
