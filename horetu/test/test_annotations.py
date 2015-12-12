@@ -11,3 +11,10 @@ def test_annotations():
     assert p[3].annotation == int
 
     assert p[0].kind == p[0].POSITIONAL_OR_KEYWORD
+
+def test_annotate():
+    @annotate()
+    def thingy():
+        pass
+    assert thingy.__name__ == 'thingy'
+    

@@ -24,6 +24,7 @@ def docs(f):
         m = re.match(r'^:param ([^:]+ )?([^:]+): (.+)$', line)
         if m:
             k, *v = m.groups()
+            print(v)
             yield k, v
 
 def nargs(param):

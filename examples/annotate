@@ -8,3 +8,4 @@ def f(x, n = 8, *dates):
     for date in dates:
         print('%s: %s' % (x, date + datetime.timedelta(hours = n)))
 
+horetu(f)
