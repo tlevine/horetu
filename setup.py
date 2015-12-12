@@ -27,6 +27,11 @@ setup(name='horetu',
       tests_require = [
           'pytest>=2.6.4',
       ],
+      classifiers = [
+          'Programming Language :: Python :: 2.7',
+          'Programming Language :: Python :: 3.4',
+          'Programming Language :: Python :: 3.5',
+      ],
       version='0.0.4',
       license='AGPL',
 )
