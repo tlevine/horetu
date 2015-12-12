@@ -44,4 +44,5 @@ class annotate(object):
         self._types = types
     def __call__(self, function):
         self._function = function
+        self.__name__ = function.__name__
         return self
