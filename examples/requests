@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+from functools import wraps
+
+import requests
+from horetu import annotate, horetu
+
+def proxy(f):
+    @annotate(str, lambda x: x.decode('utf-8'), str)
+    @wraps(f)
+    def g(url, params, *args):
+        kwargs = {}
+        for arg in args:
+            k, _, v = a.split('=')
+            kwargs[k] = v
+        return f(url, params = params, **kwargs)
+    return g
+
+methods = ['get', 'post', 'put', 'patch', 'delete']
+horetu({method: proxy(getattr(requests, method)) for method in methods})
