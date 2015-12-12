@@ -3,7 +3,7 @@ import argparse
 import pytest
 
 from ..one import one
-
+from ..annotations import annotate
 
 def f(a, b, c = 'xxx'):
     return a + b + c
@@ -20,11 +20,16 @@ def i(x):
     '''
     return x
 
+@annotate(float)
+def j(x):
+    return x
+
 cases = [
     (f, ['1', '2'], '12xxx'),
     (g, ['-p', '8888'], None),
     (h, ['a', 'b', 'd', 'c'], 4),
     (i, ['aoeu'], 'aoeu'),
+    (j, ['8.4'], 8.4),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)

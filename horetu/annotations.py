@@ -41,9 +41,6 @@ def annotate(*types):
             return x + y
     '''
     def decorator(f):
-        @wraps(f)
-        def g(*args, **kwargs):
-            return f(*args, **kwargs)
-        g._types = types
-        return g
+        f._types = types
+        return f
     return decorator
