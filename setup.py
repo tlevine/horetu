@@ -1,10 +1,18 @@
 from distutils.core import setup
 
+backwards_compatibility = []
+
+# This works from Python 2.7 and 3.3 on
 try:
     from inspect import signature
-    ipython = []
 except ImportError:
-    ipython = ['ipython']
+    backwards_compatibility.append('ipython>=4.0.1')
+
+# This is needed to support Python 2.6 and below.
+try:
+    import argparse
+except ImportError:
+    backwards_compatibility.append('argparse>=1.4.0')
 
 setup(name='horetu',
       author='Thomas Levine',
@@ -15,7 +23,7 @@ setup(name='horetu',
       install_requires = [
           'Sphinx>=1.3.1',
           'inflection>=0.3.1',
-      ] + ipython,
+      ] + backwards_compatibility,
       tests_require = [
           'pytest>=2.6.4',
       ],
