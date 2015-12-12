@@ -14,10 +14,17 @@ def g(host = 'blah', port = 'blah'):
 def h(*args):
     return len(args)
 
+def i(x):
+    '''
+    :param x: Something to return
+    '''
+    return x
+
 cases = [
     (f, ['1', '2'], '12xxx'),
     (g, ['-p', '8888'], None),
     (h, ['a', 'b', 'd', 'c'], 4),
+    (i, ['aoeu'], 'aoeu'),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
