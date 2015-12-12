@@ -1,5 +1,11 @@
 from distutils.core import setup
 
+try:
+    from inspect import signature
+    ipython = []
+except ImportError:
+    ipython = ['ipython']
+
 setup(name='horetu',
       author='Thomas Levine',
       author_email='_@thomaslevine.com',
@@ -9,7 +15,7 @@ setup(name='horetu',
       install_requires = [
           'Sphinx>=1.3.1',
           'inflection>=0.3.1',
-      ],
+      ] + ipython,
       tests_require = [
           'pytest>=2.6.4',
       ],
