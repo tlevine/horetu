@@ -1,9 +1,9 @@
 from collections import OrderedDict
 
 try:
-    from inspect import signature as _signature
+    from inspect import signature
 except ImportError:
-    from IPython.utils.signatures import signature as _signature
+    from IPython.utils.signatures import signature
     from IPython.utils.signatures import Parameter
     PY2 = True
 else:
@@ -12,30 +12,25 @@ else:
 
 class AnnotatedParameter(Parameter):
     @classmethod
-    def from_parameter(Class, p):
-        return Class(p.name, p.kind, default = p.default, annotation = p.annotation)
+    def from_parameter(Class, p, annotation = None):
+        if not annotation:
+            annotation = p.annotation
+        return Class(p.name, p.kind, default=p.default, annotation=annotation)
 
-def _annotated_signature(f):
-    s = _signature(f)
-    s.parameters = OrderedDict(s.parameters)
-    for k in s.parameters:
-        s.parameters[k] = AnnotatedParameter.from_parameter(s.parameters[k])
-    return s
-
-def signature(f):
+def params(f):
     if isinstance(f, annotate):
-        s = _annotated_signature(f._function)
-        if len(s.parameters) != len(f._types):
+        ps = list(signature(f._function).parameters.values())
+        if len(ps) != len(f._types):
             raise ValueError('The annotation must have as many types as the function has arguments.')
-        for i, k in enumerate(list(s.parameters)):
-            s.parameters[k].annotation = f._types[i]
+        for i in range(len(ps)):
+            ps[i] = AnnotatedParameter.from_parameter(ps[i], annotation=f._types[i])
     else:
-        s = _annotated_signature(f)
+        ps = list(signature(f).parameters.values())
         if PY2:
-            for k in list(s.parameters):
-                s.parameters[k].annotation = str
+            for i in range(len(ps)):
+                ps[i] = AnnotatedParameter.from_parameter(ps[i], annotation=str)
 
-    return s
+    return ps
 
 class annotate(object):
     '''

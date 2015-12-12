@@ -1,13 +1,13 @@
-from ..annotations import signature, annotate
+from ..annotations import params, annotate
 
 def test_annotations():
     @annotate(str, dict, float, int)
     def f(x, y, a = 3, b = 4):
         pass
-    p = signature(f).parameters
-    assert p['x'].annotation == str
-    assert p['y'].annotation == dict
-    assert p['a'].annotation == float
-    assert p['b'].annotation == int
+    p = params(f)
+    assert p[0].annotation == str
+    assert p[1].annotation == dict
+    assert p[2].annotation == float
+    assert p[3].annotation == int
 
-    assert p['x'].kind == p['x'].POSITIONAL_OR_KEYWORD
+    assert p[0].kind == p[0].POSITIONAL_OR_KEYWORD
