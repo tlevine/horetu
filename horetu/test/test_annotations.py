@@ -1,3 +1,5 @@
+from functools import partial
+
 from ..annotations import params, annotate
 
 def test_annotations():
@@ -15,6 +17,6 @@ def test_annotations():
 def test_annotate():
     @annotate()
     def thingy():
-        pass
+        'blah blah'
     assert thingy.__name__ == 'thingy'
-    
+    assert thingy.__doc__ == 'blah blah'
