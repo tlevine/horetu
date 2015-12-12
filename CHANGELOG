@@ -3,6 +3,7 @@ v0.0.4
 
 * Name ideas
 * Python 2 support (@annotate decorator)
+* Introduce an ipython dependency that should be easy to remove
 
 v0.0.3
 -------
