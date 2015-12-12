@@ -4,12 +4,12 @@ from functools import partial
 import operator
 
 from . import options
-from .annotations import signature
+from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
 def one(parser, f):
-    params = signature(f).parameters.values()
+    params = annotations.params(f)
     helps = dict(options.docs(f))
 
     matches = map(partial(re.match, FLAG), map(options.name_or_flags, params))
