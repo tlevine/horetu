@@ -8,6 +8,11 @@ def d(x):
 
 @annotate(str, int, d)
 def f(x, n = 8, *dates):
+    '''
+    Use @annotate in Python 2.
+
+    :param str x: A label
+    '''
     for date in dates:
         print('%s: %s' % (x, date + datetime.timedelta(hours = n)))
 

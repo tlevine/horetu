@@ -21,11 +21,9 @@ def docs(f):
     if f.__doc__ == None:
         raise StopIteration
     for line in prepare_docstring(f.__doc__):
-        m = re.match(r'^:param ([^:]+ )?([^:]+): (.+)$', line)
+        m = re.match(r'^:param (?:[^:]+ )([^:]+): (.+)$', line)
         if m:
-            k, *v = m.groups()
-            print(v)
-            yield k, v
+            yield m.groups()
 
 def nargs(param):
     if param.kind == param.VAR_POSITIONAL:
