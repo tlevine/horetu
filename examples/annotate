@@ -3,9 +3,14 @@ import datetime
 
 from horetu import annotate, horetu
 
-@annotate(str, int, datetime.datetime.fromtimestamp)
+def d(x):
+    return datetime.datetime.fromtimestamp(int(x))
+
+@annotate(str, int, d)
 def f(x, n = 8, *dates):
+    print(dates)
     for date in dates:
+        print(date)
         print('%s: %s' % (x, date + datetime.timedelta(hours = n)))
 
 horetu(f)

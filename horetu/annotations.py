@@ -1,4 +1,4 @@
-from collections import OrderedDict
+from copy import copy
 from functools import wraps
 
 try:
@@ -19,21 +19,20 @@ class AnnotatedParameter(Parameter):
         return Class(p.name, p.kind, default=p.default, annotation=annotation)
 
 def params(f):
-    if isinstance(f, annotate):
-        ps = list(signature(f._function).parameters.values())
+    ps = list(signature(f).parameters.values())
+    if hasattr(f, '_types'):
         if len(ps) != len(f._types):
             raise ValueError('The annotation must have as many types as the function has arguments.')
         for i in range(len(ps)):
             ps[i] = AnnotatedParameter.from_parameter(ps[i], annotation=f._types[i])
     else:
-        ps = list(signature(f).parameters.values())
         if PY2:
             for i in range(len(ps)):
                 ps[i] = AnnotatedParameter.from_parameter(ps[i], annotation=str)
 
     return ps
 
-class annotate(object):
+def annotate(*types):
     '''
     Annotate a Python 2 function. ::
 
@@ -41,8 +40,10 @@ class annotate(object):
         def f(x, y = 8):
             return x + y
     '''
-    def __init__(self, *types):
-        self._types = types
-    def __call__(self, function):
-        self._function = function
-        return wraps(function)(self)
+    def decorator(f):
+        @wraps(f)
+        def g(*args, **kwargs):
+            return f(*args, **kwargs)
+        g._types = types
+        return g
+    return decorator
