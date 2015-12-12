@@ -1,15 +1,15 @@
 import re
 from collections import Counter
 from functools import partial
-import inspect
 import operator
 
 from . import options
+from .annotations import signature
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
 def one(parser, f):
-    params = inspect.signature(f).parameters.values()
+    params = signature(f).parameters.values()
     helps = dict(options.docs(f))
 
     matches = map(partial(re.match, FLAG), map(options.name_or_flags, params))
