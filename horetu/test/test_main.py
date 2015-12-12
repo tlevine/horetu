@@ -5,7 +5,7 @@ from ..main import horetu
 def test_flat():
     def f():
         return 8
-    assert horetu(f, name = None, description = None, _args = []) == 8
+    assert horetu(f, name = None, description = None, args = []) == 8
 
 nest = [
     (['f1', '8', '2', '9'], 1),
@@ -21,7 +21,7 @@ def test_nested(args, expected):
     def f3():
         return 2
     fs = {'f1': f1, 'f2': f2, 'f3': f3}
-    observed = horetu(fs, _args = args, name = 'do-something')
+    observed = horetu(fs, args = args, name = 'do-something')
     assert observed == expected
 
 triple_nest = [
@@ -38,14 +38,14 @@ def test_triple_nested(args, expected):
     def command3():
         return 2
     commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}, 'zz': lambda: 8}
-    observed = horetu(commands, _args = args, name = 'do-something')
+    observed = horetu(commands, args = args, name = 'do-something')
     assert observed == expected
 
 def test_version():
     def main():
         pass
     try:
-        horetu(main, _args = ['--version'], version = 'blah')
+        horetu(main, args = ['--version'], version = 'blah')
     except SystemExit as e:
         assert e.args[0] == 0
     else:
@@ -55,10 +55,10 @@ def test_choices():
     def main(output_format: ('groff', 'RUNOFF')):
         assert output_format == 'RUNOFF'
 
-    horetu(main, _args = ['RUNOFF'])
+    horetu(main, args = ['RUNOFF'])
 
     try:
-        horetu(main, _args = ['troff'])
+        horetu(main, args = ['troff'])
     except SystemExit as e:
         assert e.args[0] == 2
     else:
@@ -67,9 +67,9 @@ def test_choices():
 def test_annotate_list():
     def f(colors: list = ['pink']):
         assert colors == ['pink', 'green']
-    horetu(f, _args = ['--color', 'green'])
+    horetu(f, args = ['--color', 'green'])
 
 def test_hyphen():
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu(main, _args = ['toilets.csv', '-s', 'abc', '-n' '2'])
+    horetu(main, args = ['toilets.csv', '-s', 'abc', '-n' '2'])

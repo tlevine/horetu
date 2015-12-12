@@ -51,5 +51,5 @@ def test_nest():
     assert g['x'](args) == -5
 
 #   commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
-#   observed = horetu(commands, _args = args, name = 'do-something')
+#   observed = horetu(commands, args = args, name = 'do-something')
 #   assert observed == expected

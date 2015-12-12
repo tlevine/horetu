@@ -8,9 +8,7 @@ def d(x):
 
 @annotate(str, int, d)
 def f(x, n = 8, *dates):
-    print(dates)
     for date in dates:
-        print(date)
         print('%s: %s' % (x, date + datetime.timedelta(hours = n)))
 
-horetu(f)
+horetu(f, ['Thing', '1449881977', '1449882806'])

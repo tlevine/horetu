@@ -74,7 +74,7 @@ Also, underscores are replaced with hyphens.
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu.horetu(main, _args = ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
+    horetu.horetu(main, ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
 
 horetu tries to turn long keyword arguments are also turned into
 one-hyphen flags too, using the first letter as the flag.
@@ -84,7 +84,7 @@ It does this only when all keyword arguments have different first letters.
 
     def main(some_file, some_password = None, n = 8):
         pass
-    horetu.horetu(main, _args = ['toilets.csv', '-s', 'abc', '-n' '2'])
+    horetu.horetu(main, ['toilets.csv', '-s', 'abc', '-n' '2'])
 
 Default arguments
 ^^^^^^^^^^^^^^^^^^^
@@ -102,7 +102,7 @@ requires one "X", one "Y", and optionally, one "Z".
 
     def f(x, y, z = 'elephant'):
         pass
-    horetu.horetu(f, _args = ['one', 'two', '-z', 'three'])
+    horetu.horetu(f, ['one', 'two', '-z', 'three'])
 
 In some cases horetu accepts several shell arguments and turns them into a list.
 One such situation is var-positional arguments, which take zero or more values;
@@ -112,8 +112,8 @@ the following interface takes exactly one "A" and zero or more "B".
 
     def f(a, *b): # **
         pass
-    horetu.horetu(f, _args = ['one'])
-    horetu.horetu(f, _args = ['one', 'two', 'three'])
+    horetu.horetu(f, ['one'])
+    horetu.horetu(f, ['one', 'two', 'three'])
 
 The other situation is keyword arguments annotated with type :py:class:`list`.
 
@@ -121,8 +121,8 @@ The other situation is keyword arguments annotated with type :py:class:`list`.
 
     def f(color: list = None):
         pass
-    horetu.horetu(f, _args = [])
-    horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
+    horetu.horetu(f, [])
+    horetu.horetu(f, ['--color', 'pink', '--color', 'cyan'])
 
 This interface takes as many colors as you want and interprets them as a
 list. If you pass no colors, the value ``None`` is passed as ``colors``.
@@ -135,7 +135,7 @@ So we can switch the argument name from ``color`` to ``colors``.
 
     def f(colors: list = None):
         pass
-    horetu.horetu(f, _args = ['--color', 'pink', '--color', 'cyan'])
+    horetu.horetu(f, ['--color', 'pink', '--color', 'cyan'])
 
 Annoyingly, because of how horetu is implemented with :py:mod:`argparse`,
 if the default argument is a list, it is extended, rather than replaced,
@@ -145,7 +145,7 @@ with the new arguments.
 
     def f(colors: list = ['pink']):
         print(colors)
-    horetu.horetu(f, _args = ['--color', 'green'])
+    horetu.horetu(f, ['--color', 'green'])
 
 .. testoutput::
 
@@ -172,13 +172,13 @@ parameter. For example, this succeeds,
             'web': web,
             'level': level,
         }[output_format](destination)
-    horetu.horetu(scrape, _args = ['level', '/blah'])
+    horetu.horetu(scrape, ['level', '/blah'])
 
 and this fails.
 
 ::
 
-    horetu.horetu(scrape, _args = ['not-a-choice', '/blah'])
+    horetu.horetu(scrape, ['not-a-choice', '/blah'])
 
 Argument type
 ^^^^^^^^^^^^^^^^
@@ -191,7 +191,7 @@ error message if the parse fails.
 
     def main(n: int, infile: argparse.FileType('rb')):
         pass
-    horetu.horetu(main, _args = ['not-a-number'])
+    horetu.horetu(main, ['not-a-number'])
 
 Boolean flags
 ^^^^^^^^^^^^^^^^
@@ -203,7 +203,7 @@ be opposite the default.
 
     def main(force = False):
         pass
-    horetu.horetu(main, _args = ['--force'])
+    horetu.horetu(main, ['--force'])
 
 Counting
 ^^^^^^^^^^^^^
@@ -214,8 +214,8 @@ the argument appears. The number of flags is added to the default value.
 
     def main(verbose: horetu.COUNT = 1):
         pass
-    horetu.horetu(main, _args = []) # verbose = 1
-    horetu.horetu(main, _args = ['-v', '-v']) # verbose = 3
+    horetu.horetu(main, []) # verbose = 1
+    horetu.horetu(main, ['-v', '-v']) # verbose = 3
 
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^

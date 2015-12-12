@@ -6,17 +6,17 @@ from . import options
 from .sub import nest
 from .one import one
 
-def horetu(f, name = None, description = None,
-           version = None,
-           subcommand_dest = '_subcommand', _args = None):
+def horetu(f, args = None,
+           name = None, description = None, version = None,
+           subcommand_dest = '_subcommand'):
     '''
     :type f: Callable or dict
     :param f: The callable to produce the argument parser too,
         or a dict of (dicts of...) str to callable to make subparsers.
+    :param list args: Pass argv here for testing; use the actual argv by default.
     :param str name: Name of the program (``$0``)
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
-    :param list _args: Pass argv here for testing; use the actual argv by default.
     '''
     if hasattr(f, '__call__'):
         if name == None:
@@ -54,4 +54,4 @@ def horetu(f, name = None, description = None,
             return g(args)
         main = partial(_main, routes)
 
-    return main(p.parse_args(_args))
+    return main(p.parse_args(args))
