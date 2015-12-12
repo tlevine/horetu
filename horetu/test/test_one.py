@@ -11,9 +11,13 @@ def f(a, b, c = 'xxx'):
 def g(host = 'blah', port = 'blah'):
     pass
 
+def h(*args):
+    return len(args)
+
 cases = [
     (f, ['1', '2'], '12xxx'),
     (g, ['-p', '8888'], None),
+    (h, ['a', 'b', 'd', 'c'], 4),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
