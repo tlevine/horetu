@@ -18,7 +18,7 @@ def one(parser, f):
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:
-            raise ValueError('Variable keyword args (**kwargs) are not allowed.')
+            raise ValueError('Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
         name_or_flag = options.name_or_flags(param)
         m = re.match(FLAG, name_or_flag)
         if m and single_character_flags[m.group(1)] == 1:
