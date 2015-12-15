@@ -42,22 +42,23 @@ def argtype(param):
     else:
         return param.annotation
 
-def _name_or_flags(param):
-    name = param.name.replace('_', '-')
-    if param.default == param.empty:
-        return param.name
-    elif len(name) == 1:
-        return '-' + name
-    else:
-        return '--' + name
-
-def name_or_flags(param):
-    try:
-        if issubclass(param.annotation, (list, COUNT)):
-            return singularize(_name_or_flags(param))
-    except TypeError:
-        pass
-    return _name_or_flags(param)
+def name_or_flags(params):
+    def name_or_flag(param):
+        def _name_or_flag(p):
+            name = p.name.replace('_', '-')
+            if p.default == p.empty:
+                return p.name
+            elif len(name) == 1:
+                return '-' + name
+            else:
+                return '--' + name
+        try:
+            if issubclass(param.annotation, (list, COUNT)):
+                return singularize(_name_or_flag(param))
+        except TypeError:
+            pass
+        return _name_or_flag(param)
+    return name_or_flag
 
 def dest(param):
     return param.name
