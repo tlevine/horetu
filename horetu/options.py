@@ -7,7 +7,10 @@ class COUNT(object):
     pass
 
 class OPTIONAL(object):
-    pass
+    def __init__(self, function = str):
+        self.function = function
+    def __call__(self, x):
+        return self.function(x)
 
 def description(f):
     if f.__doc__ == None:

@@ -219,13 +219,52 @@ the argument appears. The number of flags is added to the default value.
 
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^
-Annotate a positional argument with :py:data:`horetu.OPTIONAL` to make it
+There are two ways to make a positional argument optional.
+The first one works only in Python 3.
+
+.. testcode::
+
+    import sys
+    def main(start = 0, stop = 1000, *, output = sys.stdout): #*
+        pass
+
+``start`` and ``stop`` become positional arguments with the defaults
+of 0 and 1000, respectively. In Python, ``*`` tells us that the following
+keyword arguments must be addressed as keyword arguments, not as positional
+arguments. ``output`` becomes the flag ``--output/-o``.
+
+If you're on Python 2, or if you just want to use the other interface, you can
+annotate a positional argument with :py:data:`horetu.OPTIONAL` to make it
 optional; if that argument isn't passed in the command line we will use
 ``None`` as its value.
 
 .. testcode::
 
-    def main(infile: horetu.OPTIONAL, *outfiles):
+    @horetu.annotate(horetu.OPTIONAL, str)
+    def main(infile: horetu.OPTIONAL, *outfiles): #*
+        pass
+
+You can, of course, use the Python 3 annotation syntax as well.
+
+.. testcode::
+
+    def main(infile: horetu.OPTIONAL, *outfiles): #*
+        pass
+
+If you want something to be optional but of a different type, you can do this.
+
+.. testcode::
+
+    @horetu.annotate(int, horetu.OPTIONAL(int))
+    def main(start, stop):
+        pass
+
+And if you want to set a default, pass it as the second argument to ``OPTIONAL``.
+
+.. testcode::
+
+    @horetu.annotate(int, horetu.OPTIONAL(int, 888))
+    def main(start, stop):
         pass
 
 Final note on settings
