@@ -11,7 +11,8 @@ FLAG = re.compile(r'^-?(-[^-]).*')
 def one(parser, f):
     params = annotations.params(f)
     helps = dict(options.docs(f))
-    get_name_or_flag = options.name_or_flags(params)
+    has_keyword_only = options.has_keyword_only(params)
+    get_name_or_flag = partial(options.name_or_flag, has_keyword_only)
 
     matches = map(partial(re.match, FLAG), map(get_name_or_flag, params))
     single_character_flags = Counter(m.group(1) for m in matches if m)
@@ -26,7 +27,7 @@ def one(parser, f):
             args = (name_or_flag, m.group(1))
         else:
             args = name_or_flag,
-        kwargs = dict(nargs = options.nargs(param),
+        kwargs = dict(nargs = options.nargs(has_keyword_only, param),
                       action = options.action(param),
                       dest = options.dest(param),
                       type = options.argtype(param),

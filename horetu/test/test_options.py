@@ -1,3 +1,4 @@
+from functools i mport partial
 from inspect import Parameter, signature
 
 from .. import options
@@ -8,8 +9,8 @@ def test_docs():
 def test_description():
     assert options.description(lambda:8) == ''
 
-def test_name_or_flags():
-    f = options.name_or_flags([])
+def test_name_or_flag():
+    f = partial(options.name_or_flag, False)
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
     assert f(param) == 'input_file'
@@ -39,9 +40,9 @@ def test_nargs():
     def f(x, y: options.OPTIONAL, *z):
         pass
     params = signature(f).parameters
-    assert options.nargs(params['x']) == None
-    assert options.nargs(params['y']) == '?'
-    assert options.nargs(params['z']) == '*'
+    assert options.nargs(False, params['x']) == None
+    assert options.nargs(False, params['y']) == '?'
+    assert options.nargs(False, params['z']) == '*'
 
 def test_bool():
     def f(force = False, waaa = True):

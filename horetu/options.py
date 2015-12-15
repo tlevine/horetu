@@ -29,10 +29,12 @@ def docs(f):
         if m:
             yield m.groups()
 
-def nargs(param):
+def nargs(has_keyword_only, param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
     elif param.annotation == OPTIONAL:
+        return '?'
+    elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
         return '?'
 
 def argchoices(param):
@@ -46,24 +48,24 @@ def argtype(param):
     else:
         return param.annotation
 
-def name_or_flags(params):
-    has_keyword_only = len(params) and params[-1].kind == params[-1].KEYWORD_ONLY
-    def name_or_flag(param):
-        def _name_or_flag(p):
-            name = p.name.replace('_', '-')
-            if p.default == p.empty or (has_keyword_only and p.kind == p.POSITIONAL_OR_KEYWORD):
-                return p.name
-            elif len(name) == 1:
-                return '-' + name
-            else:
-                return '--' + name
-        try:
-            if issubclass(param.annotation, (list, COUNT)):
-                return singularize(_name_or_flag(param))
-        except TypeError:
-            pass
-        return _name_or_flag(param)
-    return name_or_flag
+def name_or_flag(has_keyword_only, param):
+    def _name_or_flag(p):
+        name = p.name.replace('_', '-')
+        if p.default == p.empty or (has_keyword_only and p.kind == p.POSITIONAL_OR_KEYWORD):
+            return p.name
+        elif len(name) == 1:
+            return '-' + name
+        else:
+            return '--' + name
+    try:
+        if issubclass(param.annotation, (list, COUNT)):
+            return singularize(_name_or_flag(param))
+    except TypeError:
+        pass
+    return _name_or_flag(param)
+
+def has_keyword_only(params):
+    return len(params) and params[-1].kind == params[-1].KEYWORD_ONLY
 
 def dest(param):
     return param.name
