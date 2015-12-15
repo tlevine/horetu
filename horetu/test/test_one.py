@@ -24,12 +24,16 @@ def i(x):
 def j(x):
     return x
 
+def k(a, b = None, *, c = 8, d = 4):
+    return a, b
+
 cases = [
     (f, ['1', '2'], '12xxx'),
     (g, ['-p', '8888'], None),
     (h, ['a', 'b', 'd', 'c'], 4),
     (i, ['aoeu'], 'aoeu'),
     (j, ['8.4'], 8.4),
+    (k, ['aoeu'], ('aoeu', None)),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
