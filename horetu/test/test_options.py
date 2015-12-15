@@ -25,7 +25,7 @@ def test_name_or_flags():
     def f(a, b = 8, *, d = 4):
         pass
     params = signature(f).parameters
-    assert options.name_or_flags(params)(params['b']) == 'b'
+    assert options.name_or_flags(list(params.values()))(params['b']) == 'b'
 
 def test_action():
     def f(x, y: list = None, z: options.COUNT = 2):

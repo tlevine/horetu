@@ -43,10 +43,11 @@ def argtype(param):
         return param.annotation
 
 def name_or_flags(params):
+    has_keyword_only = len(params) and params[-1].kind == params[-1].KEYWORD_ONLY
     def name_or_flag(param):
         def _name_or_flag(p):
             name = p.name.replace('_', '-')
-            if p.default == p.empty:
+            if p.default == p.empty or (has_keyword_only and p.kind == p.POSITIONAL_OR_KEYWORD):
                 return p.name
             elif len(name) == 1:
                 return '-' + name
