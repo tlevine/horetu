@@ -11,15 +11,15 @@ FLAG = re.compile(r'^-?(-[^-]).*')
 def one(parser, f):
     params = annotations.params(f)
     helps = dict(options.docs(f))
+    names = options.name_or_flags(params)
 
-    matches = map(partial(re.match, FLAG), map(options.name_or_flags, params))
+    matches = map(partial(re.match, FLAG), names)
     single_character_flags = Counter(m.group(1) for m in matches if m)
     single_character_flags['-h'] += 1
 
-    for i, param in enumerate(params):
+    for (i, (param, name_or_flag)) in enumerate(zip(params, names)):
         if param.kind == param.VAR_KEYWORD:
             raise ValueError('Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
-        name_or_flag = options.name_or_flags(param)
         m = re.match(FLAG, name_or_flag)
         if m and single_character_flags[m.group(1)] == 1:
             name_or_flags = (name_or_flag, m.group(1))
@@ -38,7 +38,7 @@ def one(parser, f):
             del(kwargs['nargs'])
         if not name_or_flag.startswith('-'):
             del(kwargs['dest'])
-        parser.add_argument(*name_or_flags, **kwargs)
+        parser.add_argument(*name_or_flag, **kwargs)
 
     def g(parsed_args):
         args = [getattr(parsed_args, attr) for attr in _get_args(False, params)]

@@ -42,22 +42,33 @@ def argtype(param):
     else:
         return param.annotation
 
-def _name_or_flags(param):
+def _name_or_flag(param, keyword):
     name = param.name.replace('_', '-')
-    if param.default == param.empty:
+    if param.default == param.empty or (keyword and param.kind == param.POSITIONAL_OR_KEYWORD):
         return param.name
     elif len(name) == 1:
         return '-' + name
     else:
         return '--' + name
 
-def name_or_flags(param):
+def has_keyword_only(params):
     try:
-        if issubclass(param.annotation, (list, COUNT)):
-            return singularize(_name_or_flags(param))
-    except TypeError:
-        pass
-    return _name_or_flags(param)
+        p = next(reversed(params))
+    except StopIteration:
+        return False
+    else:
+        return p.kind == p.KEYWORD_ONLY
+
+def name_or_flags(params):
+    k = has_keyword_only(params)
+    for param in params:
+        try:
+            if issubclass(param.annotation, (list, COUNT)):
+                yield singularize(_name_or_flag(param, k))
+                continue
+        except TypeError:
+            pass
+        yield _name_or_flag(param, k)
 
 def dest(param):
     return param.name
