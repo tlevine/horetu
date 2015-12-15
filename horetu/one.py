@@ -43,17 +43,20 @@ def one(parser, f):
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        args = [getattr(parsed_args, attr) for attr in _get_args(False, params)]
+        args = [getattr(parsed_args, attr) for attr in _get_args(False, has_keyword_only, params)]
         for param in params:
             if param.kind == param.VAR_POSITIONAL:
                 args.extend(getattr(parsed_args, param.name))
-        kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, params)}
+        kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, has_keyword_only, params)}
         return f(*args, **kwargs)
     return g
 
-def _get_args(keyword, params):
-    if keyword:
-        comparator = operator.eq
+def _get_args(kwargs, has_keyword_only, params):
+    if kwargs:
+        comparator = lambda a, b: a in b
     else:
-        comparator = operator.ne
-    return [param.name for param in params if comparator(param.kind, param.VAR_KEYWORD) and param.kind != param.VAR_POSITIONAL]
+        comparator = lambda a, b: a not in b
+    kinds = {'VAR_POSITIONAL'}
+    if has_keyword_only:
+        kinds.add('KEYWORD_ONLY')
+    return [param.name for param in params if comparator(param.kind, set(getattr(param, kind) for kind in kinds))]
