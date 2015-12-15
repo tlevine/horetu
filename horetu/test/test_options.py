@@ -22,6 +22,11 @@ def test_name_or_flags():
                       default = 3)
     assert f(param) == '-n'
 
+    def f(a, b = 8, *, d = 4):
+        pass
+    params = signature(f).parameters
+    assert options.name_or_flags(params)(params['b']) == 'b'
+
 def test_action():
     def f(x, y: list = None, z: options.COUNT = 2):
         pass
