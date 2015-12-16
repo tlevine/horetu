@@ -6,7 +6,7 @@ from inflection import singularize
 class Count(object):
     pass
 
-class Optional(object):
+class Option(object):
     def __init__(self, function = str, default = None):
         self.function = function
         self.default = None
@@ -35,7 +35,7 @@ def docs(f):
 def nargs(has_keyword_only, param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
-    elif param.annotation == Optional:
+    elif param.annotation == Option:
         return '?'
     elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
         return '?'

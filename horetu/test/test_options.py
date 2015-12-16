@@ -29,7 +29,7 @@ def test_name_or_flag():
     assert options.name_or_flag(True, params['b']) == 'b'
 
 def test_action():
-    def f(x, y: list = None, z: options.COUNT = 2):
+    def f(x, y: list = None, z: options.Count = 2):
         pass
     params = signature(f).parameters
     assert options.action(params['x']) == 'store'
@@ -37,7 +37,7 @@ def test_action():
     assert options.action(params['z']) == 'count'
 
 def test_nargs():
-    def f(x, y: options.Optional, *z):
+    def f(x, y: options.Option, *z):
         pass
     params = signature(f).parameters
     assert options.nargs(False, params['x']) == None
