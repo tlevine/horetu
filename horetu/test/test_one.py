@@ -28,7 +28,7 @@ def j(x):
 def k(a, b = None, *, c = 8, d = 4):
     return a, b
 
-def i(a, b = None, *_blah: Ignore, c = 8, d = 4):
+def l(a, b = None, *_blah: Ignore, c = 8, d = 4):
     return a, b
 
 cases = [
@@ -38,7 +38,7 @@ cases = [
     (i, ['aoeu'], 'aoeu'),
     (j, ['8.4'], 8.4),
     (k, ['aoeu'], ('aoeu', None)),
-    (i, ['aoeu'], ('aoeu', None)),
+    (l, ['aoeu'], ('aoeu', None)),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
