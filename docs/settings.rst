@@ -234,36 +234,36 @@ keyword arguments must be addressed as keyword arguments, not as positional
 arguments. ``output`` becomes the flag ``--output/-o``.
 
 If you're on Python 2, or if you just want to use the other interface, you can
-annotate a positional argument with :py:data:`horetu.OPTIONAL` to make it
+annotate a positional argument with :py:data:`horetu.Optional` to make it
 optional; if that argument isn't passed in the command line we will use
 ``None`` as its value.
 
 .. testcode::
 
-    @horetu.annotate(horetu.OPTIONAL, str)
-    def main(infile: horetu.OPTIONAL, *outfiles): #*
+    @horetu.annotate(horetu.Optional, str)
+    def main(infile: horetu.Optional, *outfiles): #*
         pass
 
 You can, of course, use the Python 3 annotation syntax as well.
 
 .. testcode::
 
-    def main(infile: horetu.OPTIONAL, *outfiles): #*
+    def main(infile: horetu.Optional, *outfiles): #*
         pass
 
 If you want something to be optional but of a different type, you can do this.
 
 .. testcode::
 
-    @horetu.annotate(int, horetu.OPTIONAL(int))
+    @horetu.annotate(int, horetu.Optional(int))
     def main(start, stop):
         pass
 
-And if you want to set a default, pass it as the second argument to ``OPTIONAL``.
+And if you want to set a default, pass it as the second argument to ``Optional``.
 
 .. testcode::
 
-    @horetu.annotate(int, horetu.OPTIONAL(int, 888))
+    @horetu.annotate(int, horetu.Optional(int, 888))
     def main(start, stop):
         pass
 

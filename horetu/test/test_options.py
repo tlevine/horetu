@@ -37,7 +37,7 @@ def test_action():
     assert options.action(params['z']) == 'count'
 
 def test_nargs():
-    def f(x, y: options.OPTIONAL, *z):
+    def f(x, y: options.Optional, *z):
         pass
     params = signature(f).parameters
     assert options.nargs(False, params['x']) == None

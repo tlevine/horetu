@@ -3,10 +3,10 @@ import re
 from sphinx.util.docstrings import prepare_docstring
 from inflection import singularize
 
-class COUNT(object):
+class Count(object):
     pass
 
-class OPTIONAL(object):
+class Optional(object):
     def __init__(self, function = str, default = None):
         self.function = function
         self.default = None
@@ -35,7 +35,7 @@ def docs(f):
 def nargs(has_keyword_only, param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
-    elif param.annotation == OPTIONAL:
+    elif param.annotation == Optional:
         return '?'
     elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
         return '?'
@@ -61,7 +61,7 @@ def name_or_flag(has_keyword_only, param):
         else:
             return '--' + name
     try:
-        if issubclass(param.annotation, (list, COUNT)):
+        if issubclass(param.annotation, (list, Count)):
             return singularize(_name_or_flag(param))
     except TypeError:
         pass
@@ -82,6 +82,6 @@ def action(param):
     if isinstance(param.default, bool) and param.default in BOOL_ACTIONS:
         return BOOL_ACTIONS[param.default]
     return {
-        COUNT: 'count',
+        Count: 'count',
         list: 'append',
     }.get(param.annotation, 'store')

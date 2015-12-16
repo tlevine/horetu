@@ -28,7 +28,7 @@ def j(x):
 def k(a, b = None, *, c = 8, d = 4):
     return a, b
 
-def i(a, b = None, *_blah: IGNORE, c = 8, d = 4):
+def i(a, b = None, *_blah: Ignore, c = 8, d = 4):
     return a, b
 
 cases = [
