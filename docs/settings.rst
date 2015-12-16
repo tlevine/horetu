@@ -287,7 +287,7 @@ And if you want to set a default, pass it as the second argument to ``Optional``
 
 Final note on settings
 -----------------------
-You should think of horetu as a means of converting your Python function to a
+I prefer to think of horetu as a means of converting a Python function to a
 shell interface rather than a means of creating a particular shell interface in
 Python. Express your function cleanly and clearly in Python, and horetu will
 make you a nice shell interface.
