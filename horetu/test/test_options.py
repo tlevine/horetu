@@ -1,4 +1,4 @@
-from functools i mport partial
+from functools import partial
 from inspect import Parameter, signature
 
 from .. import options
@@ -26,7 +26,7 @@ def test_name_or_flag():
     def f(a, b = 8, *, d = 4):
         pass
     params = signature(f).parameters
-    assert options.name_or_flags(list(params.values()))(params['b']) == 'b'
+    assert options.name_or_flag(list(params.values()))(params['b']) == 'b'
 
 def test_action():
     def f(x, y: list = None, z: options.COUNT = 2):
