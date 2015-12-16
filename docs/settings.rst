@@ -219,8 +219,8 @@ the argument appears. The number of flags is added to the default value.
 
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^
-There are two ways to make a positional argument optional.
-The first one works only in Python 3.
+There are two (three?) ways to make a positional argument optional.
+I prefer this method, but it only works in Python 3.
 
 .. testcode::
 
@@ -232,6 +232,24 @@ The first one works only in Python 3.
 of 0 and 1000, respectively. In Python, ``*`` tells us that the following
 keyword arguments must be addressed as keyword arguments, not as positional
 arguments. ``output`` becomes the flag ``--output/-o``.
+
+Python 2 does not have built-in ignoring of variable positional arguments,
+so you have to name the variable positional argument. Since this would
+otherwise create an entry in the command-line interface, annotate that
+argument with :py:data:`horetu.Ignore`.
+
+.. testcode::
+
+    import sys
+    @annotate(int, int, horetu.Ignore)
+    def main(start = 0, stop = 1000, *_ignore): #*
+        pass
+
+Unfortunately, Python 2 does not support keyword-only arguments (:pep:`3102`)
+either, so the only way to create the above ``output`` keyword argument would
+be with a variable keyword argument (:pep:`0362#parameter-object`), which
+horetu presently does not support. Also, Python 2 doesn't have function
+annotations, so you would really need to do this.
 
 If you're on Python 2, or if you just want to use the other interface, you can
 annotate a positional argument with :py:data:`horetu.Optional` to make it
