@@ -4,6 +4,7 @@ import pytest
 
 from ..one import one
 from ..annotations import annotate
+from ..options import Ignore
 
 def f(a, b, c = 'xxx'):
     return a + b + c
@@ -27,6 +28,9 @@ def j(x):
 def k(a, b = None, *, c = 8, d = 4):
     return a, b
 
+def i(a, b = None, *_blah: IGNORE, c = 8, d = 4):
+    return a, b
+
 cases = [
     (f, ['1', '2'], '12xxx'),
     (g, ['-p', '8888'], None),
@@ -34,6 +38,7 @@ cases = [
     (i, ['aoeu'], 'aoeu'),
     (j, ['8.4'], 8.4),
     (k, ['aoeu'], ('aoeu', None)),
+    (i, ['aoeu'], ('aoeu', None)),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)

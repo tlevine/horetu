@@ -6,12 +6,8 @@ from inflection import singularize
 class COUNT(object):
     pass
 
-class OPTIONAL(object):
-    def __init__(self, function = str, default = None):
-        self.function = function
-        self.default = None
-    def __call__(self, x):
-        return self.function(x)
+class Ignore(object):
+    pass
 
 def description(f):
     if f.__doc__ == None:
