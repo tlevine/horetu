@@ -43,15 +43,11 @@ def one(parser, f):
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        print(has_keyword_only)
-        print(params)
-        print(parsed_args)
         args = [getattr(parsed_args, attr) for attr in _get_args(False, has_keyword_only, params)]
         for param in params:
             if param.kind == param.VAR_POSITIONAL:
                 args.extend(getattr(parsed_args, param.name))
         kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, has_keyword_only, params)}
-        print(args, kwargs)
         return f(*args, **kwargs)
     return g
 
