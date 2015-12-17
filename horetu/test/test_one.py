@@ -9,8 +9,8 @@ from ..options import Ignore
 def f(a, b, c = 'xxx'):
     return a + b + c
 
-def g(host = 'blah', port = 'blah'):
-    pass
+def g(host = 'blah', port: int = 'blah'):
+    return host, port
 
 def h(*args):
     return len(args)
@@ -31,14 +31,25 @@ def k(a, b = None, *, c = 8, d = 4):
 def l(a, b = None, *_blah: Ignore, c = 8, d = 4):
     return a, b
 
+def Folder(x):
+    if x.startswith('+'):
+        return x[1:]
+    else:
+        raise ValueError('Folders must start with "+".')
+
+def optional_with_types(folder: Folder = None, msg: str = None, *_ignore: Ignore):
+    return folder, msg
+
 cases = [
     (f, ['1', '2'], '12xxx'),
-    (g, ['-p', '8888'], None),
+    (g, ['-p', '8888'], ('blah', 8888)),
     (h, ['a', 'b', 'd', 'c'], 4),
     (i, ['aoeu'], 'aoeu'),
     (j, ['8.4'], 8.4),
     (k, ['aoeu'], ('aoeu', None)),
     (l, ['aoeu'], ('aoeu', None)),
+#   (optional_with_types, ['+INBOX', 'blah@blah.blah'], ('INBOX', 'blah@blah.blah')),
+#   (optional_with_types, ['blah@blah.blah'], (None, 'blah@blah.blah')),
 ]
 
 @pytest.mark.parametrize('function, argv, result', cases)
