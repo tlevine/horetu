@@ -20,6 +20,7 @@ from inflection import singularize
 # * https://pypi.python.org/pypi/sphinxcontrib-napoleon/
 # * http://sphinx-doc.org/latest/extdev/index.html#dev-extensions
 # * autodoc-process-docstring event handler
+# * docutils-0.12/docutils/core.py
 
 class Count(object):
     pass
