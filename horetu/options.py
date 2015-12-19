@@ -21,6 +21,9 @@ from inflection import singularize
 # * http://sphinx-doc.org/latest/extdev/index.html#dev-extensions
 # * autodoc-process-docstring event handler
 # * docutils-0.12/docutils/core.py
+# * fields, field lists
+#   * https://www.python.org/dev/peps/pep-0287/#docstring-significant-features
+#   * http://www.faqs.org/rfcs/rfc2822.html
 
 class Count(object):
     pass
