@@ -3,6 +3,18 @@ import re
 from sphinx.util.docstrings import prepare_docstring
 from inflection import singularize
 
+# TODO
+# * inspect.getdoc
+# * inspect.getmodule
+# * _build_class__ to register class; set builtins.__build_class__ = f
+# * importlib.import_module for docstring
+# * garbage collector for types in memory gc.getobjects find types with a name
+# * namespace for a function
+# * parse the sphinx stuff XXX
+# * What about things that don't accept string type?
+#   * Nice error message for types that don't accept string in the constructor
+# * signature for python 2
+
 class Count(object):
     pass
 
