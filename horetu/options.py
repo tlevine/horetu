@@ -19,6 +19,7 @@ from inflection import singularize
 # * The regexes at the top
 # * https://pypi.python.org/pypi/sphinxcontrib-napoleon/
 # * http://sphinx-doc.org/latest/extdev/index.html#dev-extensions
+# * autodoc-process-docstring event handler
 
 class Count(object):
     pass
