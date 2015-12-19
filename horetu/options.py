@@ -24,6 +24,7 @@ from inflection import singularize
 # * fields, field lists
 #   * https://www.python.org/dev/peps/pep-0287/#docstring-significant-features
 #   * http://www.faqs.org/rfcs/rfc2822.html
+# * /usr/local/lib/python3.5/site-packages/sphinx/domains/python.py
 
 class Count(object):
     pass
