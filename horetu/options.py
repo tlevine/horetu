@@ -14,6 +14,11 @@ from inflection import singularize
 # * What about things that don't accept string type?
 #   * Nice error message for types that don't accept string in the constructor
 # * signature for python 2
+# /usr/local/lib/python3.5/site-packages/sphinx/ext/napoleon/docstring.py
+# * WhateverDocString.lines
+# * The regexes at the top
+# * https://pypi.python.org/pypi/sphinxcontrib-napoleon/
+# * http://sphinx-doc.org/latest/extdev/index.html#dev-extensions
 
 class Count(object):
     pass
