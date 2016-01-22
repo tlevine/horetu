@@ -38,11 +38,17 @@ def one(configuration_file, configuration_section,
             args = (name_or_flag, m.group(1))
         else:
             args = name_or_flag,
-        default = defaults.get(name_or_flag.lstrip('-'), options.default(param))
+
+        argtype = options.argtype(param)
+        config_file_arg_name = name_or_flag.lstrip('-')
+        if config_file_arg_name in defaults:
+            default = argtype(defaults[config_file_arg_name])
+        else:
+            default = options.default(param)
         kwargs = dict(nargs = options.nargs(has_keyword_only, param),
                       action = options.action(param),
                       dest = options.dest(param),
-                      type = options.argtype(param),
+                      type = argtype,
                       choices = options.argchoices(param),
                       help = helps.get(param.name, ''),
                       default = default)

@@ -4,7 +4,7 @@ import pytest
 
 from .. import horetu
 
-def simple(a = 0, aoeu = 8, bloeu = 3):
+def simple(a:int = 0, aoeu:int = 8, bloeu:int = 3):
     return a + bloeu
 
 cases = [
