@@ -13,8 +13,8 @@ You can set configurations either as command-line flags, as documented
 above, or as options in the file %(file)s
 under the %(section)s section, like so.
 
-    [%(section)s]
-    foo = bar
+  [%(section)s]
+  foo = bar
 
 Options names are the long form of the flags; "--foo" becomes "foo",
 and "-f" becomes "f" only if "-f" has no long form.
@@ -25,12 +25,12 @@ You can set configurations either as command-line flags, as documented
 above, or as options in the file %(file)s
 under the following sections.
 
-    [%(sections)s]
+  [%(sections)s]
 
 It might look like this, for example.
 
-    [%(first-section)s]
-    foo = bar
+  [%(first-section)s]
+  foo = bar
 
 Options names are the long form of the flags; "--foo" becomes "foo",
 and "-f" becomes "f" only if "-f" has no long form.
