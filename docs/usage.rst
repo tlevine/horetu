@@ -9,20 +9,21 @@ Consider the following Python program, called ``do_something.py``.
 
 .. testcode::
     
-    #!/usr/bin/env python
-    from horetu import horetu
-    def something(input_file, output_file, n_cores: int = 3):
-        '''
-        Do something to a file with several cores.
-        '''
-        # Pretend that something happens here.
-    horetu(something)
+  #!/usr/bin/env python3
+  from horetu import horetu
+
+  def something(input_file, output_file, n_cores: int = 3):
+      '''
+      Do something to a file with several cores.
+      '''
+      # Pretend that something happens here.
+  horetu(something)
 
 Run it with the help flag; this is the result.
 
 ::
 
-    $ do_something.py --help
+    $ ./do_something.py --help
     usage: something [-h] [--n-cores N_CORES] input_file output_file
 
     Do something to a file with several cores.
@@ -34,6 +35,16 @@ Run it with the help flag; this is the result.
     optional arguments:
       -h, --help            show this help message and exit
       --n-cores N_CORES, -n N_CORES
+
+    You can set configurations either as command-line flags, as documented
+    above, or as options in the file /home/tlevine/.something.conf
+    under the something section, like so.
+
+      [something]
+      foo = bar
+
+    Options names are the long form of the flags; "--foo" becomes "foo",
+    and "-f" becomes "f" only if "-f" has no long form.
 
 Subcommands
 ^^^^^^^^^^^^^^^
