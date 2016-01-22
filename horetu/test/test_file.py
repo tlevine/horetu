@@ -14,10 +14,10 @@ multiple = {
 }
 
 cases = [
-    ('simple.ini', simple, [], 7),
-    ('multiple.ini', multiple, ['aa', 'beep'], 'beepboop'),
-#   ('multiple.ini', multiple, ['bb'], 7),
-    ('multiple.ini', multiple, ['cc', '3', '-y', '8'], 12),
+    ('simple.ini', simple, [], 3),
+#   ('multiple.ini', multiple, ['aa', 'beep'], 'beepboop'),
+#   ('multiple.ini', multiple, ['bb'], 4),
+#   ('multiple.ini', multiple, ['cc', '3', '-y', '8'], 12),
 ]
 @pytest.mark.parametrize('filename, function, argv, result', cases)
 def test_file(filename, function, argv, result):
