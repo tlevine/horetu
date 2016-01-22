@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+from horetu import horetu
+
+f = g = h = i = j = lambda x: int(x) + 4
+commands = {
+    'subcommand1': {
+        'subsubcommand1.1': f,
+        'subsubcommand1.2': g,
+    },
+    'subcommand2': h,
+    'subcommand3': {
+        'subsubcommand3.1': i,
+        'subsubcommand3.2': {
+            'subsubsubcommand3.2.1': j,
+        }
+    },
+}
+horetu(commands)
