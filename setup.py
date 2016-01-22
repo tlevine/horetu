@@ -20,18 +20,18 @@ setup(name='horetu',
       description='Make a command-line interface from a function.',
       url='http://dada.pink/horetu/',
       py_modules=['horetu'],
-      install_requires = [
+      install_requires=[
           'Sphinx>=1.3.1',
           'inflection>=0.3.1',
       ] + backwards_compatibility,
-      tests_require = [
+      tests_require=[
           'pytest>=2.6.4',
       ],
-      classifiers = [
+      classifiers=[
           'Programming Language :: Python :: 2.7',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
       ],
       version='0.0.5',
       license='AGPL',
-)
+      )
