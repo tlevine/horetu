@@ -33,7 +33,7 @@ def horetu(f, args = None,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
-        main = one(p, f)
+        main = one({}, p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)

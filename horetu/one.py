@@ -8,7 +8,7 @@ from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
-def one(parser, f):
+def one(defaults, parser, f):
     params = annotations.params(f)
     helps = dict(options.docs(f))
     has_keyword_only = options.has_keyword_only(params)
