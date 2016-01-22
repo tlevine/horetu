@@ -46,7 +46,7 @@ class Ignore(object):
 
 
 def description(f):
-    if f.__doc__ == None:
+    if f.__doc__ is None:
         return ''
     try:
         return next(iter(prepare_docstring(f.__doc__)))
@@ -55,7 +55,7 @@ def description(f):
 
 
 def docs(f):
-    if f.__doc__ == None:
+    if f.__doc__ is None:
         raise StopIteration
     for line in prepare_docstring(f.__doc__):
         m = re.match(r'^:param (?:[^:]+ )([^:]+): (.+)$', line)
@@ -88,7 +88,8 @@ def argtype(param):
 def name_or_flag(has_keyword_only, param):
     def _name_or_flag(p):
         name = p.name.replace('_', '-')
-        if p.default == p.empty or (has_keyword_only and p.kind == p.POSITIONAL_OR_KEYWORD):
+        if p.default == p.empty or (
+                has_keyword_only and p.kind == p.POSITIONAL_OR_KEYWORD):
             return p.name
         elif len(name) == 1:
             return '-' + name

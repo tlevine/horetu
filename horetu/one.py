@@ -102,5 +102,6 @@ def _get_args(kwargs, has_keyword_only, params):
 
     def check(param):
         kinds = set(getattr(param, kind) for kind in kind_names)
-        return getattr(param, 'kind') in kinds and comparator(param.default, param.empty)
+        return getattr(param, 'kind') in kinds and comparator(
+            param.default, param.empty)
     return [param.name for param in params if check(param)]
