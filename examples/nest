@@ -15,4 +15,4 @@ commands = {
         }
     },
 }
-horetu(commands, name = 'nest')
+horetu(commands, name='nest')

@@ -3,17 +3,19 @@ import datetime
 
 from horetu import annotate, horetu
 
+
 def d(x):
     return datetime.datetime.fromtimestamp(int(x))
 
+
 @annotate(str, int, d)
-def f(x, n = 8, *dates):
+def f(x, n=8, *dates):
     '''
     Use @annotate in Python 2.
 
     :param str x: A label
     '''
     for date in dates:
-        print('%s: %s' % (x, date + datetime.timedelta(hours = n)))
+        print('%s: %s' % (x, date + datetime.timedelta(hours=n)))
 
 horetu(f, ['Thing', '1449881977', '1449882806'])

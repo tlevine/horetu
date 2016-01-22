@@ -3,8 +3,9 @@ import os
 
 from horetu import horetu
 
-def hi(name:str, times:int = 8,
-       case:('title', 'lower', 'upper') = 'title'):
+
+def hi(name: str, times: int = 8,
+       case: ('title', 'lower', 'upper') = 'title'):
     for _ in range(times):
         print('Hi ' + getattr(name, case)())
 
