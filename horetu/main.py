@@ -49,8 +49,11 @@ def horetu(f, args = None,
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
     '''
-    if name == None and hasattr(f, '__call__'):
-        name = f.__name__
+    if name == None:
+        if hasattr(f, '__call__'):
+            name = f.__name__
+        else:
+            name = os.path.basename(sys.argv[0])
     if config == None and name != None:
         config = os.path.expanduser('~/.%s.conf' % name)
 
