@@ -2,13 +2,18 @@ import re
 from collections import Counter
 from functools import partial
 import operator
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 from . import options
 from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
-def one(defaults, parser, f):
+def one(configuration_file, configuration_section,
+        parser, f):
     params = annotations.params(f)
     helps = dict(options.docs(f))
     has_keyword_only = options.has_keyword_only(params)
@@ -17,6 +22,12 @@ def one(defaults, parser, f):
     matches = map(partial(re.match, FLAG), map(get_name_or_flag, params))
     single_character_flags = Counter(m.group(1) for m in matches if m)
     single_character_flags['-h'] += 1
+
+    c = ConfigParser()
+    c.read(configuration_file)
+    defaults = dict(c[configuration_section]) \
+               if configuration_section in c.sections() else {}
+    print(c.sections(), defaults)
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:

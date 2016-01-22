@@ -2,17 +2,10 @@ import argparse
 import sys
 import os
 from functools import partial
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser
 
 from . import options
 from .sub import nest
 from .one import one
-
-def _get_config_section(config, section):
-    return dict(c[section]) if section in c.sections() else {}
 
 def horetu(f, args = None,
            config = None,
@@ -32,8 +25,6 @@ def horetu(f, args = None,
 
     if config == None and name != None:
         config = os.path.expanduser('~/.' + name)
-    cp = ConfigParser()
-    cp.read(config)
 
     if hasattr(f, '__call__'):
         if description == None:
@@ -42,7 +33,7 @@ def horetu(f, args = None,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
-        main = one(_get_config_section(name), p, f)
+        main = one(config, name, p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
