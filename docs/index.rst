@@ -3,9 +3,11 @@ Introduction
 
 .. py:module:: horetu
 
-horetu turns a Python function into a command-line program;
-it assembles a command-line argument parser and passes the parsed
-arguments to the function.
+horetu turns a Python function into a command-line program with a command-line
+argument parser and an optional configuration file parser. It accepts
+configurations from the command line, falls back to the configuration file if
+it exists, and then falls back to any defaults that are set in the Python
+function.
 
 .. toctree::
     :maxdepth: 3
