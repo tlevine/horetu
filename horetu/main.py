@@ -2,10 +2,17 @@ import argparse
 import sys
 import os
 from functools import partial
+try:
+    from configparser import ConfigParser
+except ImportError:
+    from ConfigParser import ConfigParser
 
 from . import options
 from .sub import nest
 from .one import one
+
+def _get_config_section(config, section):
+    return dict(c[section]) if section in c.sections() else {}
 
 def horetu(f, args = None,
            config = None,
@@ -25,6 +32,8 @@ def horetu(f, args = None,
 
     if config == None and name != None:
         config = os.path.expanduser('~/.' + name)
+    cp = ConfigParser()
+    cp.read(config)
 
     if hasattr(f, '__call__'):
         if description == None:
@@ -33,7 +42,7 @@ def horetu(f, args = None,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
-        main = one({'a': 9}, p, f)
+        main = one(_get_config_section(name), p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
@@ -46,6 +55,10 @@ def horetu(f, args = None,
             raise TypeError
 
         def _main(routes, args):
+            if name:
+                section_name = name
+            else:
+                section_name = os.path.basename(args[0])
             while isinstance(routes, dict):
                 for k in list(routes):
                     if hasattr(args, k):
@@ -54,10 +67,11 @@ def horetu(f, args = None,
                             sys.exit(2)
                         g = routes[k][getattr(args, k)]
                         routes = routes[k]
+                        section_name += ' ' + k
                         break
                 else:
                     break
-            return g(args)
+            return g(_get_config_section(section_name), args)
         main = partial(_main, routes)
 
     return main(p.parse_args(args))
