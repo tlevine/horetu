@@ -5,3 +5,6 @@ def expand_dict_keys(x):
                 yield k + ' ' + subk
         else:
             yield k
+
+def extend(a, b):
+    return ((a or '') + ' ' + b).lstrip()

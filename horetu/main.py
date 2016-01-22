@@ -49,14 +49,8 @@ def horetu(f, args = None,
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
     '''
-    if name == None:
-        if hasattr(f, '__call__'):
-            name = f.__name__
-        elif args and len(args) > 0:
-            name = args[0]
-        else:
-            name = sys.argv[0]
-
+    if name == None and hasattr(f, '__call__'):
+        name = f.__name__
     if config == None and name != None:
         config = os.path.expanduser('~/.%s.conf' % name)
 
@@ -81,11 +75,9 @@ def horetu(f, args = None,
             subcommand_tree = nest(config, name, sp, subcommands = f)
         else:
             raise TypeError
-        
-        base_section_name = os.path.basename(name or args[0])
 
         def _main(subcommand_tree, args):
-            section_name = str(base_section_name)
+            section_name = ''
             routes = {subcommand_dest: subcommand_tree}
             while isinstance(routes, dict):
                 for k in list(routes):
@@ -95,16 +87,14 @@ def horetu(f, args = None,
                             sys.exit(2)
                         g = routes[k][getattr(args, k)]
                         routes = routes[k]
-                        section_name += ' ' + k
+                        section_name = util.extend(section_name, k)
                         break
                 else:
                     break
             return g(args)
         main = partial(_main, subcommand_tree)
         if config:
-            sections = list(sorted(util.expand_dict_keys({
-                base_section_name: subcommand_tree
-            })))
+            sections = list(sorted(util.expand_dict_keys(subcommand_tree)))
             params = {'file': config, 'first-section': sections[0],
                       'sections': ']\n    ['.join(sections)}
             p.epilog = EPILOG_TEMPLATE_MANY % params
