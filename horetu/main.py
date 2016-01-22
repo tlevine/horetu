@@ -50,13 +50,13 @@ def horetu(f, args=None,
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
     '''
-    if name == None and hasattr(f, '__call__'):
+    if name is None and hasattr(f, '__call__'):
         name = f.__name__
-    if config == None and name != None:
+    if config is None and name is not None:
         config = os.path.expanduser('~/.%s.conf' % name)
 
     if hasattr(f, '__call__'):
-        if description == None:
+        if description is None:
             description = options.description(f)
         p = argparse.ArgumentParser(name, description=description,
                                     formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -83,7 +83,7 @@ def horetu(f, args=None,
             while isinstance(routes, dict):
                 for k in list(routes):
                     if hasattr(args, k):
-                        if getattr(args, k) == None:
+                        if getattr(args, k) is None:
                             p.print_usage()
                             sys.exit(2)
                         g = routes[k][getattr(args, k)]
