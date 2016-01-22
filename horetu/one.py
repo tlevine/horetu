@@ -27,13 +27,14 @@ def one(defaults, parser, f):
             args = (name_or_flag, m.group(1))
         else:
             args = name_or_flag,
+        default = defaults.get(name_or_flag.lstrip('-'), options.default(param))
         kwargs = dict(nargs = options.nargs(has_keyword_only, param),
                       action = options.action(param),
                       dest = options.dest(param),
                       type = options.argtype(param),
                       choices = options.argchoices(param),
                       help = helps.get(param.name, ''),
-                      default = options.default(param))
+                      default = default)
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
