@@ -61,6 +61,10 @@ function,
 "Number of cores to use for processing" is used as the help text for
 the parameter ``n_cores``.
 
+Fun fact: I wanted to use the docstring parser from Sphinx, but it turns out
+to be just a regular expression encapsulated under many layers of abstraction.
+So I just wrote my own.
+
 Argument names
 ^^^^^^^^^^^^^^^^^^
 Positional arguments keep the same names in the command-line interface,
