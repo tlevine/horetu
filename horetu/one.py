@@ -23,10 +23,15 @@ def one(configuration_file, configuration_section,
     single_character_flags = Counter(m.group(1) for m in matches if m)
     single_character_flags['-h'] += 1
 
-    c = ConfigParser()
-    c.read(configuration_file)
-    defaults = dict(c[configuration_section]) \
-               if configuration_section in c.sections() else {}
+    if configuration_file:
+        c = ConfigParser()
+        c.read(configuration_file)
+        if configuration_section in c.sections():
+            defaults = dict(c[configuration_section])
+        else:
+            defaults = {}
+    else:
+        defaults = {}
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:

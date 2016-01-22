@@ -20,8 +20,13 @@ def horetu(f, args = None,
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
     '''
-    if name == None and hasattr(f, '__call__'):
-        name = f.__name__
+    if name == None:
+        if hasattr(f, '__call__'):
+            name = f.__name__
+        elif args and len(args) > 0:
+            name = args[0]
+        else:
+            name = sys.argv[0]
 
     if config == None and name != None:
         config = os.path.expanduser('~/.' + name)
@@ -41,7 +46,8 @@ def horetu(f, args = None,
             p.add_argument('--version', action = 'version', version = version)
         sp = p.add_subparsers(dest = subcommand_dest)
         if isinstance(f, dict):
-            routes = {subcommand_dest: nest(sp, subcommands = f)}
+            routes = {subcommand_dest: nest(config, name, sp,
+                                            subcommands = f)}
         else:
             raise TypeError
 
@@ -62,7 +68,7 @@ def horetu(f, args = None,
                         break
                 else:
                     break
-            return g(_get_config_section(section_name), args)
+            return g(args)
         main = partial(_main, routes)
 
     return main(p.parse_args(args))

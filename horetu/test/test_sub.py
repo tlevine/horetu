@@ -12,7 +12,7 @@ def test_sub():
 
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest = 'sub')
-    g = sub(subparsers, [command1, command2, command3])
+    g = sub(None, 'zero', subparsers, [command1, command2, command3])
     
     args = parser.parse_args(['command1', '1', '2', '8'])
     assert args.sub == 'command1'
@@ -34,22 +34,21 @@ def test_nest():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest = 'sub')
 
-    g = nest(subparsers, subcommands = {'command1': command1, 'c2': command2, 'c3': command3})
+    g = nest(None, 'zero', subparsers,
+        subcommands={'command1': command1, 'c2': command2, 'c3': command3})
     args = parser.parse_args(['command1', '1', '2', '8'])
     assert g['command1'](args) == -5
 
-    g = nest(subparsers, subcommands = {'x': {'command1': command1, 'c2': command2, 'c3': command3}})
+    g = nest(None, 'zero', subparsers,
+        subcommands = {'x': {'command1': command1, 'c2': command2, 'c3': command3}})
     args = parser.parse_args(['x', 'command1', '1', '2', '8'])
     assert g['x']['command1'](args) == -5
 
-    g = nest(subparsers, subcommands = {'x': {'command1': command1}})
+    g = nest(None, 'zero', subparsers,
+        subcommands = {'x': {'command1': command1}})
     args = parser.parse_args(['x', 'command1', '1', '2', '8'])
     assert g['x']['command1'](args) == -5
 
-    g = nest(subparsers, subcommands = {'x': command1})
+    g = nest(None, 'zero', subparsers, subcommands = {'x': command1})
     args = parser.parse_args(['x', '1', '2', '8'])
     assert g['x'](args) == -5
-
-#   commands = {'aa': {'bb': command2, 'cc': {'AA': command1, 'BB': command3}}}
-#   observed = horetu(commands, args = args, name = 'do-something')
-#   assert observed == expected
