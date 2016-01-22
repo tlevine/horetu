@@ -1,5 +1,6 @@
 import argparse
 import sys
+import os
 from functools import partial
 
 from . import options
@@ -7,6 +8,7 @@ from .sub import nest
 from .one import one
 
 def horetu(f, args = None,
+           config = None,
            name = None, description = None, version = None,
            subcommand_dest = '_subcommand'):
     '''
@@ -18,9 +20,13 @@ def horetu(f, args = None,
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
     '''
+    if name == None and hasattr(f, '__call__'):
+        name = f.__name__
+
+    if config == None and name != None:
+        config = os.path.expanduser('~/.' + name)
+
     if hasattr(f, '__call__'):
-        if name == None:
-            name = f.__name__
         if description == None:
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
