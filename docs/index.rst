@@ -14,7 +14,17 @@ arguments to the function.
     settings
     more
 
-The name "horetu" comes from `Tom <https://thomaslevine.com>`_
-banging arbitrarily on a
-`Dvorak keyboard <https://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard>`_.
-We could use a more descriptive name.
+`Tom <https://thomaslevine.com>`_ occasionaly bangs arbitrarily on a
+`Dvorak keyboard <https://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard>`_
+in search of inspiration. One day, Horetus, the god of configuration option
+parsing, spoke to Tom and told him to make a module that would automatically
+assemble a command-line interface for specified Python functions.
+
+After Tom implemented this command-line interface, Horetus spoke again with
+Tom, through
+q3k
+in Warsaw Hackerspace, and Tom was inspired to extend horetu to automatically
+produce a configuration file parser as well.
+
+This sort of unanticipated extension of existing software is why Tom is wary
+of descriptive names for software.
