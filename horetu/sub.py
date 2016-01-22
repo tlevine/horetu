@@ -4,7 +4,7 @@ def sub(subparsers, fs):
     g = {}
     for f in fs:
         sp = subparsers.add_parser(f.__name__)
-        g[f.__name__] = one({}, sp, f)
+        g[f.__name__] = one(None, sp, f)
     return g
 
 def nest(subparsers, commands = [], subcommands = {}):
@@ -21,7 +21,7 @@ def nest(subparsers, commands = [], subcommands = {}):
             subsubparsers = subparser.add_subparsers(dest = dest)
             output[dest] = nest(subsubparsers, subcommands = subcommand)
         elif hasattr(subcommand, '__call__'):
-            output[dest] = one({}, subparser, subcommand)
+            output[dest] = one(None, subparser, subcommand)
         else:
             raise TypeError
 

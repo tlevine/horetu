@@ -8,7 +8,7 @@ from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
-def one(defaults, parser, f):
+def one(default_config, parser, f):
     params = annotations.params(f)
     helps = dict(options.docs(f))
     has_keyword_only = options.has_keyword_only(params)
@@ -17,6 +17,9 @@ def one(defaults, parser, f):
     matches = map(partial(re.match, FLAG), map(get_name_or_flag, params))
     single_character_flags = Counter(m.group(1) for m in matches if m)
     single_character_flags['-h'] += 1
+    single_character_flags['-c'] += 1
+
+    parser.add_argument('-c', '--config', default = default_config)
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:
@@ -27,14 +30,13 @@ def one(defaults, parser, f):
             args = (name_or_flag, m.group(1))
         else:
             args = name_or_flag,
-        default = defaults.get(name_or_flag.lstrip('-'), options.default(param))
         kwargs = dict(nargs = options.nargs(has_keyword_only, param),
                       action = options.action(param),
                       dest = options.dest(param),
                       type = options.argtype(param),
                       choices = options.argchoices(param),
                       help = helps.get(param.name, ''),
-                      default = default)
+                      default = None)
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
@@ -49,6 +51,7 @@ def one(defaults, parser, f):
             if param.kind == param.VAR_POSITIONAL:
                 args.extend(getattr(parsed_args, param.name))
         kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, has_keyword_only, params)}
+        print(kwargs)
         return f(*args, **kwargs)
     return g
 

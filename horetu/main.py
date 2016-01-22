@@ -8,7 +8,7 @@ from .sub import nest
 from .one import one
 
 def horetu(f, args = None,
-           config = None,
+           default_config = None,
            name = None, description = None, version = None,
            subcommand_dest = '_subcommand'):
     '''
@@ -23,8 +23,8 @@ def horetu(f, args = None,
     if name == None and hasattr(f, '__call__'):
         name = f.__name__
 
-    if config == None and name != None:
-        config = os.path.expanduser('~/.' + name)
+    if default_config == None and name != None:
+        default_config = os.path.expanduser('~/.' + name)
 
     if hasattr(f, '__call__'):
         if description == None:
@@ -33,7 +33,7 @@ def horetu(f, args = None,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
-        main = one({'a': 9}, p, f)
+        main = one(default_config, p, f)
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)

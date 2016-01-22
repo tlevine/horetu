@@ -55,7 +55,7 @@ cases = [
 @pytest.mark.parametrize('function, argv, result', cases)
 def test_one(function, argv, result):
     parser = argparse.ArgumentParser()
-    assert one({}, parser, function)(parser.parse_args(argv)) == result
+    assert one(None, parser, function)(parser.parse_args(argv)) == result
 
 class FakeParser(object):
     def __init__(self):
@@ -88,5 +88,5 @@ flag_cases = [
 @pytest.mark.parametrize('function, optional_names_or_flags', flag_cases)
 def test_flags(function, optional_names_or_flags):
     parser = FakeParser()
-    one({}, parser, function)
+    one(None, parser, function)
     assert parser.optional_names_or_flags == optional_names_or_flags
