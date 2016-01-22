@@ -1,27 +1,31 @@
 from .one import one
 
-def sub(subparsers, fs):
+def sub(config_file, config_section, subparsers, fs):
     g = {}
     for f in fs:
-        sp = subparsers.add_parser(f.__name__)
-        g[f.__name__] = one({}, sp, f)
+        name = f.__name__
+        sp = subparsers.add_parser(name)
+        g[name] = one(config_file, config_section + ' ' + name, sp, f)
     return g
 
-def nest(subparsers, commands = [], subcommands = {}):
+def nest(config_file, config_section,
+         subparsers, commands = [], subcommands = {}):
     if not isinstance(commands, list):
         raise TypeError('commands must be a list.')
     if not isinstance(subcommands, dict):
         raise TypeError('subcommands must be a dict.')
 
-    output = sub(subparsers, commands)
+    output = sub(config_file, config_section, subparsers, commands)
 
     for dest, subcommand in subcommands.items():
         subparser = subparsers.add_parser(dest)
         if isinstance(subcommand, dict):
             subsubparsers = subparser.add_subparsers(dest = dest)
-            output[dest] = nest(subsubparsers, subcommands = subcommand)
+            output[dest] = nest(config_file, config_section + ' ' + dest,
+                                subsubparsers, subcommands = subcommand)
         elif hasattr(subcommand, '__call__'):
-            output[dest] = one({}, subparser, subcommand)
+            output[dest] = one(config_file, config_section,
+                               subparser, subcommand)
         else:
             raise TypeError
 

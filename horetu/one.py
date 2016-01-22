@@ -27,7 +27,6 @@ def one(configuration_file, configuration_section,
     c.read(configuration_file)
     defaults = dict(c[configuration_section]) \
                if configuration_section in c.sections() else {}
-    print(c.sections(), defaults)
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:
