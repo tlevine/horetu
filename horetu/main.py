@@ -3,6 +3,7 @@ import sys
 import os
 from functools import partial
 
+from . import util
 from . import options
 from .sub import nest
 from .one import one
@@ -13,6 +14,22 @@ above, or as options in the file %(file)s
 under the %(section)s section, like so.
 
     [%(section)s]
+    foo = bar
+
+Options names are the long form of the flags; "--foo" becomes "foo",
+and "-f" becomes "f" only if "-f" has no long form.
+'''
+
+EPILOG_TEMPLATE_MANY = '''
+You can set configurations either as command-line flags, as documented
+above, or as options in the file %(file)s
+under the following sections.
+
+    [%(sections)s]
+
+It might look like this, for example.
+
+    [%(first-section)s]
     foo = bar
 
 Options names are the long form of the flags; "--foo" becomes "foo",
@@ -56,21 +73,20 @@ def horetu(f, args = None,
 
     else:
         p = argparse.ArgumentParser(name, description = description,
-            formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+            formatter_class=argparse.RawDescriptionHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
         sp = p.add_subparsers(dest = subcommand_dest)
         if isinstance(f, dict):
-            routes = {subcommand_dest: nest(config, name, sp,
-                                            subcommands = f)}
+            subcommand_tree = nest(config, name, sp, subcommands = f)
         else:
             raise TypeError
+        
+        base_section_name = os.path.basename(name or args[0])
 
-        def _main(routes, args):
-            if name:
-                section_name = name
-            else:
-                section_name = os.path.basename(args[0])
+        def _main(subcommand_tree, args):
+            section_name = str(base_section_name)
+            routes = {subcommand_dest: subcommand_tree}
             while isinstance(routes, dict):
                 for k in list(routes):
                     if hasattr(args, k):
@@ -84,6 +100,13 @@ def horetu(f, args = None,
                 else:
                     break
             return g(args)
-        main = partial(_main, routes)
+        main = partial(_main, subcommand_tree)
+        if config:
+            sections = list(sorted(util.expand_dict_keys({
+                base_section_name: subcommand_tree
+            })))
+            params = {'file': config, 'first-section': sections[0],
+                      'sections': ']\n    ['.join(sections)}
+            p.epilog = EPILOG_TEMPLATE_MANY % params
 
     return main(p.parse_args(args))
