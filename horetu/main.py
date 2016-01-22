@@ -36,10 +36,11 @@ Options names are the long form of the flags; "--foo" becomes "foo",
 and "-f" becomes "f" only if "-f" has no long form.
 '''
 
-def horetu(f, args = None,
-           config = None,
-           name = None, description = None, version = None,
-           subcommand_dest = '_subcommand'):
+
+def horetu(f, args=None,
+           config=None,
+           name=None, description=None, version=None,
+           subcommand_dest='_subcommand'):
     '''
     :type f: Callable or dict
     :param f: The callable to produce the argument parser too,
@@ -57,22 +58,22 @@ def horetu(f, args = None,
     if hasattr(f, '__call__'):
         if description == None:
             description = options.description(f)
-        p = argparse.ArgumentParser(name, description = description,
-            formatter_class = argparse.RawDescriptionHelpFormatter)
+        p = argparse.ArgumentParser(name, description=description,
+                                    formatter_class=argparse.RawDescriptionHelpFormatter)
         if version:
-            p.add_argument('--version', action = 'version', version = version)
+            p.add_argument('--version', action='version', version=version)
         main = one(config, name, p, f)
         if config:
             p.epilog = EPILOG_TEMPLATE_ONE % {'file': config, 'section': name}
 
     else:
-        p = argparse.ArgumentParser(name, description = description,
-            formatter_class=argparse.RawDescriptionHelpFormatter)
+        p = argparse.ArgumentParser(name, description=description,
+                                    formatter_class=argparse.RawDescriptionHelpFormatter)
         if version:
-            p.add_argument('--version', action = 'version', version = version)
-        sp = p.add_subparsers(dest = subcommand_dest)
+            p.add_argument('--version', action='version', version=version)
+        sp = p.add_subparsers(dest=subcommand_dest)
         if isinstance(f, dict):
-            subcommand_tree = nest(config, name, sp, subcommands = f)
+            subcommand_tree = nest(config, name, sp, subcommands=f)
         else:
             raise TypeError
 
