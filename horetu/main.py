@@ -7,6 +7,18 @@ from . import options
 from .sub import nest
 from .one import one
 
+EPILOG_TEMPLATE_ONE = '''
+You can set configurations either as command-line flags, as documented
+above, or as options in the file %(file)s
+under the %(section)s section, like so.
+
+    [%(section)s]
+    foo = bar
+
+Options names are the long form of the flags; "--foo" becomes "foo",
+and "-f" becomes "f" only if "-f" has no long form.
+'''
+
 def horetu(f, args = None,
            config = None,
            name = None, description = None, version = None,
@@ -29,16 +41,19 @@ def horetu(f, args = None,
             name = sys.argv[0]
 
     if config == None and name != None:
-        config = os.path.expanduser('~/.' + name)
+        config = os.path.expanduser('~/.%s.conf' % name)
 
     if hasattr(f, '__call__'):
         if description == None:
             description = options.description(f)
         p = argparse.ArgumentParser(name, description = description,
-            formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+            formatter_class = argparse.RawDescriptionHelpFormatter)
         if version:
             p.add_argument('--version', action = 'version', version = version)
         main = one(config, name, p, f)
+        if config:
+            p.epilog = EPILOG_TEMPLATE_ONE % {'file': config, 'section': name}
+
     else:
         p = argparse.ArgumentParser(name, description = description,
             formatter_class = argparse.ArgumentDefaultsHelpFormatter)
