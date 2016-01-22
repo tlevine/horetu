@@ -22,5 +22,5 @@ cases = [
 @pytest.mark.parametrize('filename, function, argv, result', cases)
 def test_file(filename, function, argv, result):
     config = os.path.abspath(os.path.join(__file__, '..', 'configuration-files', filename))
-    observed = horetu(function, config=config, args = argv)
+    observed = horetu(function, config=config, args=argv)
     assert observed == result
