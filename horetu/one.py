@@ -62,7 +62,6 @@ def one(configuration_file, configuration_section,
             default = argtype(defaults[config_file_arg_name])
         else:
             default = options.default(param)
-        print(configuration_section, config_file_arg_name, default)
         kwargs = dict(nargs = options.nargs(has_keyword_only, param),
                       action = options.action(param),
                       dest = options.dest(param),
