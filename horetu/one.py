@@ -12,10 +12,12 @@ from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
+
 def _filename(x):
     if not os.path.isfile(x):
         raise ValueError('"%s" is not a file.' % x)
     return x
+
 
 def one(configuration_file, configuration_section,
         parser, f):
@@ -48,7 +50,8 @@ def one(configuration_file, configuration_section,
 
     for i, param in enumerate(params):
         if param.kind == param.VAR_KEYWORD:
-            raise ValueError('Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
+            raise ValueError(
+                'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
         name_or_flag = get_name_or_flag(param)
         m = re.match(FLAG, name_or_flag)
         if m and single_character_flags[m.group(1)] == 1:
@@ -62,13 +65,13 @@ def one(configuration_file, configuration_section,
             default = argtype(defaults[config_file_arg_name])
         else:
             default = options.default(param)
-        kwargs = dict(nargs = options.nargs(has_keyword_only, param),
-                      action = options.action(param),
-                      dest = options.dest(param),
-                      type = argtype,
-                      choices = options.argchoices(param),
-                      help = helps.get(param.name, ''),
-                      default = default)
+        kwargs = dict(nargs=options.nargs(has_keyword_only, param),
+                      action=options.action(param),
+                      dest=options.dest(param),
+                      type=argtype,
+                      choices=options.argchoices(param),
+                      help=helps.get(param.name, ''),
+                      default=default)
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
@@ -78,13 +81,16 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        args = [getattr(parsed_args, attr) for attr in _get_args(False, has_keyword_only, params)]
+        args = [getattr(parsed_args, attr)
+                for attr in _get_args(False, has_keyword_only, params)]
         for param in params:
             if param.kind == param.VAR_POSITIONAL:
                 args.extend(getattr(parsed_args, param.name))
-        kwargs = {attr:getattr(parsed_args, attr) for attr in _get_args(True, has_keyword_only, params)}
+        kwargs = {attr: getattr(parsed_args, attr)
+                  for attr in _get_args(True, has_keyword_only, params)}
         return f(*args, **kwargs)
     return g
+
 
 def _get_args(kwargs, has_keyword_only, params):
     comparator, kind_names = {
@@ -93,6 +99,7 @@ def _get_args(kwargs, has_keyword_only, params):
         (False, True): (lambda a, b: True, {'POSITIONAL_ONLY', 'POSITIONAL_OR_KEYWORD'}),
         (False, False): (operator.eq, {'POSITIONAL_ONLY', 'POSITIONAL_OR_KEYWORD'}),
     }[(kwargs, has_keyword_only)]
+
     def check(param):
         kinds = set(getattr(param, kind) for kind in kind_names)
         return getattr(param, 'kind') in kinds and comparator(param.default, param.empty)

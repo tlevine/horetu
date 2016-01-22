@@ -26,18 +26,24 @@ from inflection import singularize
 #   * http://www.faqs.org/rfcs/rfc2822.html
 # * /usr/local/lib/python3.5/site-packages/sphinx/domains/python.py
 
+
 class Count(object):
     pass
 
+
 class Option(object):
-    def __init__(self, function = str, default = None):
+
+    def __init__(self, function=str, default=None):
         self.function = function
         self.default = None
+
     def __call__(self, x):
         return self.function(x)
 
+
 class Ignore(object):
     pass
+
 
 def description(f):
     if f.__doc__ == None:
@@ -47,6 +53,7 @@ def description(f):
     except StopIteration:
         return ''
 
+
 def docs(f):
     if f.__doc__ == None:
         raise StopIteration
@@ -54,6 +61,7 @@ def docs(f):
         m = re.match(r'^:param (?:[^:]+ )([^:]+): (.+)$', line)
         if m:
             yield m.groups()
+
 
 def nargs(has_keyword_only, param):
     if param.kind == param.VAR_POSITIONAL:
@@ -63,16 +71,19 @@ def nargs(has_keyword_only, param):
     elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
         return '?'
 
+
 def argchoices(param):
     if isinstance(param.annotation, tuple):
         return param.annotation
 
+
 def argtype(param):
     if param.annotation == param.empty or isinstance(param.annotation, tuple) \
-        or (isinstance(param.default, list) and issubclass(param.annotation, list)):
+            or (isinstance(param.default, list) and issubclass(param.annotation, list)):
         return str
     else:
         return param.annotation
+
 
 def name_or_flag(has_keyword_only, param):
     def _name_or_flag(p):
@@ -90,15 +101,19 @@ def name_or_flag(has_keyword_only, param):
         pass
     return _name_or_flag(param)
 
+
 def has_keyword_only(params):
     return len(params) and params[-1].kind == params[-1].KEYWORD_ONLY
+
 
 def dest(param):
     return param.name
 
+
 def default(param):
     if param.default != param.empty and not isinstance(param.default, bool):
         return param.default
+
 
 def action(param):
     BOOL_ACTIONS = {True: 'store_false', False: 'store_true'}
