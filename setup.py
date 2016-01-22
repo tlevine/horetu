@@ -32,6 +32,6 @@ setup(name='horetu',
           'Programming Language :: Python :: 3.4',
           'Programming Language :: Python :: 3.5',
       ],
-      version='0.0.5',
+      version='0.0.6',
       license='AGPL',
       )
