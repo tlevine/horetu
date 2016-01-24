@@ -6,6 +6,11 @@ from horetu import horetu
 
 def hi(name: str, times: int = 8,
        case: ('title', 'lower', 'upper') = 'title'):
+    '''
+    :param name: Name
+    :param times: Number of times to say hi
+    :param case: Case of the greeting
+    '''
     for _ in range(times):
         print('Hi ' + getattr(name, case)())
 
