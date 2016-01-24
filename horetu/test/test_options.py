@@ -3,8 +3,16 @@ from inspect import Parameter, signature
 
 from .. import options
 
-def test_docs():
+def test_docs_empty():
     assert list(options.docs(lambda:8)) == []
+
+def test_docs():
+    def f(abc):
+        '''
+        :param int abc: A word
+        '''
+        pass
+    assert list(options.docs(f)) == [('abc', 'A word')]
 
 def test_description():
     assert options.description(lambda:8) == ''
