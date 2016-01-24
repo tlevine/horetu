@@ -15,6 +15,7 @@ function.
     usage
     settings
     more
+    developing
 
 `Tom <https://thomaslevine.com>`_ occasionaly bangs arbitrarily on a
 `Dvorak keyboard <https://en.wikipedia.org/wiki/Dvorak_Simplified_Keyboard>`_
