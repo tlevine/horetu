@@ -18,6 +18,9 @@ under the %(section)s section, like so.
 
 Options names are the long form of the flags; "--foo" becomes "foo",
 and "-f" becomes "f" only if "-f" has no long form.
+
+If you want to use a different file as the configuration file, set the
+environment variable %(env)s to that file's path.
 '''
 
 EPILOG_TEMPLATE_MANY = '''
@@ -34,6 +37,9 @@ It might look like this, for example.
 
 Options names are the long form of the flags; "--foo" becomes "foo",
 and "-f" becomes "f" only if "-f" has no long form.
+
+If you want to use a different file as the configuration file, set the
+environment variable %(env)s to that file's path.
 '''
 
 
@@ -52,7 +58,11 @@ def horetu(f, args=None,
     '''
     if name is None and hasattr(f, '__call__'):
         name = f.__name__
-    if config is None and name is not None:
+    env = '%s_CONFIG' % (name if name else sys.argv[0]).upper()
+
+    if env in os.environ:
+        config = os.environ[env]
+    elif config is None and name is not None:
         config = os.path.expanduser('~/.%s.conf' % name)
 
     if hasattr(f, '__call__'):
@@ -64,7 +74,8 @@ def horetu(f, args=None,
             p.add_argument('--version', action='version', version=version)
         main = one(config, name, p, f)
         if config:
-            p.epilog = EPILOG_TEMPLATE_ONE % {'file': config, 'section': name}
+            params = {'file': config, 'section': name, 'env': env}
+            p.epilog = EPILOG_TEMPLATE_ONE % params
 
     else:
         p = argparse.ArgumentParser(name, description=description,
@@ -97,7 +108,7 @@ def horetu(f, args=None,
         if config:
             sections = list(sorted(util.expand_dict_keys(subcommand_tree)))
             params = {'file': config, 'first-section': sections[0],
-                      'sections': ']\n    ['.join(sections)}
+                      'sections': ']\n    ['.join(sections), 'env': env}
             p.epilog = EPILOG_TEMPLATE_MANY % params
 
     return main(p.parse_args(args))

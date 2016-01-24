@@ -30,14 +30,6 @@ def one(configuration_file, configuration_section,
     single_character_flags = Counter(m.group(1) for m in matches if m)
     single_character_flags['-h'] += 1
 
-#   single_character_flags['-c'] += 1
-#   if single_character_flags['-c'] == 1:
-#       config_args = '-c', '--config'
-#   else:
-#       config_args = '--config',
-#   parser.add_argument(*config_args, default=default_configuration_file,
-#                       type=_filename)
-
     if configuration_file:
         c = ConfigParser()
         c.read(configuration_file)
