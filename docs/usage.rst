@@ -3,6 +3,15 @@ Usage
 horetu figures out a good command-line interface based on standard Python
 function annotations and properties.
 
+Install
+^^^^^^^^^^^^
+Install from PyPI. ::
+
+    pip install horetu
+
+This installs the :py:mod:`horetu` module. The most notable of its contents is
+the :py:func:`horetu.horetu` function.
+
 Simple usage
 ^^^^^^^^^^^^^^
 Consider the following Python program, called ``do_something.py``.
