@@ -55,6 +55,9 @@ Run it with the help flag; this is the result.
     Options names are the long form of the flags; "--foo" becomes "foo",
     and "-f" becomes "f" only if "-f" has no long form.
 
+    If you want to use a different file as the configuration file, set the
+    environment variable SOMETHING_CONFIG to that file's path.
+
 Subcommands
 ^^^^^^^^^^^^^^^
 
@@ -93,6 +96,27 @@ produces this command-line interface.
 
     optional arguments:
       -h, --help            show this help message and exit
+
+    You can set configurations either as command-line flags, as documented
+    above, or as options in the file /home/tlevine/.scott.conf
+    under the following sections.
+
+      [save-hucs]
+      [serve]
+      [set-password]
+      [scrape]
+
+    It might look like this, for example.
+
+      [save-hucs]
+      foo = bar
+
+    Options names are the long form of the flags; "--foo" becomes "foo",
+    and "-f" becomes "f" only if "-f" has no long form.
+
+    If you want to use a different file as the configuration file, set the
+    environment variable SCOTT_CONFIG to that file's path.
+
 
 You can have nested subcommands too.
 

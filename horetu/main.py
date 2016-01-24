@@ -108,7 +108,7 @@ def horetu(f, args=None,
         if config:
             sections = list(sorted(util.expand_dict_keys(subcommand_tree)))
             params = {'file': config, 'first-section': sections[0],
-                      'sections': ']\n    ['.join(sections), 'env': env}
+                      'sections': ']\n  ['.join(sections), 'env': env}
             p.epilog = EPILOG_TEMPLATE_MANY % params
 
     return main(p.parse_args(args))

@@ -24,7 +24,10 @@ setup(name='horetu',
           'inflection>=0.3.1',
       ] + backwards_compatibility,
       extras_require={
-          'docs': ['Sphinx>=1.3.1', 'sphinxcontrib-autorun>=0.1'],
+          'docs': [
+              'Sphinx>=1.3.1',
+          #   'sphinxcontrib-autorun>=0.1',
+          ],
           'tests': ['pytest>=2.6.4'],
           'dev': ['horetu[docs]', 'horetu[tests]']
       },

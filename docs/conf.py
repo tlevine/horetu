@@ -37,7 +37,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.autorun',
+#   'sphinxcontrib.autorun',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
