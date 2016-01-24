@@ -52,6 +52,8 @@ def horetu(f, args=None,
     :param f: The callable to produce the argument parser too,
         or a dict of (dicts of...) str to callable to make subparsers.
     :param list args: Pass argv here for testing; use the actual argv by default.
+    :param str config: Set the default configuration file location.
+        If this is None, horetu will chose a reasonable location.
     :param str name: Name of the program (``$0``)
     :param str description: Short description of what the program does
     :param str subcommand_dest: Attribute to save the base subcommand under
