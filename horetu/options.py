@@ -58,7 +58,7 @@ def docs(f):
     if f.__doc__ is None:
         raise StopIteration
     for line in prepare_docstring(f.__doc__):
-        m = re.match(r'^:param (?:[^:]+ )([^:]+): (.+)$', line)
+        m = re.match(r'^:param (?:[^:]+ )?([^:]+): (.+)$', line)
         if m:
             yield m.groups()
 
