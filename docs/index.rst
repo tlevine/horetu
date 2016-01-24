@@ -23,10 +23,10 @@ in search of inspiration. One day, Horetus, the god of configuration option
 parsing, spoke to Tom and told him to make a module that would automatically
 assemble a command-line interface for specified Python functions.
 
-After Tom implemented this command-line interface, Horetus spoke again with
-Tom, through
-q3k
-in Warsaw Hackerspace, and Tom was inspired to extend horetu to automatically
+After Tom implemented this command-line interface, Horetus spoke again to Tom,
+this time through `q3k <https://q3k.org/>`_
+in `Warsaw Hackerspace <https://hackerspace.pl/>`_.
+Tom then extended horetu so it would
 produce a configuration file parser as well.
 
 This sort of unanticipated extension of existing software is why Tom is wary
