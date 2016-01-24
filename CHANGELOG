@@ -1,3 +1,14 @@
+v0.0.7
+-------
+
+* Set the configuration file as an environment variable
+* Document the configuration file further
+
+v0.0.6
+-------
+
+* Produce a configuration file parser
+
 v0.0.5
 -------
 
