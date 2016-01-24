@@ -114,7 +114,7 @@ the following interface takes exactly one "A" and zero or more "B".
 
 .. testcode::
 
-    def f(a, *b): # **
+    def f(a, *b):
         pass
     horetu.horetu(f, ['one'])
     horetu.horetu(f, ['one', 'two', 'three'])
@@ -224,12 +224,13 @@ the argument appears. The number of flags is added to the default value.
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^
 There are two (three?) ways to make a positional argument optional.
-I prefer this method, but it only works in Python 3.
+
+I prefer this first method, but it only works in Python 3.
 
 .. testcode::
 
     import sys
-    def main(start = 0, stop = 1000, *, output = sys.stdout): #*
+    def main(start = 0, stop = 1000, *, output = sys.stdout):
         pass
 
 ``start`` and ``stop`` become positional arguments with the defaults
@@ -246,7 +247,7 @@ argument with :py:data:`horetu.Ignore`.
 
     import sys
     @annotate(int, int, horetu.Ignore)
-    def main(start = 0, stop = 1000, *_ignore): #*
+    def main(start = 0, stop = 1000, *_ignore):
         pass
 
 Unfortunately, Python 2 does not support keyword-only arguments (:pep:`3102`)
@@ -263,14 +264,14 @@ optional; if that argument isn't passed in the command line we will use
 .. testcode::
 
     @horetu.annotate(horetu.Optional, str)
-    def main(infile: horetu.Optional, *outfiles): #*
+    def main(infile: horetu.Optional, *outfiles):
         pass
 
 You can, of course, use the Python 3 annotation syntax as well.
 
 .. testcode::
 
-    def main(infile: horetu.Optional, *outfiles): #*
+    def main(infile: horetu.Optional, *outfiles):
         pass
 
 If you want something to be optional but of a different type, you can do this.
