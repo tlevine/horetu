@@ -1,3 +1,12 @@
+v0.0.8
+--------
+
+* parse help from docstrings that don't have types
+
+in progress:
+
+* fix examples/annotate
+
 v0.0.7
 -------
 
