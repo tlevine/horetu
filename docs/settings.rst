@@ -233,6 +233,9 @@ I prefer this first method, but it only works in Python 3.
     def main(start = 0, stop = 1000, *, output = sys.stdout):
         pass
 
+*Even more problematic, the implementation is buggy at the moment;
+I'll probably change it so it actually works but is less amazing.*
+
 ``start`` and ``stop`` become positional arguments with the defaults
 of 0 and 1000, respectively. In Python, ``*`` tells us that the following
 keyword arguments must be addressed as keyword arguments, not as positional
