@@ -19,7 +19,7 @@ setup(name='horetu',
       author_email='_@thomaslevine.com',
       description='Make a command-line interface from a function.',
       url='http://dada.pink/horetu/',
-      py_modules=['horetu'],
+      packages=['horetu'],
       install_requires=[
           'inflection>=0.3.1',
       ] + backwards_compatibility,
