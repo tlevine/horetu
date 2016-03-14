@@ -22,10 +22,10 @@ setup(name='horetu',
       packages=['horetu'],
       install_requires=[
           'inflection>=0.3.1',
+          'Sphinx>=1.3.1',
       ] + backwards_compatibility,
       extras_require={
           'docs': [
-              'Sphinx>=1.3.1',
           #   'sphinxcontrib-autorun>=0.1',
           ],
           'tests': ['pytest>=2.6.4'],
