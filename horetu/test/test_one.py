@@ -21,14 +21,10 @@ def i(x):
     '''
     return x
 
-@annotate(float)
-def j(x):
+def j(x: float):
     return x
 
 def k(a, b = None, *, c = 8, d = 4):
-    return a, b
-
-def l(a, b = None, *_blah: Ignore, c = 8, d = 4):
     return a, b
 
 def Folder(x):
@@ -37,7 +33,7 @@ def Folder(x):
     else:
         raise ValueError('Folders must start with "+".')
 
-def optional_with_types(folder: Folder = None, msg: str = None, *_ignore: Ignore):
+def optional_with_types(folder: Folder = None, msg: str = None, *):
     return folder, msg
 
 cases = [
@@ -47,7 +43,6 @@ cases = [
     (i, ['aoeu'], 'aoeu'),
     (j, ['8.4'], 8.4),
     (k, ['aoeu'], ('aoeu', None)),
-    (l, ['aoeu'], ('aoeu', None)),
 #   (optional_with_types, ['+INBOX', 'blah@blah.blah'], ('INBOX', 'blah@blah.blah')),
 #   (optional_with_types, ['blah@blah.blah'], (None, 'blah@blah.blah')),
 ]

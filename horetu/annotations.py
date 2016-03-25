@@ -1,16 +1,7 @@
 from copy import copy
 from functools import wraps
 
-try:
-    from inspect import signature
-except ImportError:
-    from IPython.utils.signatures import signature
-    from IPython.utils.signatures import Parameter
-    PY2 = True
-else:
-    from inspect import Parameter
-    PY2 = False
-
+from inspect import Parameter
 from .options import Ignore
 
 
@@ -35,24 +26,4 @@ def params(f):
         for i in range(len(ps)):
             ps[i] = AnnotatedParameter.from_parameter(
                 ps[i], annotation=f._types[i])
-    else:
-        if PY2:
-            for i in range(len(ps)):
-                ps[i] = AnnotatedParameter.from_parameter(
-                    ps[i], annotation=str)
-
     return ps
-
-
-def annotate(*types):
-    '''
-    Annotate a Python 2 function. ::
-
-        @annotate(int, int)
-        def f(x, y = 8):
-            return x + y
-    '''
-    def decorator(f):
-        f._types = types
-        return f
-    return decorator
