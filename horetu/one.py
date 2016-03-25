@@ -3,7 +3,7 @@ from functools import partial
 import operator
 from inspect import signature, Parameter
 from configparser import ConfigParser
-
+from enum import Enum
 from . import options
 
 FLAG = re.compile(r'^-?(-[^-]).*')
@@ -31,13 +31,6 @@ def one(configuration_file, configuration_section,
         defaults = {}
 
     single_character_flags = {'-h'}
-    allowed_kinds = [
-        {Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD},
-        {Parameter.VAR_POSITIONAL},
-        {Parameter.KEYWORD_ONLY},
-        {Parameter.VAR_KEYWORD},
-    ]
-    step = 0
     for i, param in enumerate(params.values()):
         if param.kind == param.VAR_KEYWORD:
             raise ValueError(
@@ -90,17 +83,34 @@ def one(configuration_file, configuration_section,
         return f(*args, **kwargs)
     return g
 
+class Kind(Enum):
+    positional_or_keyword = 1
+    var_positional = 2
+    keyword_only = 3
 
-def _get_args(kwargs, has_keyword_only, params):
-    comparator, kind_names = {
-        (True, True): (operator.eq, {'KEYWORD_ONLY'}),
-        (True, False): (operator.ne, {'POSITIONAL_OR_KEYWORD'}),
-        (False, True): (lambda a, b: True, {'POSITIONAL_ONLY', 'POSITIONAL_OR_KEYWORD'}),
-        (False, False): (operator.eq, {'POSITIONAL_ONLY', 'POSITIONAL_OR_KEYWORD'}),
-    }[(kwargs, has_keyword_only)]
+KINDS = {
+    positional_or_keyword: {
+        Parameter.POSITIONAL_ONLY,
+        Parameter.POSITIONAL_OR_KEYWORD
+    },
+    var_positional: {Parameter.VAR_POSITIONAL},
+    keyword_only: {Parameter.KEYWORD_ONLY},
+}
 
-    def check(param):
-        kinds = set(getattr(param, kind) for kind in kind_names)
-        return getattr(param, 'kind') in kinds and comparator(
-            param.default, param.empty)
-    return [param.name for param in params if check(param)]
+def step(prev_kind, param):
+    if param.kind in kinds['positional_or_keyword']:
+        if param.default == param.empty:
+            this_kind = 'positional_or_keyword'
+        else:
+            this_kind = 'keyword1'
+    elif param.kind in kinds['var_positional']:
+        this_kind = 'var_positional'
+    elif param.kind in kinds['keyword_only']:
+        this_kind = 'keyword_only'
+    else:
+        raise ValueError('This kind of argument is not allowed.')
+
+    if this_kind < prev_kind:
+        raise ValueError('This should not happen.')
+
+    return this_kind
