@@ -35,22 +35,14 @@ def one(configuration_file, configuration_section,
     for i, param in enumerate(params.values()):
         st = step(kind, param)
 
-        if st == Step.
-        name_or_flag = get_name_or_flag(param)
-        m = re.match(FLAG, name_or_flag)
-        if m and step >= 2 and m.group(1) in single_character_flags:
-            args = name_or_flag,
-        else:
-            args = (name_or_flag, m.group(1))
-            single_character_flags.add(m.group(1))
-
+        args = choose_name_args(single_character_flags, st, param)
         argtype = options.argtype(param)
-        config_file_arg_name = name_or_flag.lstrip('-')
+        config_file_arg_name = options.name(param)
         if config_file_arg_name in defaults:
             default = argtype(defaults[config_file_arg_name])
         else:
             default = options.default(param)
-        kwargs = dict(nargs=options.nargs(has_keyword_only, param),
+        kwargs = dict(nargs=options.nargs(st, param),
                       action=options.action(param),
                       dest=options.dest(param),
                       type=argtype,
@@ -61,8 +53,6 @@ def one(configuration_file, configuration_section,
             del(kwargs['choices'])
             del(kwargs['type'])
             del(kwargs['nargs'])
-        if not name_or_flag.startswith('-'):
-            del(kwargs['dest'])
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
@@ -75,6 +65,25 @@ def one(configuration_file, configuration_section,
                   for attr in _get_args(True, has_keyword_only, params)}
         return f(*args, **kwargs)
     return g
+
+def choose_name_args(single_character_flags, st, param):
+    if st == Step.positional:
+        args = options.name(param),
+    elif st in {Step.keyword1, Step.keyword2}:
+        lf = options.longflag(param)
+        sf = options.shortflag(param)
+        if sf in single_character_flags:
+            args = lf,
+        else:
+            single_character_flags.add(sf)
+            if lf:
+                args = sf, lf
+            else:
+                args = sf,
+    elif st == Step.var_positional:
+        args = options.name(param),
+    else:
+        raise ValueError('Bad step: %s' % st)
 
 class Step(Enum):
     positional = 1

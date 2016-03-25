@@ -65,12 +65,11 @@ def argtype(param):
 
 
 def name(param):
-    return p.name.replace('_', '-')
+    return param.name.replace('_', '-')
 
+def shortflag(param):
+    return '-' + param.name[0]
 
-def flag(param):
-    x = name(param)
-    if len(x) == 1:
-        return '-' + name
-    else:
-        return '--' + name
+def longflag(param):
+    if len(x) > 1:
+        return '--' + name(param)
