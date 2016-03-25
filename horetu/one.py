@@ -87,24 +87,24 @@ class Kind(Enum):
     keyword_only = 3
 
 KINDS = {
-    positional_or_keyword: {
+    Kind.positional_or_keyword: {
         Parameter.POSITIONAL_ONLY,
         Parameter.POSITIONAL_OR_KEYWORD
     },
-    var_positional: {Parameter.VAR_POSITIONAL},
-    keyword_only: {Parameter.KEYWORD_ONLY},
+    Kind.var_positional: {Parameter.VAR_POSITIONAL},
+    Kind.keyword_only: {Parameter.KEYWORD_ONLY},
 }
 
 def step(prev_kind, param):
     if param.kind in kinds['positional_or_keyword']:
         if param.default == param.empty:
-            this_kind = 'positional_or_keyword'
+            this_kind = Kind.positional_or_keyword
         else:
-            this_kind = 'keyword1'
+            this_kind = Kind.keyword1
     elif param.kind in kinds['var_positional']:
-        this_kind = 'var_positional'
+        this_kind = Kind.var_positional
     elif param.kind in kinds['keyword_only']:
-        this_kind = 'keyword_only'
+        this_kind = Kind.keyword_only
     else:
         raise ValueError(
             'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
