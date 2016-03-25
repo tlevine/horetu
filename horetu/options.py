@@ -27,24 +27,6 @@ from inflection import singularize
 # * /usr/local/lib/python3.5/site-packages/sphinx/domains/python.py
 
 
-class Count(object):
-    pass
-
-
-class Option(object):
-
-    def __init__(self, function=str, default=None):
-        self.function = function
-        self.default = None
-
-    def __call__(self, x):
-        return self.function(x)
-
-
-class Ignore(object):
-    pass
-
-
 def description(f):
     if f.__doc__ is None:
         return ''
@@ -66,8 +48,6 @@ def docs(f):
 def nargs(has_keyword_only, param):
     if param.kind == param.VAR_POSITIONAL:
         return '*'
-    elif param.annotation == Option:
-        return '?'
     elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
         return '?'
 
@@ -96,7 +76,7 @@ def name_or_flag(has_keyword_only, param):
         else:
             return '--' + name
     try:
-        if issubclass(param.annotation, (list, Count)):
+        if issubclass(param.annotation, list):
             return singularize(_name_or_flag(param))
     except TypeError:
         pass
