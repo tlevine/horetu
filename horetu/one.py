@@ -33,8 +33,6 @@ def one(configuration_file, configuration_section,
     single_character_flags = {'-h'}
     for i, param in enumerate(params.values()):
         if param.kind == param.VAR_KEYWORD:
-            raise ValueError(
-                'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
 
         if param.kind not in allowed_kinds[step]:
             step += 1
@@ -108,7 +106,8 @@ def step(prev_kind, param):
     elif param.kind in kinds['keyword_only']:
         this_kind = 'keyword_only'
     else:
-        raise ValueError('This kind of argument is not allowed.')
+        raise ValueError(
+            'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
 
     if this_kind < prev_kind:
         raise ValueError('This should not happen.')
