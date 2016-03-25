@@ -1,14 +1,10 @@
 import re
-from collections import Counter
 from functools import partial
 import operator
-try:
-    from configparser import ConfigParser
-except ImportError:
-    from ConfigParser import ConfigParser
+from inspect import signature, Parameter
+from configparser import ConfigParser
 
 from . import options
-from . import annotations
 
 FLAG = re.compile(r'^-?(-[^-]).*')
 
@@ -21,14 +17,8 @@ def _filename(x):
 
 def one(configuration_file, configuration_section,
         parser, f):
-    params = annotations.params(f)
+    s = signature(f)
     helps = dict(options.docs(f))
-    has_keyword_only = options.has_keyword_only(params)
-    get_name_or_flag = partial(options.name_or_flag, has_keyword_only)
-
-    matches = map(partial(re.match, FLAG), map(get_name_or_flag, params))
-    single_character_flags = Counter(m.group(1) for m in matches if m)
-    single_character_flags['-h'] += 1
 
     if configuration_file:
         c = ConfigParser()
@@ -40,16 +30,33 @@ def one(configuration_file, configuration_section,
     else:
         defaults = {}
 
-    for i, param in enumerate(params):
+    single_character_flags = {'-h'}
+    allowed_kinds = [
+        {Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD},
+        {Parameter.VAR_POSITIONAL},
+        {Parameter.KEYWORD_ONLY},
+        {Parameter.VAR_KEYWORD},
+    ]
+    step = 0
+    for i, param in enumerate(params.values()):
         if param.kind == param.VAR_KEYWORD:
             raise ValueError(
                 'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
+
+        if param.kind not in allowed_kinds[step]:
+            step += 1
+            if step >= len(allowed_kinds):
+                raise ValueError('This should never happen.')
+            continue
+
+
         name_or_flag = get_name_or_flag(param)
         m = re.match(FLAG, name_or_flag)
-        if m and single_character_flags[m.group(1)] == 1:
-            args = (name_or_flag, m.group(1))
-        else:
+        if m and step >= 2 and m.group(1) in single_character_flags:
             args = name_or_flag,
+        else:
+            args = (name_or_flag, m.group(1))
+            single_character_flags.add(m.group(1))
 
         argtype = options.argtype(param)
         config_file_arg_name = name_or_flag.lstrip('-')
