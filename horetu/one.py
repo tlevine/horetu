@@ -17,7 +17,7 @@ def _filename(x):
 
 def one(configuration_file, configuration_section,
         parser, f):
-    s = signature(f)
+    sig = signature(f)
     helps = dict(options.docs(f))
 
     if configuration_file:
@@ -31,16 +31,11 @@ def one(configuration_file, configuration_section,
         defaults = {}
 
     single_character_flags = {'-h'}
+    kind = None
     for i, param in enumerate(params.values()):
-        if param.kind == param.VAR_KEYWORD:
+        st = step(kind, param)
 
-        if param.kind not in allowed_kinds[step]:
-            step += 1
-            if step >= len(allowed_kinds):
-                raise ValueError('This should never happen.')
-            continue
-
-
+        if st == Step.
         name_or_flag = get_name_or_flag(param)
         m = re.match(FLAG, name_or_flag)
         if m and step >= 2 and m.group(1) in single_character_flags:
@@ -81,30 +76,32 @@ def one(configuration_file, configuration_section,
         return f(*args, **kwargs)
     return g
 
-class Kind(Enum):
-    positional_or_keyword = 1
-    var_positional = 2
-    keyword_only = 3
+class Step(Enum):
+    positional = 1
+    keyword1 = 2
+    var_positional = 3
+    keyword2 = 4
 
 KINDS = {
-    Kind.positional_or_keyword: {
+    Step.positional: {
         Parameter.POSITIONAL_ONLY,
         Parameter.POSITIONAL_OR_KEYWORD
     },
-    Kind.var_positional: {Parameter.VAR_POSITIONAL},
-    Kind.keyword_only: {Parameter.KEYWORD_ONLY},
+    Step.keyword1: {Parameter.POSITIONAL_OR_KEYWORD},
+    Step.var_positional: {Parameter.VAR_POSITIONAL},
+    Step.keyword2: {Parameter.KEYWORD_ONLY},
 }
 
 def step(prev_kind, param):
-    if param.kind in kinds['positional_or_keyword']:
+    if param.kind in kinds['positional'].union(kinds[Step.keyword1]):
         if param.default == param.empty:
-            this_kind = Kind.positional_or_keyword
+            this_kind = Step.positional
         else:
-            this_kind = Kind.keyword1
+            this_kind = Step.keyword1
     elif param.kind in kinds['var_positional']:
-        this_kind = Kind.var_positional
+        this_kind = Step.var_positional
     elif param.kind in kinds['keyword_only']:
-        this_kind = Kind.keyword_only
+        this_kind = Step.keyword_only
     else:
         raise ValueError(
             'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
