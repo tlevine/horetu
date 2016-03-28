@@ -40,8 +40,10 @@ def one(configuration_file, configuration_section,
         config_file_arg_name = options.name(param)
         if config_file_arg_name in defaults:
             default = argtype(defaults[config_file_arg_name])
+        elif param.default == param.empty:
+            default = None
         else:
-            default = options.default(param)
+            default = param.default
         kwargs = dict(nargs=options.nargs(st, param),
                       action=options.action(param),
                       dest=options.dest(param),
