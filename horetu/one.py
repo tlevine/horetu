@@ -32,7 +32,7 @@ def one(configuration_file, configuration_section,
 
     single_character_flags = {'-h'}
     kind = None
-    for i, param in enumerate(params.values()):
+    for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
 
         args = choose_name_args(single_character_flags, st, param)
@@ -102,14 +102,14 @@ KINDS = {
 }
 
 def step(prev_kind, param):
-    if param.kind in kinds['positional'].union(kinds[Step.keyword1]):
+    if param.kind in KINDS[Step.positional].union(KINDS[Step.keyword1]):
         if param.default == param.empty:
             this_kind = Step.positional
         else:
             this_kind = Step.keyword1
-    elif param.kind in kinds['var_positional']:
+    elif param.kind in KINDS[Step.var_positional]:
         this_kind = Step.var_positional
-    elif param.kind in kinds['keyword_only']:
+    elif param.kind in KINDS[Step.keyword_only]:
         this_kind = Step.keyword_only
     else:
         raise ValueError(
