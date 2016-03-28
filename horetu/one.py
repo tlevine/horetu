@@ -115,7 +115,7 @@ def step(prev_kind, param):
         raise ValueError(
             'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
 
-    if this_kind < prev_kind:
+    if prev_kind and this_kind < prev_kind:
         raise ValueError('This should not happen.')
 
     return this_kind
