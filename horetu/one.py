@@ -32,8 +32,10 @@ def one(configuration_file, configuration_section,
 
     single_character_flags = {'-h'}
     kind = None
+    steps = []
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
+        steps.append(st)
 
         args = choose_name_args(single_character_flags, st, param)
         argtype = options.argtype(param)
@@ -60,7 +62,7 @@ def one(configuration_file, configuration_section,
             action = 'append'
         kwargs = dict(nargs=options.nargs(st, param),
                       action=action,
-                      dest=options.dest(param),
+                     #dest=param.name,
                       type=argtype,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''),
@@ -72,14 +74,8 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        args = [getattr(parsed_args, attr)
-                for attr in _get_args(False, has_keyword_only, params)]
-        for param in params:
-            if param.kind == param.VAR_POSITIONAL:
-                args.extend(getattr(parsed_args, param.name))
-        kwargs = {attr: getattr(parsed_args, attr)
-                  for attr in _get_args(True, has_keyword_only, params)}
-        return f(*args, **kwargs)
+        kwargs = {name:getattr(parsed_args, name) for name in sig.parameters}
+        return f(**kwargs)
     return g
 
 def choose_name_args(single_character_flags, st, param):
@@ -100,6 +96,7 @@ def choose_name_args(single_character_flags, st, param):
         args = options.name(param),
     else:
         raise ValueError('Bad step: %s' % st)
+    return args
 
 class Step(Enum):
     positional = 1
