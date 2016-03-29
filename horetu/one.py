@@ -55,8 +55,6 @@ def one(configuration_file, configuration_section,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''),
                       default=default)
-        if options.dest(param):
-            kwargs['dest'] = options.dest(param)
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
@@ -64,9 +62,20 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        names = sig.parameters.keys()
-        kwargs = {name:getattr(parsed_args, name) for name in names}
-        return f(**kwargs)
+        args = []
+        kwargs = {}
+
+        kind = None
+        for i, param in enumerate(sig.parameters.values()):
+            st = step(kind, param)
+            arg = getattr(parsed_args, param.name)
+            if st == Step.positional:
+                args.append(arg)
+            elif st == Step.var_positional:
+                args.extend(arg)
+            else:
+                kwargs[param.name] = arg
+        return f(*args, **kwargs)
     return g
 
 KINDS = {
