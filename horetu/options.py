@@ -65,16 +65,13 @@ def argtype(param):
         return param.annotation
 
 
-def name(param):
-    return param.name.replace('_', '-')
-
 def shortflag(param):
     return '-' + param.name[0]
 
 def longflag(param):
-    x = name(param)
-    if len(x) > 1:
-        return '--' + x
+    if len(param.name) > 1:
+        return '--' + param.name.replace('_', '-')
+
 
 def action(step, param):
     if step == Step.positional:
@@ -105,7 +102,7 @@ class Step(Enum):
 
 def choose_name_args(single_character_flags, st, param):
     if st == Step.positional:
-        args = name(param),
+        args = param.name,
     elif st in {Step.keyword1, Step.keyword2}:
         lf = longflag(param)
         sf = shortflag(param)
@@ -118,7 +115,7 @@ def choose_name_args(single_character_flags, st, param):
             else:
                 args = sf,
     elif st == Step.var_positional:
-        args = name(param),
+        args = param.name,
     else:
         raise ValueError('Bad step: %s' % st)
     return args

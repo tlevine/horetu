@@ -38,7 +38,7 @@ def one(configuration_file, configuration_section,
 
         args = options.choose_name_args(single_character_flags, st, param)
         argtype = options.argtype(param)
-        config_file_arg_name = options.name(param)
+        config_file_arg_name = param.name
 
         if config_file_arg_name in defaults:
             default = argtype(defaults[config_file_arg_name])
@@ -49,7 +49,6 @@ def one(configuration_file, configuration_section,
 
         kwargs = dict(nargs=options.nargs(st, param),
                       action=options.action(st, param),
-                     #dest=param.name,
                       type=argtype,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''),
@@ -61,7 +60,9 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        kwargs = {name:getattr(parsed_args, name) for name in sig.parameters}
+        print(dir(parsed_args))
+        names = sig.parameters.keys()
+        kwargs = {name:getattr(parsed_args, name) for name in names}
         return f(**kwargs)
     return g
 
