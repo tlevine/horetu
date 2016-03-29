@@ -3,12 +3,12 @@ import requests
 from horetu import horetu
 
 def proxy(f):
-    def g(url:str, params:str, *args:str):
+    def g(url:str, *args:str):
         kwargs = {}
         for arg in args:
-            k, _, v = a.split('=')
-            kwargs[k] = v
-        return f(url, params=params, **kwargs)
+            k, v = arg.split('=')
+            kwargs[k] = eval(v)
+        print(f(url, **kwargs).text)
     return g
 
 methods = ['get', 'post', 'put', 'patch', 'delete']
