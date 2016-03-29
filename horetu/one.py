@@ -3,6 +3,7 @@ from functools import partial
 import operator
 from inspect import signature, Parameter
 from configparser import ConfigParser
+from collections import Counter
 from . import options
 
 FLAG = re.compile(r'^-?(-[^-]).*')
@@ -85,17 +86,17 @@ def has_var_positional(sig):
 
 def single_character_flags(sig):
     kind = None
-    x = {'-h'}
+    x = ['-h']
     vp = has_var_positional(sig)
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
         if vp:
             if st == Step.keyword2:
-                x.add('-' + param.name[0])
+                x.append('-' + param.name[0])
         else:
             if st == Step.keyword1:
-                x.add('-' + param.name[0])
-    return x
+                x.append('-' + param.name[0])
+    return set(name for name,count in Counter(x).items() if count > 1)
 
 def step(prev_kind, param):
     if param.kind in KINDS[Step.positional].union(KINDS[Step.keyword1]):
