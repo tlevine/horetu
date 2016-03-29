@@ -36,7 +36,7 @@ def one(configuration_file, configuration_section,
         st = step(kind, param)
         steps.append(st)
 
-        args = choose_name_args(single_character_flags, st, param)
+        args = options.choose_name_args(single_character_flags, st, param)
         argtype = options.argtype(param)
         config_file_arg_name = options.name(param)
 

@@ -35,7 +35,7 @@ def test_description():
     assert options.description(lambda:8) == ''
 
 def test_name_or_flag():
-    f = partial(choose_name_args, set())
+    f = partial(options.choose_name_args, set())
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
     assert f(options.Step.positional, param) == 'input_file'
@@ -53,14 +53,6 @@ def test_name_or_flag():
         pass
     params = signature(f).parameters
     assert options.name_or_flag(True, params['b']) == 'b'
-
-def test_nargs():
-    def f(x, y: options.Option, *z):
-        pass
-    params = signature(f).parameters
-    assert options.nargs(False, params['x']) == None
-    assert options.nargs(False, params['y']) == '?'
-    assert options.nargs(False, params['z']) == '*'
 
 def test_bool():
     def f(force = False, waaa = True):
