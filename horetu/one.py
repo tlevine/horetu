@@ -29,8 +29,8 @@ def one(configuration_file, configuration_section,
     else:
         defaults = {}
 
-    single_character_flags = set(name[:2] for name in sig.parameters \
-                                 if name.startswith('-')).union({'-h'})
+    single_character_flags = set('-' + name[0] for name in sig.parameters \
+                                 ).union({'-h'})
     kind = None
     steps = []
     for i, param in enumerate(sig.parameters.values()):
