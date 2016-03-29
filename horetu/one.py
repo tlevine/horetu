@@ -55,6 +55,8 @@ def one(configuration_file, configuration_section,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''),
                       default=default)
+        if args[0].startswith('-'):
+            kwargs['dest'] = param.name
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
@@ -62,6 +64,7 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
+        print(parsed_args)
         args = []
         kwargs = {}
 
