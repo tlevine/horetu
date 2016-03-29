@@ -10,7 +10,7 @@ def launch_spacecraft(to_planet, from_planet='earth', cargo='8000kg'):
     :param from_planet: Planet we are launching from (Default is Earth.)
     :param cargo: Cargo, in kilograms (kg) or tonnes (t)
     '''
-    m = re.match(r'^([.0-9]+)(kg|t|)$')
+    m = re.match(r'^([.0-9]+)(kg|t|)$', cargo)
     if not m:
         raise ValueError('Cargo should be formatted like "3.5t" or "1201kg".')
     
