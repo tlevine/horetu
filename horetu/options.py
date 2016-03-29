@@ -101,3 +101,24 @@ class Step(Enum):
     keyword1 = 2
     var_positional = 3
     keyword2 = 4
+
+def choose_name_args(single_character_flags, st, param):
+    if st == Step.positional:
+        args = name(param),
+    elif st in {Step.keyword1, Step.keyword2}:
+        lf = longflag(param)
+        sf = shortflag(param)
+        if sf in single_character_flags:
+            args = lf,
+        else:
+            single_character_flags.add(sf)
+            if lf:
+                args = sf, lf
+            else:
+                args = sf,
+    elif st == Step.var_positional:
+        args = name(param),
+    else:
+        raise ValueError('Bad step: %s' % st)
+    return args
+

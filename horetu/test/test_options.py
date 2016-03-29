@@ -35,14 +35,15 @@ def test_description():
     assert options.description(lambda:8) == ''
 
 def test_name_or_flag():
-    f = partial(options.name_or_flag, False)
+    f = partial(choose_name_args, set())
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
-    assert f(param) == 'input_file'
+    assert f(options.Step.positional, param) == 'input_file'
 
     param = Parameter('n_cores', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)
     assert f(param) == '--n-cores'
+    assert f(options.Step.positional, param) == 'input_file'
 
     param = Parameter('n', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)

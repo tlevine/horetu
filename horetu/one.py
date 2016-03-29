@@ -65,26 +65,6 @@ def one(configuration_file, configuration_section,
         return f(**kwargs)
     return g
 
-def choose_name_args(single_character_flags, st, param):
-    if st == Step.positional:
-        args = options.name(param),
-    elif st in {Step.keyword1, Step.keyword2}:
-        lf = options.longflag(param)
-        sf = options.shortflag(param)
-        if sf in single_character_flags:
-            args = lf,
-        else:
-            single_character_flags.add(sf)
-            if lf:
-                args = sf, lf
-            else:
-                args = sf,
-    elif st == Step.var_positional:
-        args = options.name(param),
-    else:
-        raise ValueError('Bad step: %s' % st)
-    return args
-
 KINDS = {
     Step.positional: {
         Parameter.POSITIONAL_ONLY,
