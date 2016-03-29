@@ -38,14 +38,28 @@ def one(configuration_file, configuration_section,
         args = choose_name_args(single_character_flags, st, param)
         argtype = options.argtype(param)
         config_file_arg_name = options.name(param)
+
         if config_file_arg_name in defaults:
             default = argtype(defaults[config_file_arg_name])
         elif param.default == param.empty:
             default = None
         else:
             default = param.default
+
+        print(st)
+        if st == Step.positional:
+            action = 'store'
+        elif st in {Step.keyword1, Step.keyword2}:
+            if param.annotation == param.empty:
+                action = 'store'
+            elif param.annotation == bool:
+                action = 'store_true'
+            else:
+                action = 'store'
+        elif st == Step.var_positional:
+            action = 'append'
         kwargs = dict(nargs=options.nargs(st, param),
-                      action=options.action(param),
+                      action=action,
                       dest=options.dest(param),
                       type=argtype,
                       choices=options.argchoices(param),
