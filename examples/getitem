@@ -4,7 +4,8 @@ from collections import namedtuple
 import horetu
 
 
-def main(f: ('tuple', 'dict', 'namedtuple', 'obj'), n=int(1e8), length=2):
+def main(f: ('tuple', 'dict', 'namedtuple', 'obj'),
+         n:int=int(1e8), length=2):
     '''
     Run with "time" to see that dict lookups are slightly faster in this case.
     '''
