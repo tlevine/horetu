@@ -108,10 +108,9 @@ def choose_name_args(single_character_flags, st, param):
     elif st in {Step.keyword1, Step.keyword2}:
         lf = longflag(param)
         sf = shortflag(param)
-        if sf in single_character_flags:
+        if lf and sf in single_character_flags:
             args = lf,
         else:
-            single_character_flags.add(sf)
             if lf:
                 args = sf, lf
             else:
