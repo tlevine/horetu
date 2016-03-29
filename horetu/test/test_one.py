@@ -52,11 +52,11 @@ def test_one(function, argv, result):
 
 class FakeParser(object):
     def __init__(self):
-        self.optional_names_or_flags = set()
+        self.optional_flags = set()
     def add_argument(self, *args, **kwargs):
         for a in args:
             if a.startswith('-'):
-                self.optional_names_or_flags.add(a)
+                self.optional_flags.add(a)
 
 def g(verbose = False):
     pass
@@ -78,8 +78,8 @@ flag_cases = [
     (plural_thing, {'--thing', '-t'}),
 ]
 
-@pytest.mark.parametrize('function, optional_names_or_flags', flag_cases)
-def test_flags(function, optional_names_or_flags):
+@pytest.mark.parametrize('function, optional_flags', flag_cases)
+def test_flags(function, optional_flags):
     parser = FakeParser()
     one(None, None, parser, function)
-    assert parser.optional_names_or_flags == optional_names_or_flags
+    assert parser.optional_flags == optional_flags
