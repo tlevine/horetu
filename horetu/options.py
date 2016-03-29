@@ -78,9 +78,8 @@ def longflag(param):
         return '--' + y
 
 def dest(param):
-    lf = longflag(param)
-    if lf:
-        return singularize(lf)
+    if param.annotation == list and param.default != param.empty:
+        return singularize(param.name)
 
 def action(step, param):
     if step == Step.positional:
