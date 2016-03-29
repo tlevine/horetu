@@ -70,7 +70,12 @@ def shortflag(param):
 
 def longflag(param):
     if len(param.name) > 1:
-        return '--' + param.name.replace('_', '-')
+        x = param.name.replace('_', '-')
+        if param.annotation == list:
+            y = singularize(x)
+        else:
+            y = x
+        return '--' + y
 
 
 def action(step, param):
