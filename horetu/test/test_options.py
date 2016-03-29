@@ -53,14 +53,6 @@ def test_name_or_flag():
     params = signature(f).parameters
     assert options.name_or_flag(True, params['b']) == 'b'
 
-def test_action():
-    def f(x, y: list = None, z: options.Count = 2):
-        pass
-    params = signature(f).parameters
-    assert options.action(params['x']) == 'store'
-    assert options.action(params['y']) == 'append'
-    assert options.action(params['z']) == 'count'
-
 def test_nargs():
     def f(x, y: options.Option, *z):
         pass
@@ -75,5 +67,7 @@ def test_bool():
     params = signature(f).parameters
     force = params['force']
     waaa = params['waaa']
-    assert options.action(force) == 'store_true'
-    assert options.action(waaa) == 'store_false'
+    assert options.action(options.Step.keyword1, force) == 'store_true'
+    assert options.action(options.Step.keyword2, force) == 'store_true'
+    assert options.action(options.Step.keyword1, waaa) == 'store_false'
+    assert options.action(options.Step.keyword2, waaa) == 'store_false'

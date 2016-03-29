@@ -3,11 +3,10 @@ from functools import partial
 import operator
 from inspect import signature, Parameter
 from configparser import ConfigParser
-from enum import Enum
 from . import options
 
 FLAG = re.compile(r'^-?(-[^-]).*')
-
+Step = options.Step
 
 def _filename(x):
     if not os.path.isfile(x):
@@ -49,7 +48,7 @@ def one(configuration_file, configuration_section,
             default = param.default
 
         kwargs = dict(nargs=options.nargs(st, param),
-                      action=action,
+                      action=options.action(st, param),
                      #dest=param.name,
                       type=argtype,
                       choices=options.argchoices(param),
@@ -85,12 +84,6 @@ def choose_name_args(single_character_flags, st, param):
     else:
         raise ValueError('Bad step: %s' % st)
     return args
-
-class Step(Enum):
-    positional = 1
-    keyword1 = 2
-    var_positional = 3
-    keyword2 = 4
 
 KINDS = {
     Step.positional: {

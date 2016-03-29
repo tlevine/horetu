@@ -1,4 +1,5 @@
 import re
+from enum import Enum
 
 from sphinx.util.docstrings import prepare_docstring
 from inflection import singularize
@@ -74,15 +75,21 @@ def longflag(param):
     if len(x) > 1:
         return '--' + name(param)
 
-def action(step):
+def action(step, param):
     if step == Step.positional:
-        action = 'store'
+        return 'store'
     elif step in {Step.keyword1, Step.keyword2}:
         if param.annotation == param.empty:
-            action = 'store'
+            return 'store'
         elif param.annotation == bool:
-            action = 'store_true'
+            return 'store_true'
         else:
-            action = 'store'
+            return 'store'
     elif step == Step.var_positional:
-        action = 'append'
+        return 'append'
+
+class Step(Enum):
+    positional = 1
+    keyword1 = 2
+    var_positional = 3
+    keyword2 = 4
