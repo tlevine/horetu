@@ -42,21 +42,20 @@ def one(configuration_file, configuration_section,
         argtype = options.argtype(param)
         config_file_arg_name = param.name
 
-        if config_file_arg_name in defaults:
-            default = argtype(defaults[config_file_arg_name])
-        elif param.default == param.empty:
-            default = None
-        else:
-            default = param.default
-
         kwargs = dict(nargs=options.nargs(st, param),
                       action=options.action(st, param),
                       type=argtype,
                       choices=options.argchoices(param),
-                      help=helps.get(param.name, ''),
-                      default=default)
+                      help=helps.get(param.name, ''))
+
+        if config_file_arg_name in defaults:
+           kwargs['default'] = argtype(defaults[config_file_arg_name])
+        elif param.default != param.empty:
+           kwargs['default'] = param.default
+
         if args[0].startswith('-'):
             kwargs['dest'] = param.name
+
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])
