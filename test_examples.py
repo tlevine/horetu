@@ -1,15 +1,18 @@
 import os
-import shutil
-import importlib
-import tempfile
+import subprocess
 import pytest
 
-@pytest.mark.parametrize('fn', os.listdir('examples'))
-def test_example(fn):
-    prevdir = os.getcwd()
+testcases = [
+    ('annotate', [], 0),
+    ('do_something.py', [], 0),
+    ('getitem', [], 0),
+    ('hi', [], 0),
+    ('nest', [], 0),
+    ('requests', [], 0),
+    ('spacecraft', [], 0),
+]
+@pytest.mark.parametrize('fn, args, returncode', testcases)
+def test_example(fn, args, returncode):
     path = os.path.join('examples', fn)
-    with tempfile.TemporaryDirectory() as tmp:
-        shutil.copy(path, os.path.join(tmp, 'example.py'))
-        os.chdir(tmp)
-        importlib.import_module('example')
-    os.chdir(prevdir)
+    sp = subprocess.Popen([path] + args)
+    assert sp.wait() == returncode
