@@ -75,7 +75,5 @@ def test_bool():
     params = signature(f).parameters
     force = params['force']
     waaa = params['waaa']
-    assert options.default(force) == None
     assert options.action(force) == 'store_true'
-    assert options.default(waaa) == None
     assert options.action(waaa) == 'store_false'

@@ -73,3 +73,16 @@ def shortflag(param):
 def longflag(param):
     if len(x) > 1:
         return '--' + name(param)
+
+def action(step):
+    if step == Step.positional:
+        action = 'store'
+    elif step in {Step.keyword1, Step.keyword2}:
+        if param.annotation == param.empty:
+            action = 'store'
+        elif param.annotation == bool:
+            action = 'store_true'
+        else:
+            action = 'store'
+    elif step == Step.var_positional:
+        action = 'append'

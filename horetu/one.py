@@ -48,18 +48,6 @@ def one(configuration_file, configuration_section,
         else:
             default = param.default
 
-        print(st)
-        if st == Step.positional:
-            action = 'store'
-        elif st in {Step.keyword1, Step.keyword2}:
-            if param.annotation == param.empty:
-                action = 'store'
-            elif param.annotation == bool:
-                action = 'store_true'
-            else:
-                action = 'store'
-        elif st == Step.var_positional:
-            action = 'append'
         kwargs = dict(nargs=options.nargs(st, param),
                       action=action,
                      #dest=param.name,
