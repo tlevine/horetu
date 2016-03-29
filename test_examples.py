@@ -20,9 +20,18 @@ testcases = [
     ('hi', ['Tom', '-t', '3'], 0),
     ('nest', ['subcommand2', 'a'], 1),
     ('spacecraft', ['mars'], 0),
-
-#   ('requests', [], 0),
 ]
+try:
+    import requests
+except ImportError:
+    pass
+else:
+    testcases.extend([
+        ('requests', ['-h'], 0),
+        ('requests', ['get', '-h'], 0),
+        ('requests', ['put'], 2),
+        ('requests', ['post', 'badformat'], 1),
+    ])
 @pytest.mark.parametrize('fn, args, returncode', testcases)
 def test_example(fn, args, returncode):
     path = os.path.join('examples', fn)
