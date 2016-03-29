@@ -1,6 +1,15 @@
 import pytest
 
+from functools import wraps
+
 from ..main import horetu
+
+def test_wraps():
+    @wraps(horetu)
+    def f():
+        pass
+    with pytest.raises(ValueError):
+        horetu(f)
 
 def test_flat():
     def f():
