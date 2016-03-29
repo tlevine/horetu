@@ -58,8 +58,11 @@ def argchoices(param):
         return param.annotation
 
 def argtype(param):
-    if param.annotation == param.empty or isinstance(param.annotation, tuple) \
-            or (isinstance(param.default, list) and issubclass(param.annotation, list)):
+    if param.annotation == param.empty or \
+        isinstance(param.annotation, tuple) or \
+        param.kind == param.VAR_POSITIONAL or \
+        (isinstance(param.default, list) and \
+            issubclass(param.annotation, list)):
         return str
     else:
         return param.annotation
@@ -102,7 +105,7 @@ def action(step, param):
         else:
             return 'store'
     elif step == Step.var_positional:
-        return 'append'
+        return 'store'
 
 class Step(Enum):
     positional = 1

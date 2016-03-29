@@ -64,7 +64,6 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        print(parsed_args)
         args = []
         kwargs = {}
 
