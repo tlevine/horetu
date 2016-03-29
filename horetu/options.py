@@ -80,9 +80,17 @@ def action(step, param):
         return 'store'
     elif step in {Step.keyword1, Step.keyword2}:
         if param.annotation == param.empty:
-            return 'store'
+            if param.default == True:
+                return 'store_true'
+            elif param.default == False:
+                return 'store_false'
+            else:
+                return 'store'
         elif param.annotation == bool:
-            return 'store_true'
+            if param.default == param.empty or param:
+                return 'store_true'
+            else:
+                return 'store_false'
         else:
             return 'store'
     elif step == Step.var_positional:
