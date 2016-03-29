@@ -3,8 +3,6 @@ import argparse
 import pytest
 
 from ..one import one
-from ..annotations import annotate
-from ..options import Ignore
 
 def f(a, b, c = 'xxx'):
     return a + b + c
@@ -33,7 +31,7 @@ def Folder(x):
     else:
         raise ValueError('Folders must start with "+".')
 
-def optional_with_types(folder: Folder = None, msg: str = None, *):
+def optional_with_types(folder: Folder = None, msg: str = None):
     return folder, msg
 
 cases = [
