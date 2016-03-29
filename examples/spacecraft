@@ -21,4 +21,5 @@ def launch_spacecraft(to_planet, from_planet='earth', cargo='8000kg'):
     msg = 'Launching spacecraft with %s kg cargo from %s to %s'
     print(msg % (quantity, from_planet, to_planet))
 
-horetu.horetu(launch_spacecraft)
+if __name__ == '__main__':
+    horetu.horetu(launch_spacecraft)

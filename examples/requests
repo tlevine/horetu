@@ -17,5 +17,7 @@ def proxy(f):
     return g
 
 methods = ['get', 'post', 'put', 'patch', 'delete']
-horetu({method: proxy(getattr(requests, method)) for method in methods},
-       name='requests', description='Make requests with python-requests.')
+if __name__ == '__main__':
+    commands = {method: proxy(getattr(requests, method)) for method in methods}
+    horetu(commands, name='requests',
+           description='Make requests with python-requests.')

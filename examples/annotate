@@ -18,4 +18,5 @@ def f(x, n=8, *dates):
     for date in dates:
         print('%s: %s' % (x, date + datetime.timedelta(hours=n)))
 
-horetu(f, ['Thing', '1449881977', '1449882806'])
+if __name__ == '__main__':
+    horetu(f, ['Thing', '1449881977', '1449882806'])

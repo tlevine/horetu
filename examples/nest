@@ -15,4 +15,5 @@ commands = {
         }
     },
 }
-horetu(commands, name='nest')
+if __name__ == '__main__':
+    horetu(commands, name='nest')
