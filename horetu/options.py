@@ -46,12 +46,11 @@ def docs(f):
             yield m.groups()
 
 
-def nargs(has_keyword_only, param):
-    if param.kind == param.VAR_POSITIONAL:
-        return '*'
-    elif has_keyword_only and param.kind == param.POSITIONAL_OR_KEYWORD:
+def nargs(step, param):
+    if step == Step.keyword1:
         return '?'
-
+    elif step == Step.var_positional:
+        return '*'
 
 def argchoices(param):
     if isinstance(param.annotation, tuple):
