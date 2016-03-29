@@ -15,6 +15,12 @@ testcases = [
     ('nest', ['subcommand2', '8'], 0),
     ('spacecraft', ['mars'], 0),
 
+    ('do_something.py', ['a file'], 2),
+    ('getitem', ['invalid', '-n', '2'], 2),
+    ('hi', ['Tom', '-t', '3'], 0),
+    ('nest', ['subcommand2', 'a'], 1),
+    ('spacecraft', ['mars'], 0),
+
 #   ('requests', [], 0),
 ]
 @pytest.mark.parametrize('fn, args, returncode', testcases)
