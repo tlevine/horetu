@@ -29,15 +29,14 @@ def one(configuration_file, configuration_section,
     else:
         defaults = {}
 
-    single_character_flags = set('-' + name[0] for name in sig.parameters \
-                                 ).union({'-h'})
     kind = None
     steps = []
+    sfs = single_character_flags(sig)
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
         steps.append(st)
 
-        args = options.choose_name_args(single_character_flags, st, param)
+        args = options.choose_name_args(sfs, st, param)
         argtype = options.argtype(param)
         config_file_arg_name = param.name
 
@@ -75,6 +74,28 @@ KINDS = {
     Step.var_positional: {Parameter.VAR_POSITIONAL},
     Step.keyword2: {Parameter.KEYWORD_ONLY},
 }
+
+def has_var_positional(sig):
+    kind = None
+    for i, param in enumerate(sig.parameters.values()):
+        st = step(kind, param)
+        if st == Step.var_positional:
+            return True
+    return False
+
+def single_character_flags(sig):
+    kind = None
+    x = {'-h'}
+    vp = has_var_positional(sig)
+    for i, param in enumerate(sig.parameters.values()):
+        st = step(kind, param)
+        if vp:
+            if st == Step.keyword2:
+                x.add('-' + param.name[0])
+        else:
+            if st == Step.keyword1:
+                x.add('-' + param.name[0])
+    return x
 
 def step(prev_kind, param):
     if param.kind in KINDS[Step.positional].union(KINDS[Step.keyword1]):
