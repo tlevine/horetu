@@ -71,7 +71,7 @@ def plural_thing(things:list = None):
     pass
 
 flag_cases = [
-    (f, {'a', 'b', '-c'}),
+    (f, {'-c'}),
     (g, {'--verbose', '-v'}),
     (h, {'--blah', '--blub', '--turtle', '-t'}),
     (i, {'--some-password', '-s', '-n'}),
