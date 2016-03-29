@@ -83,6 +83,7 @@ def action(step, param):
             if param.default == True:
                 return 'store_true'
             elif param.default == False:
+                print(1)
                 return 'store_false'
             else:
                 return 'store'
