@@ -4,6 +4,7 @@ import operator
 from inspect import signature, Parameter
 from configparser import ConfigParser
 from collections import Counter
+
 from . import options
 
 FLAG = re.compile(r'^-?(-[^-]).*')
@@ -54,6 +55,8 @@ def one(configuration_file, configuration_section,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''),
                       default=default)
+        if args[0].startswith('-'):
+            kwargs['dest'] = options.dest(param)
         if kwargs['action'] in {'store_true', 'store_false', 'count'}:
             del(kwargs['choices'])
             del(kwargs['type'])

@@ -77,6 +77,10 @@ def longflag(param):
             y = x
         return '--' + y
 
+def dest(param):
+    lf = longflag(param)
+    if lf:
+        return singularize(lf)
 
 def action(step, param):
     if step == Step.positional:
