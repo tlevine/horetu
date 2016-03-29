@@ -52,7 +52,7 @@ def test_choose_name_args():
     def f(a, b = 8, *, d = 4):
         pass
     params = signature(f).parameters
-    assert options.name_or_flag(True, params['b']) == 'b'
+    assert options.choose_name_args(True, params['b']) == 'b',
 
 def test_bool():
     def f(force = False, waaa = True):

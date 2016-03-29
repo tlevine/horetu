@@ -72,8 +72,9 @@ def shortflag(param):
     return '-' + param.name[0]
 
 def longflag(param):
+    x = name(param)
     if len(x) > 1:
-        return '--' + name(param)
+        return '--' + x
 
 def action(step, param):
     if step == Step.positional:
