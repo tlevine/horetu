@@ -60,7 +60,6 @@ def one(configuration_file, configuration_section,
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
-        print(dir(parsed_args))
         names = sig.parameters.keys()
         kwargs = {name:getattr(parsed_args, name) for name in names}
         return f(**kwargs)

@@ -89,6 +89,8 @@ def action(step, param):
                 return 'store_false'
             else:
                 return 'store_true'
+        elif param.annotation == list:
+            return 'append'
         else:
             return 'store'
     elif step == Step.var_positional:

@@ -38,21 +38,21 @@ def test_choose_name_args():
     f = partial(options.choose_name_args, set())
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
-    assert f(options.Step.positional, param) == 'input_file',
+    assert f(options.Step.positional, param) == ('input_file',)
 
     param = Parameter('n_cores', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)
-    assert f(param) == '--n-cores',
-    assert f(options.Step.positional, param) == 'input_file',
+    assert f(options.Step.keyword1, param) == ('--n-cores',)
+    assert f(options.Step.positional, param) == ('input_file',)
 
     param = Parameter('n', Parameter.POSITIONAL_OR_KEYWORD,
                       default = 3)
-    assert f(param) == '-n',
+    assert f(param) == ('-n',)
 
     def f(a, b = 8, *, d = 4):
         pass
     params = signature(f).parameters
-    assert options.choose_name_args(True, params['b']) == 'b',
+    assert options.choose_name_args(True, params['b']) == ('b',)
 
 def test_bool():
     def f(force = False, waaa = True):
