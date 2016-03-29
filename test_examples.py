@@ -3,13 +3,12 @@ import subprocess
 import pytest
 
 testcases = [
-    ('annotate', [], 0),
-    ('do_something.py', [], 0),
-    ('getitem', [], 0),
-    ('hi', [], 0),
+    ('do_something.py', [], 2),
+    ('getitem', [], 2),
+    ('hi', [], 2),
     ('nest', [], 2),
 #   ('requests', [], 0),
-    ('spacecraft', [], 0),
+    ('spacecraft', [], 2),
 ]
 @pytest.mark.parametrize('fn, args, returncode', testcases)
 def test_example(fn, args, returncode):
