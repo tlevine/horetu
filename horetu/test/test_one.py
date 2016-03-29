@@ -55,7 +55,7 @@ class FakeParser(object):
         self.optional_names_or_flags = set()
     def add_argument(self, *args, **kwargs):
         for a in args:
-            if isinstance(a, str):
+            if a.startswith('-'):
                 self.optional_names_or_flags.add(a)
 
 def g(verbose = False):
@@ -73,8 +73,8 @@ def plural_thing(things:list = None):
 flag_cases = [
     (f, {'a', 'b', '-c'}),
     (g, {'--verbose', '-v'}),
-    (h, {'--blah', '--blub', '--turtle', '-t', 'thing'}),
-    (i, {'some_file', '--some-password', '-s', '-n'}),
+    (h, {'--blah', '--blub', '--turtle', '-t'}),
+    (i, {'--some-password', '-s', '-n'}),
     (plural_thing, {'--thing', '-t'}),
 ]
 
