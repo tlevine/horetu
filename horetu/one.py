@@ -121,8 +121,8 @@ def step(prev_kind, param):
             this_kind = Step.keyword1
     elif param.kind in KINDS[Step.var_positional]:
         this_kind = Step.var_positional
-    elif param.kind in KINDS[Step.keyword_only]:
-        this_kind = Step.keyword_only
+    elif param.kind in KINDS[Step.keyword2]:
+        this_kind = Step.keyword2
     else:
         raise ValueError(
             'Variable keyword args (**kwargs) are not allowed. You may implement your own key-value parser that takes the result of variable positional args (*args).')
