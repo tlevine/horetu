@@ -34,11 +34,12 @@ def one(configuration_file, configuration_section,
     kind = None
     steps = []
     sfs = single_character_flags(sig)
+    k2 = has_step(Step.keyword2, sig)
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
         steps.append(st)
 
-        args = options.choose_name_args(sfs, st, param)
+        args = options.choose_name_args(sfs, k2, st, param)
         argtype = options.argtype(param)
         config_file_arg_name = param.name
 
@@ -89,22 +90,21 @@ KINDS = {
     Step.keyword2: {Parameter.KEYWORD_ONLY},
 }
 
-def has_step(step, sig):
+def has_step(the_step, sig):
     kind = None
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
-        if st == step:
+        if st == the_step:
             return True
     return False
 
 def single_character_flags(sig):
     kind = None
     x = ['-h']
-    vp = has_step(Step.var_positional, sig)
     k2 = has_step(Step.keyword2, sig)
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
-        if vp:
+        if k2:
             if st == Step.keyword2:
                 x.append('-' + param.name[0])
         else:
