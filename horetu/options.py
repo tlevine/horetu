@@ -63,6 +63,8 @@ def argtype(param):
         (isinstance(param.default, list) and \
             issubclass(param.annotation, list)):
         return str
+    elif param.annotation == param.empty and param.default in {True, False}:
+        return bool
     else:
         return param.annotation
 
