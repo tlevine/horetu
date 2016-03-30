@@ -113,10 +113,9 @@ class Step(Enum):
     keyword2 = 4
 
 def choose_name_args(single_character_flags, has_k2, st, param):
-    if st == Step.positional:
+    if st == Step.positional or (has_k2 and st == Step.keyword1):
         args = param.name,
-    elif (has_k2 and st == Step.keyword2) or \
-        (not has_k2 and st == Step.keyword1):
+    elif st in {Step.keyword1, Step.keyword2}:
         lf = longflag(param)
         sf = shortflag(param)
         if lf and sf in single_character_flags:
