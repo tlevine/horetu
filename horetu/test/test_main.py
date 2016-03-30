@@ -2,6 +2,27 @@ import pytest
 
 from ..main import horetu
 
+def fa(force:bool=True):
+    return force
+def fb(force=True):
+    return force
+def fc(force:bool=False):
+    return force
+def fd(force=False):
+    return force
+
+testcases_bool = [
+    (fa, True),
+    (fb, True),
+    (fc, False),
+    (fd, False),
+]
+@pytest.mark.parametrize('f, y', testcases_bool)
+def test_bool(f, y):
+    assert horetu(f, []) == y
+    assert not horetu(f, ['--force']) == y
+    assert not horetu(f, ['-f']) == y
+
 def test_optional_positional():
     def f(required:int, optional_positional:int=0, *, kwarg:int=8):
         return required + optional_positional + kwarg
