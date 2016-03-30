@@ -35,7 +35,7 @@ def test_description():
     assert options.description(lambda:8) == ''
 
 def test_choose_name_args():
-    f = partial(options.choose_name_args, {'-n', '-h'})
+    f = partial(options.choose_name_args, {'-n', '-h'}, False)
     param = Parameter('input_file', Parameter.POSITIONAL_ONLY,
                       default = Parameter.empty)
     assert f(options.Step.positional, param) == ('input_file',)
