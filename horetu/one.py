@@ -49,9 +49,9 @@ def one(configuration_file, configuration_section,
                       help=helps.get(param.name, ''))
 
         if config_file_arg_name in defaults:
-           kwargs['default'] = argtype(defaults[config_file_arg_name])
+            kwargs['default'] = argtype(defaults[config_file_arg_name])
         elif param.default != param.empty:
-           kwargs['default'] = param.default
+            kwargs['default'] = param.default
 
         if args[0].startswith('-'):
             kwargs['dest'] = param.name
@@ -89,18 +89,19 @@ KINDS = {
     Step.keyword2: {Parameter.KEYWORD_ONLY},
 }
 
-def has_var_positional(sig):
+def has_step(step, sig):
     kind = None
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
-        if st == Step.var_positional:
+        if st == step:
             return True
     return False
 
 def single_character_flags(sig):
     kind = None
     x = ['-h']
-    vp = has_var_positional(sig)
+    vp = has_step(Step.var_positional, sig)
+    k2 = has_step(Step.keyword2, sig)
     for i, param in enumerate(sig.parameters.values()):
         st = step(kind, param)
         if vp:
