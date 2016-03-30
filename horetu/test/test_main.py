@@ -7,7 +7,8 @@ def test_optional_positional():
         return required + optional_positional + kwarg
     assert horetu(f, ['2']) == 10
     assert horetu(f, ['2', '100']) == 110
-    assert horetu(f, ['2', '--kwarg', '3', '100']) == 105
+    assert horetu(f, ['2', '100', '--kwarg=3']) == 105
+    assert horetu(f, ['-k', '3', '2', '100']) == 105
 
 def test_flat():
     def f():
