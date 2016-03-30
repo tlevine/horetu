@@ -46,8 +46,8 @@ def docs(f):
             yield m.groups()
 
 
-def nargs(step, param):
-    if step == Step.keyword1:
+def nargs(has_k2, step):
+    if has_k2 and step == Step.keyword1:
         return '?'
     elif step == Step.var_positional:
         return '*'

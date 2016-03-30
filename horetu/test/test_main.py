@@ -3,7 +3,7 @@ import pytest
 from ..main import horetu
 
 def test_optional_positional():
-    def f(required:int, optional_positional:int, *, kwarg:int=8):
+    def f(required:int, optional_positional:int=0, *, kwarg:int=8):
         return required + optional_positional + kwarg
     assert horetu(f, ['2']) == 10
     assert horetu(f, ['2', '100']) == 110

@@ -43,7 +43,7 @@ def one(configuration_file, configuration_section,
         argtype = options.argtype(param)
         config_file_arg_name = param.name
 
-        kwargs = dict(nargs=options.nargs(st, param),
+        kwargs = dict(nargs=options.nargs(k2, st),
                       action=options.action(st, param),
                       type=argtype,
                       choices=options.argchoices(param),
