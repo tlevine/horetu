@@ -62,7 +62,6 @@ def one(configuration_file, configuration_section,
             del(kwargs['choices'])
             del(kwargs['type'])
             del(kwargs['nargs'])
-        print(kwargs)
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):
