@@ -49,11 +49,12 @@ def one(configuration_file, configuration_section,
                       choices=options.argchoices(param),
                       help=helps.get(param.name, ''))
 
-        if config_file_arg_name in defaults:
+        if kwargs['action'] in {'store_true', 'store_false'}:
+            pass
+        elif config_file_arg_name in defaults:
             kwargs['default'] = argtype(defaults[config_file_arg_name])
         elif param.default != param.empty:
             kwargs['default'] = param.default
-
         if args[0].startswith('-'):
             kwargs['dest'] = param.name
 
@@ -61,6 +62,7 @@ def one(configuration_file, configuration_section,
             del(kwargs['choices'])
             del(kwargs['type'])
             del(kwargs['nargs'])
+        print(kwargs)
         parser.add_argument(*args, **kwargs)
 
     def g(parsed_args):

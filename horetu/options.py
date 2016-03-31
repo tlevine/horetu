@@ -97,7 +97,7 @@ def action(step, param):
             else:
                 return 'store'
         elif param.annotation == bool:
-            if param.default == param.empty or param:
+            if param.default == True:
                 return 'store_false'
             else:
                 return 'store_true'

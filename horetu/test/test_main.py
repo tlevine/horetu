@@ -17,11 +17,11 @@ testcases_bool = [
     (fc, False),
     (fd, False),
 ]
-@pytest.mark.parametrize('f, y', testcases_bool)
-def test_bool(f, y):
-    assert horetu(f, []) == y
-    assert not horetu(f, ['--force']) == y
-    assert not horetu(f, ['-f']) == y
+@pytest.mark.parametrize('f, default', testcases_bool)
+def test_bool(f, default):
+    assert horetu(f, []) == default
+    assert not horetu(f, ['--force']) == default
+    assert not horetu(f, ['-f']) == default
 
 def test_optional_positional():
     def f(required:int, optional_positional:int=0, *, kwarg:int=8):
