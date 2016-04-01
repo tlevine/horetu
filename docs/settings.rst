@@ -54,7 +54,7 @@ function,
 
 .. testcode::
 
-    def main(n_cores: int = 8):
+    def main(n_cores: int=8):
         '''
         :param int n_cores: Number of cores to use for processing
         '''
@@ -77,7 +77,7 @@ Also, underscores are replaced with hyphens.
 
 .. testcode::
 
-    def main(some_file, some_password = None, n = 8):
+    def main(some_file, some_password=None, n=8):
         pass
     horetu.horetu(main, ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
 
@@ -87,7 +87,7 @@ It does this only when all keyword arguments have different first letters.
 
 .. testcode::
 
-    def main(some_file, some_password = None, n = 8):
+    def main(some_file, some_password=None, n=8):
         pass
     horetu.horetu(main, ['toilets.csv', '-s', 'abc', '-n' '2'])
 
@@ -105,7 +105,7 @@ requires one "X", one "Y", and optionally, one "Z".
 
 .. testcode::
 
-    def f(x, y, z = 'elephant'):
+    def f(x, y, z='elephant'):
         pass
     horetu.horetu(f, ['one', 'two', '-z', 'three'])
 
@@ -124,7 +124,7 @@ The other situation is keyword arguments annotated with type :py:class:`list`.
 
 .. testcode::
 
-    def f(color: list = None):
+    def f(color: list=None):
         pass
     horetu.horetu(f, [])
     horetu.horetu(f, ['--color', 'pink', '--color', 'cyan'])
@@ -138,7 +138,7 @@ So we can switch the argument name from ``color`` to ``colors``.
 
 .. testcode::
 
-    def f(colors: list = None):
+    def f(colors: list=None):
         pass
     horetu.horetu(f, ['--color', 'pink', '--color', 'cyan'])
 
@@ -148,7 +148,7 @@ with the new arguments.
 
 .. testcode::
 
-    def f(colors: list = ['pink']):
+    def f(colors: list=['pink']):
         print(colors)
     horetu.horetu(f, ['--color', 'green'])
 
@@ -206,7 +206,7 @@ be opposite the default.
 
 .. testcode::
 
-    def main(force = False):
+    def main(force=False):
         pass
     horetu.horetu(main, ['--force'])
 
@@ -217,21 +217,17 @@ the argument appears. The number of flags is added to the default value.
 
 .. testcode::
 
-    def main(verbose: horetu.COUNT = 1):
+    def main(verbose: horetu.COUNT=1):
         pass
     horetu.horetu(main, []) # verbose = 1
     horetu.horetu(main, ['-v', '-v']) # verbose = 3
 
 Optional arguments
 ^^^^^^^^^^^^^^^^^^^^^^
-There are two (three?) ways to make a positional argument optional.
-
-I prefer this first method, but it only works in Python 3.
-
 .. testcode::
 
     import sys
-    def main(start = 0, stop = 1000, *, output = sys.stdout):
+    def main(start=0, stop=1000, *, output=sys.stdout):
         pass
 
 *Even more problematic, the implementation is buggy at the moment;
@@ -242,61 +238,10 @@ of 0 and 1000, respectively. In Python, ``*`` tells us that the following
 keyword arguments must be addressed as keyword arguments, not as positional
 arguments. ``output`` becomes the flag ``--output/-o``.
 
-Python 2 does not have built-in ignoring of variable positional arguments,
-so you have to name the variable positional argument. Since this would
-otherwise create an entry in the command-line interface, annotate that
-argument with :py:data:`horetu.Ignore`.
-
-.. testcode::
-
-    import sys
-    @annotate(int, int, horetu.Ignore)
-    def main(start = 0, stop = 1000, *_ignore):
-        pass
-
-Unfortunately, Python 2 does not support keyword-only arguments (:pep:`3102`)
-either, so the only way to create the above ``output`` keyword argument would
-be with a variable keyword argument (:pep:`0362#parameter-object`), which
-horetu presently does not support. Also, Python 2 doesn't have function
-annotations, so you would really need to do this.
-
-If you're on Python 2, or if you just want to use the other interface, you can
-annotate a positional argument with :py:data:`horetu.Optional` to make it
-optional; if that argument isn't passed in the command line we will use
-``None`` as its value.
-
-.. testcode::
-
-    @horetu.annotate(horetu.Optional, str)
-    def main(infile: horetu.Optional, *outfiles):
-        pass
-
-You can, of course, use the Python 3 annotation syntax as well.
-
-.. testcode::
-
-    def main(infile: horetu.Optional, *outfiles):
-        pass
-
-If you want something to be optional but of a different type, you can do this.
-
-.. testcode::
-
-    @horetu.annotate(int, horetu.Optional(int))
-    def main(start, stop):
-        pass
-
-And if you want to set a default, pass it as the second argument to ``Optional``.
-
-.. testcode::
-
-    @horetu.annotate(int, horetu.Optional(int, 888))
-    def main(start, stop):
-        pass
-
 Final note on settings
 -----------------------
 I prefer to think of horetu as a means of converting a Python function to a
 shell interface rather than a means of creating a particular shell interface in
 Python. Express your function cleanly and clearly in Python, and horetu will
-make you a nice shell interface.
+make you a nice shell interface. If you want your command-line interface
+to look a particular way, don't use horetu.
