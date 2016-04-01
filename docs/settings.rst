@@ -30,21 +30,22 @@ Each of these can be set in the call to horetu.
 These are the steps for determining the name.
 
 1. Use the name keyword argument passed to horetu (``name``) if it is available.
-2. If a function, rather than a dictionary, is passed as ``f``, use the function's
-   name (``f.__name__``).
+2. If a function, rather than a list or dictionary, is passed as ``f``,
+   use the function's name (``f.__name__``).
 3. Otherwise, use the first argv (``sys.argv[0]``).
 
 And these are the steps for determining the description.
 
-1. Use the description keyword argument passed to horetu (``description``) if
-   it is available.
-2. If a function, rather than a dictionary, is passed as ``f``, and the
-   function has a docstring, use the first line of the function's docstring.
+1. Use the description keyword argument passed to horetu
+   (``description``) if it is available.
+2. If a function is passed as ``f`` and the function has a docstring,
+   use the first line of the function's docstring.
 3. Otherwise, don't include a description.
 
 Parameter-specific settings
 ----------------------------
-Parameter-specific settings are set all over the place.
+Parameter-specific settings are set all over the place, wherever you
+would ordinarily set them.
 
 Help
 ^^^^^^^^^^
@@ -62,8 +63,8 @@ function,
 the parameter ``n_cores``.
 
 Fun fact: I wanted to use the docstring parser from Sphinx, but it turns out
-to be just a regular expression encapsulated under many layers of abstraction.
-So I just wrote my own.
+to be just a very simple regular expression encapsulated under many
+layers of abstraction. So I wrote my own.
 
 Argument names
 ^^^^^^^^^^^^^^^^^^

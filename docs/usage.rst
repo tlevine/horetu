@@ -60,9 +60,11 @@ Run it with the help flag; this is the result.
 
 Subcommands
 ^^^^^^^^^^^^^^^
-
-Instead of calling :py:func:`horetu.horetu` on a callable, you can call it on a
-dictionary of strings to callables. This turns each element into a
+Instead of calling :py:func:`horetu.horetu` on a callable, you can call
+it on a list of callables or a dictionary of strings to callables,
+lists of callables, or dictionaries of the same.
+arguments. A "valid argument" is a callable, list, or dictionary,
+This turns each element into a
 sub-command, and it uses the key, rather than the callable's name, as the
 command name. For example, this Python code
 
@@ -117,6 +119,24 @@ produces this command-line interface.
     If you want to use a different file as the configuration file, set the
     environment variable SCOTT_CONFIG to that file's path.
 
+In the above example you can in fact use a :py:class:`list` instead of a
+:py:class:`dict`; the names are taken from the function names.
+
+::
+
+    #!/usr/bin/env python
+
+    # ...
+    
+    def main():
+        commands = [
+            scrape,
+            server.main,
+            set_password,
+            scraper.save_hucs,
+        ]
+        description = 'Catalog and process public notices for Section 404 permit applications.'
+        horetu(commands, name = 'scott', description = description)
 
 You can have nested subcommands too.
 
