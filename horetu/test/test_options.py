@@ -1,6 +1,8 @@
 from functools import partial
 from inspect import Parameter, signature
 
+import pytest
+
 from .. import options
 
 def test_docs_empty():
@@ -70,6 +72,6 @@ def test_action():
     def f(x, y: list=None, z: options.COUNT=2):
         pass
     params = signature(f).parameters
-    assert options.action(params['x']) == 'store'
-    assert options.action(params['y']) == 'append'
-    assert options.action(params['z']) == 'count'
+    assert options.action(options.Step.positional, params['x']) == 'store'
+    assert options.action(options.Step.keyword1, params['y']) == 'append'
+    assert options.action(options.Step.keyword1, params['z']) == 'count'
