@@ -57,14 +57,14 @@ def argchoices(param):
         return param.annotation
 
 def argtype(param):
-    if param.annotation == param.empty or \
+    if param.annotation == param.empty and param.default in {True, False}:
+        return bool
+    elif param.annotation == param.empty or \
         isinstance(param.annotation, tuple) or \
         param.kind == param.VAR_POSITIONAL or \
         (isinstance(param.default, list) and \
             issubclass(param.annotation, list)):
         return str
-    elif param.annotation == param.empty and param.default in {True, False}:
-        return bool
     else:
         return param.annotation
 

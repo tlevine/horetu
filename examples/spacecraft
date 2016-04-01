@@ -2,7 +2,8 @@
 import re
 import horetu
 
-def launch_spacecraft(to_planet, from_planet='earth', cargo='8000kg'):
+def launch_spacecraft(to_planet, from_planet='earth', cargo='8000kg',
+                      verbose=horetu.COUNT, force=False):
     '''
     Launch a spacecraft.
 

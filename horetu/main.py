@@ -42,7 +42,6 @@ If you want to use a different file as the configuration file, set the
 environment variable %(env)s to that file's path.
 '''
 
-
 def horetu(f, args=None,
            config=None,
            name=None, description=None, version=None,
