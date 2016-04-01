@@ -109,8 +109,8 @@ def test_hyphen():
 def test_count():
     def f(x, *, y: COUNT=2):
         return y
-    assert horetu(f) == 2
-    assert horetu(f, ['-y', '-y']) == 4
+    assert horetu(f, ['blah']) == 2
+    assert horetu(f, ['blah', '-y', '-y']) == 4
 
 def test_count_errors1():
     def f(x, y: COUNT=2, *, z=8):
