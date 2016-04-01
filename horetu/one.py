@@ -10,9 +10,6 @@ from . import options
 FLAG = re.compile(r'^-?(-[^-]).*')
 Step = options.Step
 
-class COUNT(object):
-    pass
-
 def _filename(x):
     if not os.path.isfile(x):
         raise ValueError('"%s" is not a file.' % x)
@@ -46,10 +43,12 @@ def one(configuration_file, configuration_section,
         argtype = options.argtype(param)
         config_file_arg_name = param.name
 
-        if argtype == bool:
-            if not((st == Step.keyword2 and k2) or \
-                (st == Step.keyword1 and not k2)):
+        if not((st == Step.keyword2 and k2) or \
+            (st == Step.keyword1 and not k2)):
+            if argtype == bool:
                 raise TypeError('Cannot be bool: %s' % param)
+            elif param.annotation == options.COUNT:
+                raise TypeError('Cannot be COUNT: %s' % param)
 
         kwargs = dict(nargs=options.nargs(k2, st),
                       action=options.action(st, param),

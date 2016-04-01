@@ -27,6 +27,8 @@ from inflection import singularize
 #   * http://www.faqs.org/rfcs/rfc2822.html
 # * /usr/local/lib/python3.5/site-packages/sphinx/domains/python.py
 
+class COUNT(object):
+    pass
 
 def description(f):
     if f.__doc__ is None:
@@ -75,17 +77,20 @@ def shortflag(param):
 def longflag(param):
     if len(param.name) > 1:
         x = param.name.replace('_', '-')
-        if param.annotation == list:
+        if param.annotation in {list, COUNT}:
             y = singularize(x)
         else:
             y = x
         return '--' + y
 
 def dest(param):
-    if param.annotation == list and param.default != param.empty:
+    if param.annotation in {list, COUNT} and param.default != param.empty:
         return singularize(param.name)
 
 def action(step, param):
+    if param.annotation == COUNT:
+        return 'count'
+
     if step == Step.positional:
         return 'store'
     elif step in {Step.keyword1, Step.keyword2}:

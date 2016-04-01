@@ -65,3 +65,11 @@ def test_bool():
     assert options.action(options.Step.keyword2, force) == 'store_true'
     assert options.action(options.Step.keyword1, waaa) == 'store_false'
     assert options.action(options.Step.keyword2, waaa) == 'store_false'
+
+def test_action():
+    def f(x, y: list=None, z: options.COUNT=2):
+        pass
+    params = signature(f).parameters
+    assert options.action(params['x']) == 'store'
+    assert options.action(params['y']) == 'append'
+    assert options.action(params['z']) == 'count'
