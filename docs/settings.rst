@@ -62,7 +62,7 @@ I will describe these four different categories with example functions.
 Let's start with a function that has only positional arguments. ::
 
     def example(a:int, b:int, c:int):
-        return a + b - c
+        print(a + b - c)
 
 ``a``, ``b``, and ``c`` are all positional arguments; they get turned
 into required positional command-line arguments; you call it like this.
@@ -74,18 +74,30 @@ into required positional command-line arguments; you call it like this.
 Now let's add keyword arguments. We're starting with keyword 2
 arguments; we'll do keyword 1 arguments later. ::
 
-    def example(a:int, b:int, c:int, d:int=1):
-        return (a + b - c) * d
+    def example(a:int, b:int, c:int, kw2:int=1):
+        print((a + b - c) * kw2)
 
 The command-line interface from this can be called like so.
 
 ::
 
     example 3 8 2
-    example -d 2 3 8 2
-    example 3 8 2 -d 2
+    example --kw2=2 3 8 2
+    example 3 8 2 --kw2=2
+    example 3 8 2 -k 2
 
-These
+Let's next add a variable positional argument.  ::
+
+    def example(a:int, b:int, c:int, *var_positional:int, kw2:int=1):
+        for x in var_positional:
+            print((a + b - c) * kw2 - x)
+
+The var positional argument is a tuple of optional positional arguments;
+the command-line interface looks like this. ::
+
+    example 1 2 3 # minimal arguments, var_positional will be a 0-tuple
+    example --kw2=4 1 2 3 # with a keyword 2 argument
+    example 1 1 1 3 3 3 3 # var_positional will be a 4-tuple
 
 Parameter-specific settings are set all over the place, wherever you
 would ordinarily set them.
