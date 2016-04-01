@@ -42,8 +42,51 @@ And these are the steps for determining the description.
    use the first line of the function's docstring.
 3. Otherwise, don't include a description.
 
-Parameter-specific settings
+Parameter construction
 ----------------------------
+Horetu breaks a Python function's arguments into four categories.
+Arguments from these different categories turn into different sorts of
+command-line arguments.
+
+Argument categories
+^^^^^^^^^^^^^^^^^^^^^^^
+Here are the four argument categories.
+
+1. Positional
+2. Keyword 1
+3. Variable positional
+4. Keyword 2
+
+I will describe these four different categories with example functions.
+
+Let's start with a function that has only positional arguments. ::
+
+    def example(a:int, b:int, c:int):
+        return a + b - c
+
+``a``, ``b``, and ``c`` are all positional arguments; they get turned
+into required positional command-line arguments; you call it like this.
+
+::
+
+    example 3 8 2
+
+Now let's add keyword arguments. We're starting with keyword 2
+arguments; we'll do keyword 1 arguments later. ::
+
+    def example(a:int, b:int, c:int, d:int=1):
+        return (a + b - c) * d
+
+The command-line interface from this can be called like so.
+
+::
+
+    example 3 8 2
+    example -d 2 3 8 2
+    example 3 8 2 -d 2
+
+These
+
 Parameter-specific settings are set all over the place, wherever you
 would ordinarily set them.
 
@@ -65,6 +108,11 @@ the parameter ``n_cores``.
 Fun fact: I wanted to use the docstring parser from Sphinx, but it turns out
 to be just a very simple regular expression encapsulated under many
 layers of abstraction. So I wrote my own.
+
+
+
+
+
 
 Argument names
 ^^^^^^^^^^^^^^^^^^
