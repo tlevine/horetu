@@ -7,7 +7,8 @@ setup(name='horetu',
       url='http://dada.pink/horetu/',
       packages=['horetu'],
       install_requires=[
-          'inflection>=0.3.1',
+          'Sphinx>=1.4', # for prepare_docstring
+          'inflection>=0.3.1', # for singularize
       ],
       extras_require={
           'docs': [
