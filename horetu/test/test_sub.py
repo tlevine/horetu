@@ -64,6 +64,6 @@ def test_nest_list():
     subparsers = parser.add_subparsers(dest = 'sub')
 
     g = nest(None, 'zero', subparsers,
-        subcommands=[command1, command2, command3])
+        commands=[command1, command2, command3])
     args = parser.parse_args(['command1', '1', '2', '8'])
     assert g['command1'](args) == -5
