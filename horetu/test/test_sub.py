@@ -52,3 +52,18 @@ def test_nest():
     g = nest(None, 'zero', subparsers, subcommands = {'x': command1})
     args = parser.parse_args(['x', '1', '2', '8'])
     assert g['x'](args) == -5
+
+def test_nest_list():
+    def command1(a:int, b:int, c:int):
+        return a + b - c
+    def command2(a:int, b:int):
+        return a * b
+    def command3():
+        return 2
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest = 'sub')
+
+    g = nest(None, 'zero', subparsers,
+        subcommands=[command1, command2, command3])
+    args = parser.parse_args(['command1', '1', '2', '8'])
+    assert g['command1'](args) == -5
