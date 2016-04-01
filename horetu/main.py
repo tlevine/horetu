@@ -48,7 +48,7 @@ def horetu(f, args=None,
            name=None, description=None, version=None,
            subcommand_dest='_subcommand'):
     '''
-    :type f: Callable or dict
+    :type f: Callable, list, or dict
     :param f: The callable to produce the argument parser too,
         or a dict of (dicts of...) str to callable to make subparsers.
     :param list args: Pass argv here for testing; use the actual argv by default.
@@ -87,8 +87,10 @@ def horetu(f, args=None,
         sp = p.add_subparsers(dest=subcommand_dest)
         if isinstance(f, dict):
             subcommand_tree = nest(config, name, sp, subcommands=f)
+        elif isinstance(f, list):
+            subcommand_tree = nest(config, name, sp, commands=f)
         else:
-            raise TypeError
+            raise TypeError('f must be dict or list.')
 
         def _main(subcommand_tree, args):
             section_name = ''
