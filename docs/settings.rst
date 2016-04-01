@@ -48,8 +48,6 @@ Horetu breaks a Python function's arguments into four categories.
 Arguments from these different categories turn into different sorts of
 command-line arguments.
 
-Argument categories
-^^^^^^^^^^^^^^^^^^^^^^^
 Here are the four argument categories.
 
 1. Positional
@@ -117,11 +115,58 @@ Here's what the command-line interface looks like. ::
     example 1 2 3 Hello Goodbye # d=Hello e=Goodbye
     example 1 2 3 Up Down 0 # d=Up e=Down var_positional=(0,)
 
+If you want to have keyword 1 arguments and no variable positional
+argument, you can do something like this.
 
+.. testcode::
 
+    import sys
+    def main(start=0, stop=1000, *, output=sys.stdout):
+        pass
 
-Parameter-specific settings are set all over the place, wherever you
-would ordinarily set them.
+``start`` and ``stop`` become positional arguments with the defaults
+of 0 and 1000, respectively. In Python, ``*`` tells us that the following
+keyword arguments must be addressed as keyword arguments, not as positional
+arguments. ``output`` becomes the flag ``--output/-o``.
+
+Positional arguments produce required shell arguments, and keyword
+arguments produce optional shell arguments. If the keyword argument is
+not specified in the shell, the function uses the default that is set in
+the function definition. A variable positional argument always creates a
+tuple, but the tuple might be empty.
+
+Parameter-specific settings
+----------------------------------
+Parameter-specific options are set all over the place; they are set
+however you would ordinarily set them in Python. In some cases the
+the settings are handled differently depending on the argument type
+(positional, keyword 1, variable positional, keyword 2).
+
+Argument names
+^^^^^^^^^^^^^^^^^^
+Positional, keyword 1, and variable positional arguments keep the same
+names in the command-line interface, except that underscores are
+replaced with hyphens. The name is used only in the ``--help`` text.
+
+Keyword 2 arguments with single-character names are turned into
+one-hyphen flags, and keyword arguments with longer names are turned
+into two-hyphen flags.  Also, underscores are replaced with hyphens.
+
+.. testcode::
+
+    def main(some_file, some_password=None, n=8):
+        pass
+    horetu.horetu(main, ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
+
+horetu tries to turn long keyword arguments into
+one-hyphen flags too, using the first letter as the flag.
+It does this only when there would be no conflicts.
+
+.. testcode::
+
+    def main(some_file, some_password=None, n=8):
+        pass
+    horetu.horetu(main, ['toilets.csv', '-s', 'abc', '-n' '2'])
 
 Help
 ^^^^^^^^^^
@@ -138,51 +183,15 @@ function,
 "Number of cores to use for processing" is used as the help text for
 the parameter ``n_cores``.
 
-Fun fact: I wanted to use the docstring parser from Sphinx, but it turns out
-to be just a very simple regular expression encapsulated under many
+Fun fact: I wanted to use the docstring parser from Sphinx, but it turns
+out to be just a very simple regular expression encapsulated under many
 layers of abstraction. So I wrote my own.
-
-
-
-
-
-
-Argument names
-^^^^^^^^^^^^^^^^^^
-Positional arguments keep the same names in the command-line interface,
-except that underscores are replaced with hyphens.
-
-Keyword arguments with single-character names are turned into one-hyphen flags,
-and keyword arguments with longer names are turned into two-hyphen flags.
-Also, underscores are replaced with hyphens.
-
-.. testcode::
-
-    def main(some_file, some_password=None, n=8):
-        pass
-    horetu.horetu(main, ['chainsaws.csv', '--some-password', 'abc', '-n' '2'])
-
-horetu tries to turn long keyword arguments are also turned into
-one-hyphen flags too, using the first letter as the flag.
-It does this only when all keyword arguments have different first letters.
-
-.. testcode::
-
-    def main(some_file, some_password=None, n=8):
-        pass
-    horetu.horetu(main, ['toilets.csv', '-s', 'abc', '-n' '2'])
-
-Default arguments
-^^^^^^^^^^^^^^^^^^^
-Positional arguments produce required shell arguments, and keyword arguments
-produce optional shell arguments. If the keyword argument is not specified in
-the shell, the function uses the default that is set in the function definition.
 
 List-type arguments
 ^^^^^^^^^^^^^^^^^^^^^^
-In most cases, horetu will produce an interface that expects one shell argument
-to be passed for each Python argument. For example, the following interface
-requires one "X", one "Y", and optionally, one "Z".
+In most cases, horetu will produce an interface that expects one shell
+argument to be passed for each Python argument. For example, the
+following interface requires one "X", one "Y", and optionally, one "Z".
 
 .. testcode::
 
@@ -190,18 +199,9 @@ requires one "X", one "Y", and optionally, one "Z".
         pass
     horetu.horetu(f, ['one', 'two', '-z', 'three'])
 
-In some cases horetu accepts several shell arguments and turns them into a list.
-One such situation is var-positional arguments, which take zero or more values;
-the following interface takes exactly one "A" and zero or more "B".
-
-.. testcode::
-
-    def f(a, *b):
-        pass
-    horetu.horetu(f, ['one'])
-    horetu.horetu(f, ['one', 'two', 'three'])
-
-The other situation is keyword arguments annotated with type :py:class:`list`.
+We have already seen one exception, variable positional arguments.
+Another such situation is keyword arguments annotated with type
+:py:class:`list`.
 
 .. testcode::
 
@@ -281,15 +281,18 @@ error message if the parse fails.
 
 Boolean flags
 ^^^^^^^^^^^^^^^^
-Keyword arguments with default values of ``True`` or ``False`` turn into flags
-that do not take additional arguments. Passing the flag switches the value to
-be opposite the default.
+Keyword 2 arguments with default values of ``True`` or ``False`` turn
+into flags that do not take additional arguments. Passing the flag
+switches the value to be opposite the default.
 
 .. testcode::
 
     def main(force=False):
         pass
     horetu.horetu(main, ['--force'])
+
+Booleans are allowed only for keyword 2 arguments, not for positional,
+keyword 1, or variable positional arguments.
 
 Counting
 ^^^^^^^^^^^^^
@@ -302,22 +305,6 @@ the argument appears. The number of flags is added to the default value.
         pass
     horetu.horetu(main, []) # verbose = 1
     horetu.horetu(main, ['-v', '-v']) # verbose = 3
-
-Optional arguments
-^^^^^^^^^^^^^^^^^^^^^^
-.. testcode::
-
-    import sys
-    def main(start=0, stop=1000, *, output=sys.stdout):
-        pass
-
-*Even more problematic, the implementation is buggy at the moment;
-I'll probably change it so it actually works but is less amazing.*
-
-``start`` and ``stop`` become positional arguments with the defaults
-of 0 and 1000, respectively. In Python, ``*`` tells us that the following
-keyword arguments must be addressed as keyword arguments, not as positional
-arguments. ``output`` becomes the flag ``--output/-o``.
 
 Final note on settings
 -----------------------
