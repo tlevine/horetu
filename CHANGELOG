@@ -1,3 +1,10 @@
+v0.1.0
+--------
+
+* give up at supporting python 2
+* fix assorted bugs
+* specify subcommands as a list
+
 v0.0.8
 --------
 
