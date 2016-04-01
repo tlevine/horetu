@@ -22,6 +22,6 @@ setup(name='horetu',
       classifiers=[
           'Programming Language :: Python :: 3.5',
       ],
-      version='0.1.0',
+      version='0.1.0-rc1',
       license='AGPL',
       )
