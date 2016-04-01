@@ -20,6 +20,9 @@ testcases = [
     ('hi', ['Tom', '-t', '3'], 0),
     ('nest', ['subcommand2', 'a'], 1),
     ('spacecraft', ['mars'], 0),
+
+    ('list-subcommand', [], 2),
+    ('list-subcommand', ['diff'], 0),
 ]
 try:
     import requests
