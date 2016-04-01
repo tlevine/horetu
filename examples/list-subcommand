@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+import horetu
+
+def log(*args):
+    print('Pretend that this does something with a log.')
+
+def diff(*args):
+    print('Pretend that this does something with a diff.')
+
+horetu.horetu([log, diff])
