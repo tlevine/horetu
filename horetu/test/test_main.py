@@ -1,6 +1,7 @@
 import pytest
 
 from ..main import horetu
+from ..options import COUNT
 
 def fa(force:bool=True):
     return force
@@ -104,3 +105,27 @@ def test_hyphen():
     def main(some_file, some_password = None, n = 8):
         pass
     horetu(main, args = ['toilets.csv', '-s', 'abc', '-n' '2'])
+
+def test_count():
+    def f(x, *, y: COUNT=2):
+        return y
+    assert horetu(f) == 2
+    assert horetu(f, ['-y', '-y']) == 4
+
+def test_count_errors1():
+    def f(x, y: COUNT=2, *, z=8):
+        pass
+    with pytest.raises(TypeError):
+        assert horetu(f, ['aoue'])
+
+def test_count_errors2():
+    def f(x: COUNT):
+        pass
+    with pytest.raises(TypeError):
+        assert horetu(f, ['aoue'])
+
+def test_count_errors3():
+    def f(*x: COUNT):
+        pass
+    with pytest.raises(TypeError):
+        assert horetu(f)

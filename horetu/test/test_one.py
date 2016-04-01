@@ -3,7 +3,6 @@ import argparse
 import pytest
 
 from ..one import one
-from ..options import COUNT
 
 def f(a, b, c = 'xxx'):
     return a + b + c
@@ -86,21 +85,3 @@ def test_flags(function, optional_flags):
     parser = FakeParser()
     one(None, None, parser, function)
     assert parser.optional_flags == optional_flags
-
-def test_count_errors1():
-    def f(x, y: COUNT=2, *, z=8):
-        pass
-    with pytest.raises(TypeError):
-        assert one(f)
-
-def test_count_errors2():
-    def f(x: COUNT):
-        pass
-    with pytest.raises(TypeError):
-        assert one(f)
-
-def test_count_errors3():
-    def f(*x: COUNT):
-        pass
-    with pytest.raises(TypeError):
-        assert one(f)
