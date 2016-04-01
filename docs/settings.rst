@@ -99,6 +99,27 @@ the command-line interface looks like this. ::
     example --kw2=4 1 2 3 # with a keyword 2 argument
     example 1 1 1 3 3 3 3 # var_positional will be a 4-tuple
 
+The final argument type is keyword 1. ::
+
+    def example(a:int, b:int, c:int,
+                d='Hi', e='Bye',
+                *var_positional:int, kw2:int=1):
+        print(d)
+        for x in var_positional:
+            print((a + b - c) * kw2 - x)
+        print(e)
+
+A keyword 1 argument is an optional positional argument with a default.
+Here's what the command-line interface looks like. ::
+
+    example 1 2 3 # d=Hi e=Bye
+    example 1 2 3 Hello # d=Hello e=Bye
+    example 1 2 3 Hello Goodbye # d=Hello e=Goodbye
+    example 1 2 3 Up Down 0 # d=Up e=Down var_positional=(0,)
+
+
+
+
 Parameter-specific settings are set all over the place, wherever you
 would ordinarily set them.
 
