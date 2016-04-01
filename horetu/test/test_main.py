@@ -52,6 +52,8 @@ def test_nested(args, expected):
     fs = {'f1': f1, 'f2': f2, 'f3': f3}
     observed = horetu(fs, args = args, name = 'do-something')
     assert observed == expected
+    observed = horetu(fs.values(), args = args, name = 'do-something')
+    assert observed == expected
 
 triple_nest = [
  #  (['aa', 'bb', '10', '3'], 30),
